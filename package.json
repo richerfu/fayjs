@@ -1,10 +1,12 @@
 {
   "name": "iqy-server",
-  "version": "0.0.1",
+  "version": "0.0.6",
   "description": "a web framework by koa and typescript",
-  "main": "src/core/index.ts",
+  "main": "dist/core/index.js",
+  "types": "dist/core/index.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc"
   },
   "keywords": [
     "koa",
@@ -16,12 +18,16 @@
   "license": "MIT",
   "dependencies": {
     "koa": "^2.11.0",
-    "koa-router": "^7.4.0"
+    "koa-router": "^7.4.0",
+    "reflect-metadata": "^0.1.13"
   },
   "devDependencies": {
     "@types/koa": "^2.11.0",
     "@types/koa-router": "^7.0.42",
-    "reflect-metadata": "^0.1.13",
     "typescript": "^3.7.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/southorange1228/iqy-server.git"
   }
 }

@@ -1,15 +1,17 @@
 import "reflect-metadata";
 import * as Koa from "koa";
 import * as KoaRouter from "koa-router";
-import { Middleware, Context } from "koa";
+import { Middleware } from "koa";
 import logger from "../utils/Logger";
 import { iocContainer } from "../decorator/Inject";
 import { RESTFUL, CONTROL, MIDDLEWARE } from "../decorator/Constants";
-import {Loader} from '../loader'
-import {Options} from '../types/interface'
+import { Loader } from "../loader";
+import { Options } from "../types/interface";
+
+export * from './../decorator/Decorator'
+export * from './../decorator/Context'
 
 const router: KoaRouter = new KoaRouter();
-
 
 export class SoServer {
   static _Controller: Set<Function | any> = new Set<Function | any>();
@@ -22,15 +24,15 @@ export class SoServer {
   private __app: Koa;
   private options: Options;
 
-  constructor(options?:Options) {
-    this.options = options
+  constructor(options?: Options) {
+    this.options = options;
     this.__app = SoServer.__Instance;
     this.__router = router;
-    this.__app.on("error", (err:Error) => {
+    this.__app.on("error", (err: Error) => {
       console.error(err);
     });
 
-    const loader: Loader = new Loader(this.options.baseDir)
+    const loader: Loader = new Loader(this.options.baseDir);
 
     for (const middleware of SoServer._Middleware) {
       const middlewareInstance = iocContainer.get(middleware);
@@ -39,7 +41,7 @@ export class SoServer {
         middlewareInstance.ctx = ctx;
         middlewareInstance.next = next;
         try {
-          await run.apply(middlewareInstance,[ctx,next]);
+          await run.apply(middlewareInstance, [ctx, next]);
         } catch (e) {
           console.error(e);
           ctx.send(e && e.message);
@@ -87,7 +89,7 @@ export class SoServer {
               }
             });
             controlInstance.ctx = ctx;
-            controlInstance.next = next
+            controlInstance.next = next;
             // catch promise error
             try {
               await method.apply(
