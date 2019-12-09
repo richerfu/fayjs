@@ -2,7 +2,7 @@
   "name": "iqy-server",
   "version": "0.0.1",
   "description": "a web framework by koa and typescript",
-  "main": "src/index.ts",
+  "main": "index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -13,5 +13,15 @@
     "framework"
   ],
   "author": "SouthOrange",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "koa": "^2.11.0",
+    "koa-router": "^7.4.0"
+  },
+  "devDependencies": {
+    "@types/koa": "^2.11.0",
+    "@types/koa-router": "^7.0.42",
+    "reflect-metadata": "^0.1.13",
+    "typescript": "^3.7.3"
+  }
 }
