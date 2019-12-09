@@ -6,6 +6,7 @@ import logger from "../utils/Logger";
 import { iocContainer } from "../decorator/Inject";
 import { RESTFUL, CONTROL, MIDDLEWARE } from "../decorator/Constants";
 import {Loader} from '../loader'
+import {Options} from '../types/interface'
 
 const router: KoaRouter = new KoaRouter();
 
@@ -19,15 +20,17 @@ export class SoServer {
 
   private __router: KoaRouter;
   private __app: Koa;
+  private options: Options;
 
-  constructor() {
+  constructor(options?:Options) {
+    this.options = options
     this.__app = SoServer.__Instance;
     this.__router = router;
     this.__app.on("error", (err:Error) => {
       console.error(err);
     });
 
-    const loader: Loader = new Loader(__dirname)
+    const loader: Loader = new Loader(this.options.baseDir)
 
     for (const middleware of SoServer._Middleware) {
       const middlewareInstance = iocContainer.get(middleware);
