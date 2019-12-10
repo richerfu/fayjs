@@ -1,9 +1,9 @@
 import "reflect-metadata";
 import { statSync, readdirSync } from "fs";
 import { join } from "path";
-import * as Koa from 'koa'
-import {iocContainer} from './../decorator/Inject'
-import {MIDDLEWARE} from './../decorator/Constants'
+import * as Koa from "koa";
+import { iocContainer } from "./../decorator/Inject";
+import { MIDDLEWARE } from "./../decorator/Constants";
 
 export class Loader {
   private _baseDir: string;
@@ -16,20 +16,38 @@ export class Loader {
   }
 
   /**
-   * load controller to router
-   * @param _Controller 
+   * load file by path and regexp
+   * @param path String
+   * @param reg RegExp
    * @since 0.0.7
    */
-  public InjectController(_Controller: Set<Function | any>):void{
-
+  private LoadFile(path: string, reg: RegExp) {
+    const stats = statSync(path);
+    if (stats.isDirectory()) {
+      const files = readdirSync(path);
+      for (const file of files) {
+        this.LoadFile(join(path, file), reg);
+      }
+    } else {
+      if (path.match(reg)) {
+        require(path);
+      }
+    }
   }
 
   /**
-   * load middleware to koa instance
-   * @param _Middleware 
+   * load controller to router
+   * @param _Controller
    * @since 0.0.7
    */
-  public InjectMiddleware(_Middleware: Set<Function | any>,_App: Koa):void{
+  public InjectController(_Controller: Set<Function | any>): void {}
+
+  /**
+   * load middleware to koa instance
+   * @param _Middleware
+   * @since 0.0.7
+   */
+  public InjectMiddleware(_Middleware: Set<Function | any>, _App: Koa): void {
     for (const middleware of _Middleware) {
       const middlewareInstance = iocContainer.get(middleware);
       const run = Reflect.getMetadata(MIDDLEWARE, middleware);
@@ -44,7 +62,6 @@ export class Loader {
         }
       });
     }
-
   }
 
   /**
@@ -53,18 +70,8 @@ export class Loader {
    * @since 0.0.1
    */
   public LoadControllerFile(path: string): void {
-    const stats = statSync(path);
-    if (stats.isDirectory()) {
-      const files = readdirSync(path);
-      for (const file of files) {
-        this.LoadControllerFile(join(path, file));
-      }
-    } else {
-      if (path.match(/.*[^\.]+\b\.controller\.(t|j)s\b$/)) {
-        console.log(`loader controller file ${path}`);
-        require(path);
-      }
-    }
+    const Reg: RegExp = /.*[^\.]+\b\.controller\.(t|j)s\b$/;
+    this.LoadFile(path, Reg);
   }
 
   /**
@@ -73,18 +80,8 @@ export class Loader {
    * @since 0.0.1
    */
   public LoadServiceFile(path: string): void {
-    const stats = statSync(path);
-    if (stats.isDirectory()) {
-      const files = readdirSync(path);
-      for (const file of files) {
-        this.LoadServiceFile(join(path, file));
-      }
-    } else {
-      if (path.match(/.*[^\.]+\b\.service\.(t|j)s\b$/)) {
-        console.log(`loader middleware file ${path}`);
-        require(path);
-      }
-    }
+    const Reg: RegExp = /.*[^\.]+\b\.service\.(t|j)s\b$/;
+    this.LoadFile(path, Reg);
   }
 
   /**
@@ -93,17 +90,17 @@ export class Loader {
    * @since 0.0.1
    */
   public LoadMiddlewareFile(path: string): void {
-    const stats = statSync(path);
-    if (stats.isDirectory()) {
-      const files = readdirSync(path);
-      for (const file of files) {
-        this.LoadMiddlewareFile(join(path, file));
-      }
-    } else {
-      if (path.match(/.*[^\.]+\b\.middleware\.(t|j)s\b$/)) {
-        console.log(`loader middleware file ${path}`);
-        require(path);
-      }
-    }
+    const Reg: RegExp = /.*[^\.]+\b\.middleware\.(t|j)s\b$/;
+    this.LoadFile(path, Reg);
+  }
+
+  /**
+   * load config file eg:test.config.ts
+   * @param path file path
+   * @since 0.0.7
+   */
+  public LoadConfigFile(path: string): void {
+    const Reg: RegExp = /.*[^\.]+\b\.config\.(t|j)s\b$/;
+    this.LoadFile(path, Reg);
   }
 }

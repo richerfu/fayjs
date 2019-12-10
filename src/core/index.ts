@@ -28,7 +28,7 @@ export class SoServer {
     this.options = options;
     this.__app = SoServer.__Instance;
     this.__router = router;
-    this.__app.on("error", (err: Error) => {
+    this.__app.on("error", (err:any) => {
       console.error(err);
     });
 
