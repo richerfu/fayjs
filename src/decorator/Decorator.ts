@@ -65,7 +65,7 @@ export function Middleware() {
         SoServer._Middleware.add(target)
       }
     }else {
-      throw new Error(`${target.name} middleware must has a function called run! please check it`)
+      throw new Error(`${target.name} middleware must has a 'run' method! please check it`)
     }
   }
 }

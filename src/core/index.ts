@@ -7,9 +7,11 @@ import { iocContainer } from "../decorator/Inject";
 import { RESTFUL, CONTROL, MIDDLEWARE } from "../decorator/Constants";
 import { Loader } from "../loader";
 import { Options } from "../types/interface";
+import { getLocalIPAddress } from "./../utils/Common";
 
-export * from './../decorator/Decorator'
-export * from './../decorator/Context'
+export * from "./../decorator/Decorator";
+export * from "./../decorator/Context";
+export * from "./../utils/Logger";
 
 const router: KoaRouter = new KoaRouter();
 
@@ -29,13 +31,13 @@ export class SoServer {
     this.options = options;
     this.__app = SoServer.__Instance;
     this.__router = router;
-    this.__app.on("error", (err:any) => {
-      console.error(err);
+    this.__app.on("error", (err: any) => {
+      logger.error(err);
     });
 
     const loader: Loader = new Loader(this.options.baseDir);
 
-    loader.InjectMiddleware(SoServer._Middleware,this.__app)
+    loader.InjectMiddleware(SoServer._Middleware, this.__app);
 
     for (const controller of SoServer._Controller) {
       // get control instance
@@ -85,7 +87,7 @@ export class SoServer {
                 parametersVals.concat([ctx, next])
               );
             } catch (error) {
-              console.error(error);
+              logger.error(error);
               ctx.send(error && error.message);
             }
           };
@@ -100,8 +102,8 @@ export class SoServer {
           } else {
             this.__router[methodType](routePath, handleRequest);
           }
-          logger.log(
-            `SoRouter Registed: Path: ${routePath}\t Method: ${methodType}`
+          logger.info(
+            `SoRouter Registered: Path: ${routePath}\t Method: ${methodType}`
           );
         });
     }
@@ -110,11 +112,13 @@ export class SoServer {
 
   public Listen(
     port: number = 12280,
+    host: string = "0.0.0.0",
     callback: () => void = () => {
-      console.log(`SoServer Listen at http://localhost:${port}`);
+      logger.warn(
+        `SoServer Started Successful...\nYou can visit at http://${getLocalIPAddress()}:${port} or http://127.0.0.1:${port}\n`
+      );
     }
   ): void {
-    this.__app.listen(port, callback);
+    this.__app.listen(port, host, callback);
   }
 }
-
