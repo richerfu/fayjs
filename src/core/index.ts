@@ -107,10 +107,6 @@ export class SoServer {
     this.__app.use(this.__router.routes()).use(this.__router.allowedMethods());
   }
 
-  public Use(middleware: Middleware, next: any): void {
-    this.__app.use(middleware);
-  }
-
   public Listen(
     port: number = 12280,
     callback: () => void = () => {
@@ -121,4 +117,3 @@ export class SoServer {
   }
 }
 
-// export default SoServer;
