@@ -34,20 +34,7 @@ export class SoServer {
 
     const loader: Loader = new Loader(this.options.baseDir);
 
-    for (const middleware of SoServer._Middleware) {
-      const middlewareInstance = iocContainer.get(middleware);
-      const run = Reflect.getMetadata(MIDDLEWARE, middleware);
-      this.__app.use(async (ctx: Koa.Context, next: Koa.Next) => {
-        middlewareInstance.ctx = ctx;
-        middlewareInstance.next = next;
-        try {
-          await run.apply(middlewareInstance, [ctx, next]);
-        } catch (e) {
-          console.error(e);
-          ctx.send(e && e.message);
-        }
-      });
-    }
+    loader.InjectMiddleware(SoServer._Middleware,this.__app)
 
     for (const controller of SoServer._Controller) {
       // get control instance
