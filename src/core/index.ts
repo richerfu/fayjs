@@ -17,6 +17,7 @@ export class SoServer {
   static _Controller: Set<Function | any> = new Set<Function | any>();
   static _Service: Set<Function | any> = new Set<Function | any>();
   static _Middleware: Set<Function | any> = new Set<Function | any>();
+  static _Config: Set<Function | any> = new Set<Function | any>();
 
   static __Instance: Koa = new Koa();
 

@@ -11,5 +11,7 @@ export const WEBSOCKET = '@@WEBSOCKET';
 export const websocket_reg = new RegExp(`^${WEBSOCKET}`);
 export const ERROR = '@@ERROR'
 export const error_reg = new RegExp(`^${ERROR}`)
+export const CONFIG = '@@CONFIG'
+export const config_reg = new RegExp(`^${CONFIG}`)
 
 export type RestfulMethodType = 'get' | 'post' | 'put' | 'patch' | 'delete';

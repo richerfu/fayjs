@@ -1,6 +1,6 @@
 import "reflect-metadata";
 import {SoServer} from "../core";
-import { CONTROL, RestfulMethodType, RESTFUL, AUTOWIRED, MIDDLEWARE} from "./Constants";
+import { CONTROL, RestfulMethodType, RESTFUL, AUTOWIRED, MIDDLEWARE, CONFIG} from "./Constants";
 import { recurInject } from "./Inject";
 import {
   getRestfulMap,
@@ -29,6 +29,20 @@ export function Controller(path: string) {
       throw new Error(`Controller can't omit the path field.`);
     }
   };
+}
+
+export function Config(env: string){
+  return (target: Function | any) => {
+    if(env){
+      Reflect.defineMetadata(CONFIG,env,target);
+      if (!SoServer._Config.has(target)) {
+        recurInject(target);
+        SoServer._Config.add(target);
+      }
+    }else {
+      throw new Error(`Config must has 'env' field to distinguish the environment`)
+    }
+  }
 }
 
 export function Autowired(target: any, propKey: string) {
