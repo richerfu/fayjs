@@ -1,4 +1,4 @@
-import {SoService,Service } from './../../src/core'
+import {SoService,Service } from './../../dist/core'
 
 @Service
 export class TestService extends SoService {

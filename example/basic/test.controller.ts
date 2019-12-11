@@ -1,4 +1,4 @@
-import {SoController,Controller, Get} from './../../src/core'
+import {SoController,Controller, Get} from './../../dist/core'
 
 @Controller('/')
 export class TestController extends SoController {

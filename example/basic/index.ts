@@ -1,4 +1,4 @@
-import SoServer from './../../src/core'
+import SoServer from './../../dist/core'
 
 
 const server:SoServer = new SoServer()

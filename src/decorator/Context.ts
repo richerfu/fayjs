@@ -1,5 +1,5 @@
 import * as Koa from 'koa'
-import { Config } from 'interface';
+import { Config } from './../types/interface';
 class SoContext {
   public ctx: Koa.Context;
   public next: Koa.Next;

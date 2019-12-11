@@ -1,6 +1,7 @@
 /.git/
 /.vscode/
 /node_modules/
+/example/
 .gitignore
 .npmignore
 .prettierrc

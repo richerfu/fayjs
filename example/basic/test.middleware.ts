@@ -1,4 +1,4 @@
-import {SoMiddleware,Middleware} from './../../src/core'
+import {SoMiddleware,Middleware} from './../../dist/core'
 
 @Middleware()
 export class TestMiddleware extends SoMiddleware {
