@@ -5,7 +5,7 @@ npm install iqy-server --save
 ```
 ```typescript
 // index.ts
-import {SoServer} from 'iqy-server'
+import SoServer from 'iqy-server'
 
 const server: SoServer = new SoServer({
   baseDir: __dirname
