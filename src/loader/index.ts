@@ -44,12 +44,19 @@ export class Loader {
    * @since 0.0.7
    */
   public InjectConfig(_Config: Set<Function | any>, env: string): Config {
+    let flag = false;
     for (const config of _Config) {
       const configInstance: Config = iocContainer.get(config);
       const envInstance = Reflect.getMetadata(CONFIG, config);
       if (envInstance === env) {
+        flag = false;
         return configInstance;
+      }else {
+        flag = true
       }
+    }
+    if(flag){
+      throw new Error(`${env} config is not exist or NODE_ENV and ${env} are not equal.please check it`)
     }
   }
 
