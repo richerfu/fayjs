@@ -26,17 +26,23 @@ export default class SoServer {
   private __app: Koa;
   private options: Options;
   private env: string;
+  public baseDir: string;
 
   constructor(options?: Options) {
     this.options = options;
     this.__app = SoServer.__Instance;
     this.env = process.env.NODE_ENV || "dev";
+    this.baseDir = options
+      ? options.baseDir
+        ? options.baseDir
+        : process.cwd()
+      : process.cwd();
     this.__router = router;
     this.__app.on("error", (err: any) => {
       logger.error(err);
     });
 
-    const loader: Loader = new Loader(this.options.baseDir);
+    const loader: Loader = new Loader(this.baseDir);
 
     const config = loader.InjectConfig(SoServer._Config, this.env);
 
