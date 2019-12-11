@@ -1,6 +1,6 @@
 {
   "name": "iqy-server",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "a web framework by koa and typescript",
   "main": "dist/core/index.js",
   "types": "dist/core/index.d.ts",
@@ -28,6 +28,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/southorange1228/iqy-server.git"
+    "url": "https://github.com/southorange1228/iqy-server.git"
   }
 }
