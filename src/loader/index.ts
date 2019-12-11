@@ -28,7 +28,9 @@ export class Loader {
     if (stats.isDirectory()) {
       const files = readdirSync(path);
       for (const file of files) {
-        this.LoadFile(join(path, file), reg);
+        if(file !== 'node_modules'){
+          this.LoadFile(join(path, file), reg);
+        }
       }
     } else {
       if (path.match(reg)) {

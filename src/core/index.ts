@@ -42,6 +42,7 @@ export default class SoServer {
       logger.error(err);
     });
 
+    console.log(this.baseDir)
     const loader: Loader = new Loader(this.baseDir);
 
     const config = loader.InjectConfig(SoServer._Config, this.env);
