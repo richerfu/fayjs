@@ -15,7 +15,7 @@ export * from "./../utils/Logger";
 
 const router: KoaRouter = new KoaRouter();
 
-export class SoServer {
+export default class SoServer {
   static _Controller: Set<Function | any> = new Set<Function | any>();
   static _Service: Set<Function | any> = new Set<Function | any>();
   static _Middleware: Set<Function | any> = new Set<Function | any>();

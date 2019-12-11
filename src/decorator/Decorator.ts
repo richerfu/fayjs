@@ -1,7 +1,7 @@
 import "reflect-metadata";
-import {SoServer} from "../core";
+import SoServer from "../core";
 import { CONTROL, RestfulMethodType, RESTFUL, AUTOWIRED, MIDDLEWARE, CONFIG} from "./Constants";
-import { recurInject } from "./Inject";
+import { inject } from "./Inject";
 import {
   getRestfulMap,
   getRestfulParameterMap,
@@ -10,7 +10,7 @@ import {
 
 export const Service = (target: Function | any) => {
   if (!SoServer._Service.has(target)) {
-    recurInject(target);
+    inject(target);
     SoServer._Service.add(target);
   }
 };
@@ -22,7 +22,7 @@ export function Controller(path: string) {
       Reflect.defineMetadata(CONTROL, path, target);
 
       if (!SoServer._Controller.has(target)) {
-        recurInject(target);
+        inject(target);
         SoServer._Controller.add(target);
       }
     } else {
@@ -36,7 +36,7 @@ export function Config(env: string){
     if(env){
       Reflect.defineMetadata(CONFIG,env,target);
       if (!SoServer._Config.has(target)) {
-        recurInject(target);
+        inject(target);
         SoServer._Config.add(target);
       }
     }else {
@@ -61,7 +61,7 @@ export function Middleware() {
       const initMethod = middlewareInstance.run;
       Reflect.defineMetadata(MIDDLEWARE,initMethod,target)
       if (!SoServer._Middleware.has(target)) {
-        recurInject(target)
+        inject(target)
         SoServer._Middleware.add(target)
       }
     }else {

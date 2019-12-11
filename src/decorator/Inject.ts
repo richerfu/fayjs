@@ -3,7 +3,7 @@ import { autowired_reg, CONTROL, RESTFUL, MIDDLEWARE } from "./Constants";
 
 export const iocContainer: WeakMap<Function, any> = new WeakMap<Function, any>();
 
-export function recurInject(target: any) {
+export function inject(target: any) {
   if (!target) {
     return;
   }
@@ -30,7 +30,7 @@ export function recurInject(target: any) {
       let depInstance = iocContainer.get(_constructor);
       if (!iocContainer.has(_constructor)) {
         // has not been instantiated , new dependance via recurring
-        depInstance = recurInject(_constructor);
+        depInstance = inject(_constructor);
       }
 
       // add dependance's instance to target
