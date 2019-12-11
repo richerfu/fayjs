@@ -115,7 +115,7 @@ export default class SoServer {
     host: string = "0.0.0.0",
     callback: () => void = () => {
       logger.warn(
-        `SoServer Started Successful...\nYou can visit at http://${getLocalIPAddress()}:${port} or http://127.0.0.1:${port}\n`
+        `SoServer Started Successful...\n  NetWork: \thttp://${getLocalIPAddress()}:${port}\n  Local: \thttp://127.0.0.1:${port}\n`
       );
     }
   ): void {
