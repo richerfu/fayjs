@@ -3,7 +3,8 @@ import { statSync, readdirSync } from "fs";
 import { join } from "path";
 import * as Koa from "koa";
 import { iocContainer } from "./../decorator/Inject";
-import { MIDDLEWARE } from "./../decorator/Constants";
+import { MIDDLEWARE, CONFIG } from "./../decorator/Constants";
+import { Config } from "interface";
 
 export class Loader {
   private _baseDir: string;
@@ -13,6 +14,7 @@ export class Loader {
     this.LoadControllerFile(this._baseDir);
     this.LoadMiddlewareFile(this._baseDir);
     this.LoadServiceFile(this._baseDir);
+    this.LoadConfigFile(this._baseDir);
   }
 
   /**
@@ -36,6 +38,22 @@ export class Loader {
   }
 
   /**
+   * get current runtime config
+   * @param {Set<Function| any>} _Config all config instance
+   * @param {string} env runtime env
+   * @since 0.0.7
+   */
+  public InjectConfig(_Config: Set<Function | any>, env: string): Config {
+    for (const config of _Config) {
+      const configInstance: Config = iocContainer.get(config);
+      const envInstance = Reflect.getMetadata(CONFIG, config);
+      if (envInstance === env) {
+        return configInstance;
+      }
+    }
+  }
+
+  /**
    * load controller to router
    * @param _Controller
    * @since 0.0.7
@@ -47,13 +65,18 @@ export class Loader {
    * @param _Middleware
    * @since 0.0.7
    */
-  public InjectMiddleware(_Middleware: Set<Function | any>, _App: Koa): void {
+  public InjectMiddleware(
+    _Middleware: Set<Function | any>,
+    _App: Koa,
+    config: Config
+  ): void {
     for (const middleware of _Middleware) {
       const middlewareInstance = iocContainer.get(middleware);
       const run = Reflect.getMetadata(MIDDLEWARE, middleware);
       _App.use(async (ctx: Koa.Context, next: Koa.Next) => {
         middlewareInstance.ctx = ctx;
         middlewareInstance.next = next;
+        middlewareInstance.config = config;
         try {
           await run.apply(middlewareInstance, [ctx, next]);
         } catch (e) {

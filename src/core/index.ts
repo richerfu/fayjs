@@ -1,7 +1,6 @@
 import "reflect-metadata";
 import * as Koa from "koa";
 import * as KoaRouter from "koa-router";
-import { Middleware } from "koa";
 import logger from "../utils/Logger";
 import { iocContainer } from "../decorator/Inject";
 import { RESTFUL, CONTROL, MIDDLEWARE } from "../decorator/Constants";
@@ -26,10 +25,12 @@ export default class SoServer {
   private __router: KoaRouter;
   private __app: Koa;
   private options: Options;
+  private env: string;
 
   constructor(options?: Options) {
     this.options = options;
     this.__app = SoServer.__Instance;
+    this.env = process.env.NODE_ENV || "dev";
     this.__router = router;
     this.__app.on("error", (err: any) => {
       logger.error(err);
@@ -37,7 +38,9 @@ export default class SoServer {
 
     const loader: Loader = new Loader(this.options.baseDir);
 
-    loader.InjectMiddleware(SoServer._Middleware, this.__app);
+    const config = loader.InjectConfig(SoServer._Config, this.env);
+
+    loader.InjectMiddleware(SoServer._Middleware, this.__app, config);
 
     for (const controller of SoServer._Controller) {
       // get control instance
@@ -80,6 +83,7 @@ export default class SoServer {
             });
             controlInstance.ctx = ctx;
             controlInstance.next = next;
+            controlInstance.config = config;
             // catch promise error
             try {
               await method.apply(
