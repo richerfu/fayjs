@@ -7,9 +7,7 @@ npm install iqy-server --save
 // index.ts
 import SoServer from 'iqy-server'
 
-const server: SoServer = new SoServer({
-  baseDir: __dirname
-})
+const server: SoServer = new SoServer()
 
 server.Listen(12280)
 ```
