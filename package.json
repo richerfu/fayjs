@@ -25,7 +25,7 @@
   "devDependencies": {
     "@types/koa": "^2.11.0",
     "@types/koa-router": "^7.0.42",
-    "eslint-config-iqyserver": "^0.0.1",
+    "eslint-config-iqyserver": "^0.0.4",
     "typescript": "^3.7.3"
   },
   "repository": {
