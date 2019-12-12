@@ -9,34 +9,12 @@ import { Config } from "interface";
 export class Loader {
   private _baseDir: string;
 
-  constructor(BaseDir: string) {
+  public constructor(BaseDir: string) {
     this._baseDir = BaseDir;
     this.LoadControllerFile(this._baseDir);
     this.LoadMiddlewareFile(this._baseDir);
     this.LoadServiceFile(this._baseDir);
     this.LoadConfigFile(this._baseDir);
-  }
-
-  /**
-   * load file by path and regexp
-   * @param path String
-   * @param reg RegExp
-   * @since 0.0.7
-   */
-  private LoadFile(path: string, reg: RegExp) {
-    const stats = statSync(path);
-    if (stats.isDirectory()) {
-      const files = readdirSync(path);
-      for (const file of files) {
-        if(file !== 'node_modules'){
-          this.LoadFile(join(path, file), reg);
-        }
-      }
-    } else {
-      if (path.match(reg)) {
-        require(path);
-      }
-    }
   }
 
   /**
@@ -53,12 +31,14 @@ export class Loader {
       if (envInstance === env) {
         flag = false;
         return configInstance;
-      }else {
-        flag = true
+      } else {
+        flag = true;
       }
     }
-    if(flag){
-      throw new Error(`${env} config is not exist or NODE_ENV and ${env} are not equal.please check it`)
+    if (flag) {
+      throw new Error(
+        `${env} config is not exist or NODE_ENV and ${env} are not equal.please check it`
+      );
     }
   }
 
@@ -90,6 +70,7 @@ export class Loader {
           await run.apply(middlewareInstance, [ctx, next]);
         } catch (e) {
           console.error(e);
+          // eslint-disable-next-line @typescript-eslint/prefer-optional-chain
           ctx.send(e && e.message);
         }
       });
@@ -102,7 +83,7 @@ export class Loader {
    * @since 0.0.1
    */
   public LoadControllerFile(path: string): void {
-    const Reg: RegExp = /.*[^\.]+\b\.controller\.(t|j)s\b$/;
+    const Reg = /.*[^\.]+\b\.controller\.(t|j)s\b$/;
     this.LoadFile(path, Reg);
   }
 
@@ -112,7 +93,7 @@ export class Loader {
    * @since 0.0.1
    */
   public LoadServiceFile(path: string): void {
-    const Reg: RegExp = /.*[^\.]+\b\.service\.(t|j)s\b$/;
+    const Reg = /.*[^\.]+\b\.service\.(t|j)s\b$/;
     this.LoadFile(path, Reg);
   }
 
@@ -122,7 +103,7 @@ export class Loader {
    * @since 0.0.1
    */
   public LoadMiddlewareFile(path: string): void {
-    const Reg: RegExp = /.*[^\.]+\b\.middleware\.(t|j)s\b$/;
+    const Reg = /.*[^\.]+\b\.middleware\.(t|j)s\b$/;
     this.LoadFile(path, Reg);
   }
 
@@ -132,7 +113,30 @@ export class Loader {
    * @since 0.0.7
    */
   public LoadConfigFile(path: string): void {
-    const Reg: RegExp = /.*[^\.]+\b\.config\.(t|j)s\b$/;
+    const Reg = /.*[^\.]+\b\.config\.(t|j)s\b$/;
     this.LoadFile(path, Reg);
+  }
+
+  /**
+   * load file by path and regexp
+   * @param path String
+   * @param reg RegExp
+   * @since 0.0.7
+   */
+  private LoadFile(path: string, reg: RegExp) {
+    const stats = statSync(path);
+    if (stats.isDirectory()) {
+      const files = readdirSync(path);
+      for (const file of files) {
+        if (file !== "node_modules") {
+          this.LoadFile(join(path, file), reg);
+        }
+      }
+    } else {
+      if (path.match(reg)) {
+        // eslint-disable-next-line @typescript-eslint/no-require-imports
+        require(path);
+      }
+    }
   }
 }

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/prefer-optional-chain */
 import "reflect-metadata";
 import * as Koa from "koa";
 import * as KoaRouter from "koa-router";
@@ -15,20 +16,20 @@ export * from "./../utils/Logger";
 const router: KoaRouter = new KoaRouter();
 
 export default class SoServer {
-  static _Controller: Set<Function | any> = new Set<Function | any>();
-  static _Service: Set<Function | any> = new Set<Function | any>();
-  static _Middleware: Set<Function | any> = new Set<Function | any>();
-  static _Config: Set<Function | any> = new Set<Function | any>();
+  public static _Controller: Set<Function | any> = new Set<Function | any>();
+  public static _Service: Set<Function | any> = new Set<Function | any>();
+  public static _Middleware: Set<Function | any> = new Set<Function | any>();
+  public static _Config: Set<Function | any> = new Set<Function | any>();
 
-  static __Instance: Koa = new Koa();
+  public static __Instance: Koa = new Koa();
+  public baseDir: string;
 
   private __router: KoaRouter;
   private __app: Koa;
   private options: Options;
   private env: string;
-  public baseDir: string;
 
-  constructor(options?: Options) {
+  public constructor(options?: Options) {
     this.options = options;
     this.__app = SoServer.__Instance;
     this.env = process.env.NODE_ENV || "dev";
@@ -121,8 +122,8 @@ export default class SoServer {
   }
 
   public Listen(
-    port: number = 12280,
-    host: string = "0.0.0.0",
+    port = 12280,
+    host = "0.0.0.0",
     callback: () => void = () => {
       logger.warn(
         `SoServer Started Successful...\n  NetWork: \thttp://${getLocalIPAddress()}:${port}\n  Local: \thttp://127.0.0.1:${port}\n`

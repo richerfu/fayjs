@@ -1,6 +1,13 @@
 import "reflect-metadata";
 import SoServer from "../core";
-import { CONTROL, RestfulMethodType, RESTFUL, AUTOWIRED, MIDDLEWARE, CONFIG} from "./Constants";
+import {
+  CONTROL,
+  RestfulMethodType,
+  RESTFUL,
+  AUTOWIRED,
+  MIDDLEWARE,
+  CONFIG
+} from "./Constants";
 import { inject } from "./Inject";
 import {
   getRestfulMap,
@@ -31,18 +38,20 @@ export function Controller(path: string) {
   };
 }
 
-export function Config(env: string){
+export function Config(env: string) {
   return (target: Function | any) => {
-    if(env){
-      Reflect.defineMetadata(CONFIG,env,target);
+    if (env) {
+      Reflect.defineMetadata(CONFIG, env, target);
       if (!SoServer._Config.has(target)) {
         inject(target);
         SoServer._Config.add(target);
       }
-    }else {
-      throw new Error(`Config must has 'env' field to distinguish the environment`)
+    } else {
+      throw new Error(
+        `Config must has 'env' field to distinguish the environment`
+      );
     }
-  }
+  };
 }
 
 export function Autowired(target: any, propKey: string) {
@@ -55,19 +64,21 @@ export function Autowired(target: any, propKey: string) {
 }
 
 export function Middleware() {
-  return (target:Function | any) => {
+  return (target: Function | any) => {
     const middlewareInstance = new target();
     if (middlewareInstance.run) {
       const initMethod = middlewareInstance.run;
-      Reflect.defineMetadata(MIDDLEWARE,initMethod,target)
+      Reflect.defineMetadata(MIDDLEWARE, initMethod, target);
       if (!SoServer._Middleware.has(target)) {
-        inject(target)
-        SoServer._Middleware.add(target)
+        inject(target);
+        SoServer._Middleware.add(target);
       }
-    }else {
-      throw new Error(`${target.name} middleware must has a 'run' method! please check it`)
+    } else {
+      throw new Error(
+        `${target.name} middleware must has a 'run' method! please check it`
+      );
     }
-  }
+  };
 }
 
 export function Get(path: string) {
@@ -112,9 +123,7 @@ function handleRequest(reqType: RestfulMethodType, path: string) {
     methodMap.set("methodType", reqType);
     methodMap.set(
       "args",
-      getFunctionParams(method).filter(
-        arg => !["ctx", "next"].includes(arg)
-      )
+      getFunctionParams(method).filter(arg => !["ctx", "next"].includes(arg))
     );
 
     if (!restfulMap.has(method)) {

@@ -1,8 +1,8 @@
 export interface Options {
-  baseDir: string
+  baseDir: string;
 }
 
 export interface Config {
-  baseDir: string,
+  baseDir: string;
   [propName: string]: any;
 }

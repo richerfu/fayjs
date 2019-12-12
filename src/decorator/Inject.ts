@@ -1,7 +1,10 @@
 import "reflect-metadata";
 import { autowired_reg, CONTROL, RESTFUL, MIDDLEWARE } from "./Constants";
 
-export const iocContainer: WeakMap<Function, any> = new WeakMap<Function, any>();
+export const iocContainer: WeakMap<Function, any> = new WeakMap<
+  Function,
+  any
+>();
 
 export function inject(target: any) {
   if (!target) {
