@@ -1,4 +1,7 @@
-#### iqy-server ####
+## **iqy-server** ##
+
+a koa and typescript based web framework
+
 - Quick Start
 ```shell
 npm install iqy-server --save
@@ -42,3 +45,8 @@ export class TestService extends SoService {
 ```shell
 ts-node index.ts
 ```
+
+### Plugin
+- [eslint-config-iqyserver]( https://github.com/southorange1228/eslint-config-iqyserver )
+  
+  eslint and prettier for iqyserver 
