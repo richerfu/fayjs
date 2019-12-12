@@ -1,6 +1,6 @@
 {
   "name": "iqy-server",
-  "version": "0.0.9",
+  "version": "0.1.0",
   "description": "a web framework by koa and typescript",
   "main": "dist/core/index.js",
   "types": "dist/core/index.d.ts",
@@ -25,6 +25,7 @@
   "devDependencies": {
     "@types/koa": "^2.11.0",
     "@types/koa-router": "^7.0.42",
+    "eslint-config-iqyserver": "^0.0.1",
     "typescript": "^3.7.3"
   },
   "repository": {
