@@ -4,6 +4,8 @@ class SoContext {
   public ctx: Koa.Context;
   public next: Koa.Next;
   public config: Config;
+  [propName: string]: any;
+
   public constructor(ctx: Koa.Context, next: Koa.Next, config: Config) {
     this.ctx = ctx;
     this.next = next;
