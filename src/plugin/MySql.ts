@@ -1,9 +1,14 @@
-import { DbClient } from "iqy-mysql";
+import { DbClient, Db } from "iqy-mysql";
+import { Connection, Pool } from "mysql";
 
 interface Config {
   enable: boolean;
   client?: Object;
   clients?: Object;
+}
+
+interface DbInstance {
+  [propName: string]: Db;
 }
 
 export class DbLoader {
@@ -24,17 +29,16 @@ export class DbLoader {
     }
   }
 
-  public async LoaderDb(): Promise<any> {
-    let db: Map<string, any> = new Map<string, any>();
+  public LoaderDb(): Object {
+    let db: DbInstance = {};
     if (this.config.client) {
-      return await Promise.resolve(
-        db.set("mysql", this.dbClient.getClient("mysql"))
-      );
+      db.mysql = new Db(this.dbClient.getClient("mysql"));
+      return db;
     } else {
       Object.keys(this.config.clients).forEach(item => {
-        db.set(item, this.dbClient.getClient(item));
+        db[item] = new Db(this.dbClient.getClient(item));
       });
-      return await Promise.resolve(db);
+      return db;
     }
   }
 }

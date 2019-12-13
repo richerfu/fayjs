@@ -7,7 +7,7 @@ export class TestController extends SoController {
   private testService: TestService;
   @Get("/")
   public async name() {
-    console.log(this.testService.query());
+    this.testService.query();
     this.ctx.body = "hello iqyserver";
   }
 }
