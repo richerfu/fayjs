@@ -1,10 +1,13 @@
-import {SoController,Controller, Get} from './../../dist/core'
+import { SoController, Controller, Get, Autowired } from "./../../dist/core";
+import { TestService } from "./test.service";
 
-@Controller('/')
+@Controller("/")
 export class TestController extends SoController {
-  @Get('/')
-  async name(){
-    this.ctx.body = 'hello iqyserver'
-    console.log(this)
+  @Autowired
+  private testService: TestService;
+  @Get("/")
+  public async name() {
+    console.log(this.testService.query());
+    this.ctx.body = "hello iqyserver";
   }
 }

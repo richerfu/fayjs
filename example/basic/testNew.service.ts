@@ -1,10 +1,10 @@
 import { SoService, Service, Autowired } from "./../../dist/core";
-import { TestNewService } from "./testNew.service";
+import { TestService } from "./test.service";
 
 @Service
-export class TestService extends SoService {
+export class TestNewService extends SoService {
   @Autowired
-  private testNewService: TestNewService;
+  private testService: TestService;
   public async query(): Promise<string> {
     return "aaa";
   }

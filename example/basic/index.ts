@@ -1,6 +1,5 @@
-import SoServer from './../../dist/core'
+import SoServer from "./../../dist/core";
 
+const server: SoServer = new SoServer();
 
-const server:SoServer = new SoServer()
-
-server.Listen(12280)
+server.Listen(12280);
