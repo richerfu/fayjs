@@ -18,7 +18,7 @@
   "author": "SouthOrange",
   "license": "MIT",
   "dependencies": {
-    "iqy-mysql": "^0.0.2",
+    "iqy-mysql": "^0.0.3",
     "koa": "^2.11.0",
     "koa-router": "^7.4.0",
     "reflect-metadata": "^0.1.13"
