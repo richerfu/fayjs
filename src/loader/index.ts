@@ -1,10 +1,13 @@
+/* eslint-disable @typescript-eslint/prefer-optional-chain */
 import "reflect-metadata";
 import { statSync, readdirSync } from "fs";
 import { join } from "path";
 import * as Koa from "koa";
+import * as KoaRouter from "koa-router";
 import { iocContainer } from "./../decorator/Inject";
-import { MIDDLEWARE, CONFIG } from "./../decorator/Constants";
+import { MIDDLEWARE, CONFIG, RESTFUL, CONTROL } from "./../decorator/Constants";
 import { Config } from "interface";
+import logger from "../utils/Logger";
 
 export class Loader {
   private _baseDir: string;
@@ -47,7 +50,82 @@ export class Loader {
    * @param _Controller
    * @since 0.0.7
    */
-  public InjectController(_Controller: Set<Function | any>): void {}
+  public InjectController(
+    _Controller: Set<Function | any>,
+    _App: Koa,
+    _KoaRouter: KoaRouter,
+    config: any
+  ): void {
+    for (const controller of _Controller) {
+      // get control instance
+      const controlInstance = iocContainer.get(controller);
+      // get instance's metas
+      const metas = Reflect.getMetadataKeys(controlInstance);
+
+      const restfulMap = Reflect.getMetadata(RESTFUL, controlInstance);
+      const controlPath = Reflect.getMetadata(CONTROL, controller);
+
+      Object.getOwnPropertyNames(controlInstance.__proto__)
+        .filter(name => name !== "constructor")
+        .forEach(methodName => {
+          const method = controlInstance[methodName];
+          const parameterMap = restfulMap.get(method);
+          const methodPath = parameterMap.get("path");
+          const querySet = parameterMap.get("query");
+          const paramsSet = parameterMap.get("params") as Set<string>;
+          const bodySet = parameterMap.get("body") as Set<string>;
+          const requestBodySet = parameterMap.get("RequestBody") as Set<string>;
+          const methodType = parameterMap.get("methodType");
+          const args = parameterMap.get("args");
+          const middleWareSet = parameterMap.get(MIDDLEWARE);
+
+          const handleRequest = async (ctx: Koa.Context, next: Koa.Next) => {
+            const parametersVals = args.map((arg: string) => {
+              if (paramsSet && paramsSet.has(arg)) {
+                return ctx.params[arg];
+              }
+              if (querySet && querySet.has(arg)) {
+                return ctx.query[arg];
+              }
+              if (bodySet && bodySet.has(arg)) {
+                return ctx.body[arg];
+              }
+
+              if (requestBodySet && requestBodySet.has(arg)) {
+                return ctx.body;
+              }
+            });
+            controlInstance.ctx = ctx;
+            controlInstance.next = next;
+            controlInstance.config = config;
+            // catch promise error
+            try {
+              await method.apply(
+                controlInstance,
+                parametersVals.concat([ctx, next])
+              );
+            } catch (error) {
+              ctx.status = 500;
+            }
+          };
+
+          const routePath = (controlPath + methodPath).replace("//", "/");
+          if (middleWareSet) {
+            _KoaRouter[methodType](
+              routePath,
+              Array.from(middleWareSet),
+              handleRequest
+            );
+          } else {
+            _KoaRouter[methodType](routePath, handleRequest);
+          }
+          logger.info(
+            `SoRouter Registered: Path: ${routePath}\t Method: ${methodType}`
+          );
+        });
+    }
+    _App.use(_KoaRouter.routes()).use(_KoaRouter.allowedMethods());
+  }
 
   /**
    * load middleware to koa instance
@@ -70,8 +148,7 @@ export class Loader {
           await run.apply(middlewareInstance, [ctx, next]);
         } catch (e) {
           console.error(e);
-          // eslint-disable-next-line @typescript-eslint/prefer-optional-chain
-          ctx.send(e && e.message);
+          ctx.status = 500;
         }
       });
     }
