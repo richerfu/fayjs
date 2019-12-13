@@ -6,6 +6,7 @@ export class TestService extends SoService {
   @Autowired
   private testNewService: TestNewService;
   public async query(): Promise<string> {
+    console.log(this);
     return "aaa";
   }
 }

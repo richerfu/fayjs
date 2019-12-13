@@ -6,7 +6,8 @@ import * as Koa from "koa";
 import * as KoaRouter from "koa-router";
 import { iocContainer } from "./../decorator/Inject";
 import { MIDDLEWARE, CONFIG, RESTFUL, CONTROL } from "./../decorator/Constants";
-import { Config } from "interface";
+import { Config } from "./../types/interface";
+import { DbLoader } from "./../plugin/MySql";
 import logger from "../utils/Logger";
 
 export class Loader {
@@ -151,6 +152,20 @@ export class Loader {
           ctx.status = 500;
         }
       });
+    }
+  }
+
+  /**
+   * load something to service
+   * @param _Service service instance
+   * @param config app config
+   */
+  public InjectService(_Service: Set<Function | any>, config: Config): void {
+    const dbLoader: DbLoader = new DbLoader(config.mysql);
+    const db = dbLoader.LoaderDb();
+    for (const service of _Service) {
+      const serviceInstance = iocContainer.get(service);
+      serviceInstance.db = db;
     }
   }
 

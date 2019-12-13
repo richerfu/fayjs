@@ -6,13 +6,13 @@ import {
   RESTFUL,
   AUTOWIRED,
   MIDDLEWARE,
-  CONFIG
+  CONFIG,
 } from "./Constants";
 import { inject } from "./Inject";
 import {
   getRestfulMap,
   getRestfulParameterMap,
-  getFunctionParams
+  getFunctionParams,
 } from "../utils/Common";
 
 export const Service = (target: Function | any) => {

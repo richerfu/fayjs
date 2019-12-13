@@ -6,7 +6,7 @@ interface Config {
   clients?: Object;
 }
 
-class DbLoader {
+export class DbLoader {
   private dbClient: DbClient;
   private config: Config;
   public constructor(config: Config) {
@@ -25,10 +25,12 @@ class DbLoader {
   }
 
   public async LoaderDb(): Promise<any> {
+    let db: Map<string, any> = new Map<string, any>();
     if (this.config.client) {
-      return await Promise.resolve(this.dbClient.getClient("mysql"));
+      return await Promise.resolve(
+        db.set("mysql", this.dbClient.getClient("mysql"))
+      );
     } else {
-      let db: Map<string, any> = new Map<string, any>();
       Object.keys(this.config.clients).forEach(item => {
         db.set(item, this.dbClient.getClient(item));
       });

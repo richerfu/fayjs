@@ -47,6 +47,8 @@ export default class SoServer {
 
     loader.InjectMiddleware(SoServer._Middleware, this.__app, config);
 
+    loader.InjectService(SoServer._Service, config);
+
     loader.InjectController(
       SoServer._Controller,
       this.__app,
