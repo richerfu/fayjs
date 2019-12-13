@@ -1,6 +1,6 @@
 {
   "name": "iqy-server",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "a web framework by koa and typescript",
   "main": "dist/core/index.js",
   "types": "dist/core/index.d.ts",
