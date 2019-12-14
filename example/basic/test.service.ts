@@ -1,4 +1,4 @@
-import { SoService, Service, Autowired } from "./../../dist/core";
+import { SoService, Service, Autowired } from "./../../dist";
 import { TestNewService } from "./testNew.service";
 
 @Service

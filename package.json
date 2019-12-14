@@ -2,8 +2,8 @@
   "name": "iqy-server",
   "version": "0.1.1",
   "description": "a web framework by koa and typescript",
-  "main": "dist/core/index.js",
-  "types": "dist/core/index.d.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",

@@ -1,4 +1,4 @@
-import { Config } from "./../../dist/core";
+import { Config } from "./../../dist/index";
 
 @Config("dev")
 export class TestConfig {

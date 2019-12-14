@@ -4,7 +4,7 @@ import {
   Get,
   Autowired,
   Post,
-} from "./../../dist/core";
+} from "./../../dist/index";
 import { TestService } from "./test.service";
 
 @Controller("/")
