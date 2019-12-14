@@ -26,9 +26,13 @@
     "reflect-metadata": "^0.1.13"
   },
   "devDependencies": {
+    "@types/chai": "^4.2.7",
     "@types/koa": "^2.11.0",
     "@types/koa-router": "^7.0.42",
+    "@types/mocha": "^5.2.7",
+    "chai": "^4.2.0",
     "eslint-config-iqyserver": "^0.0.4",
+    "mocha": "^6.2.2",
     "typescript": "^3.7.3",
     "vuepress": "^1.2.0"
   },
