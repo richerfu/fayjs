@@ -10,6 +10,7 @@ import { getLocalIPAddress } from "./../utils/Common";
 export * from "./../decorator/Decorator";
 export * from "./../decorator/Context";
 export * from "./../utils/Logger";
+export * from "./../decorator/ParamterDecorator";
 
 const router: KoaRouter = new KoaRouter();
 

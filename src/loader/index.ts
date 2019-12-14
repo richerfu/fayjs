@@ -88,13 +88,13 @@ export class Loader {
               if (querySet && querySet.has(arg)) {
                 return ctx.query[arg];
               }
-              if (bodySet && bodySet.has(arg)) {
-                return ctx.body[arg];
-              }
+              // if (bodySet && bodySet.has("body")) {
+              //   return ctx.request.req.;
+              // }
 
-              if (requestBodySet && requestBodySet.has(arg)) {
-                return ctx.body;
-              }
+              // if (requestBodySet && requestBodySet.has(arg)) {
+              //   return ctx.body[arg];
+              // }
             });
             controlInstance.ctx = ctx;
             controlInstance.next = next;
