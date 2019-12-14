@@ -7,7 +7,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
-    "release": "tsc && npm publish --access public"
+    "release": "tsc && npm publish --access public",
+    "docs:dev": "vuepress dev docs",
+    "docs:build": "vuepress build docs"
   },
   "keywords": [
     "koa",
@@ -27,7 +29,8 @@
     "@types/koa": "^2.11.0",
     "@types/koa-router": "^7.0.42",
     "eslint-config-iqyserver": "^0.0.4",
-    "typescript": "^3.7.3"
+    "typescript": "^3.7.3",
+    "vuepress": "^1.2.0"
   },
   "repository": {
     "type": "git",
