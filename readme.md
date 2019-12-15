@@ -50,3 +50,6 @@ ts-node index.ts
 - [eslint-config-iqyserver]( https://github.com/southorange1228/eslint-config-iqyserver )
   
   eslint and prettier for iqyserver 
+- [iqy-mysql]( https://github.com/southorange1228/iqy-mysql )
+  
+  mysql for iqy-server
