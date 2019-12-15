@@ -155,6 +155,8 @@ export class Loader {
     }
   }
 
+  public UseMiddleware(_App: Koa, config: Config): void {}
+
   /**
    * load something to service
    * @param _Service service instance
