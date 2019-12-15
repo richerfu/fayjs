@@ -6,16 +6,16 @@ import logger from "../utils/Logger";
 import { Loader } from "../loader";
 import { Options } from "../types/interface";
 import { getLocalIPAddress } from "./../utils/Common";
-// import { Parser } from "../plugin/RequestParser";
+import {
+  _Config,
+  _Controller,
+  _Middleware,
+  _Service,
+} from "../decorator/Inject";
 
 const router: KoaRouter = new KoaRouter();
 
 export default class SoServer {
-  public static _Controller: Set<Function | any> = new Set<Function | any>();
-  public static _Service: Set<Function | any> = new Set<Function | any>();
-  public static _Middleware: Set<Function | any> = new Set<Function | any>();
-  public static _Config: Set<Function | any> = new Set<Function | any>();
-
   private static __Instance: Koa = new Koa();
   public baseDir: string;
 
@@ -37,27 +37,12 @@ export default class SoServer {
     this.__app.on("error", (err: any) => {
       logger.error(err);
     });
-    // const parser: Parser = new Parser();
-    // this.__app.use(async (ctx, next) => {
-    //   const request = await parser.parsePostData(ctx);
-    //   console.log(request)
-    //   await next();
-    // });
 
     const loader: Loader = new Loader(this.baseDir);
-
-    const config = loader.InjectConfig(SoServer._Config, this.env);
-
-    loader.InjectMiddleware(SoServer._Middleware, this.__app, config);
-
-    loader.InjectService(SoServer._Service, config);
-
-    loader.InjectController(
-      SoServer._Controller,
-      this.__app,
-      this.__router,
-      config
-    );
+    const config = loader.InjectConfig(_Config, this.env);
+    loader.InjectMiddleware(_Middleware, this.__app, config);
+    loader.InjectService(_Service, config);
+    loader.InjectController(_Controller, this.__app, this.__router, config);
   }
 
   public Listen(

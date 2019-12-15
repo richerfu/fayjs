@@ -6,6 +6,11 @@ export const iocContainer: WeakMap<Function, any> = new WeakMap<
   any
 >();
 
+export const _Controller: Set<Function | any> = new Set<Function | any>();
+export const _Service: Set<Function | any> = new Set<Function | any>();
+export const _Middleware: Set<Function | any> = new Set<Function | any>();
+export const _Config: Set<Function | any> = new Set<Function | any>();
+
 export function inject(target: any) {
   if (!target) {
     return;

@@ -8,7 +8,7 @@ import {
   MIDDLEWARE,
   CONFIG,
 } from "./Constants";
-import { inject } from "./Inject";
+import { inject, _Config, _Controller, _Middleware, _Service } from "./Inject";
 import {
   getRestfulMap,
   getRestfulParameterMap,
@@ -16,21 +16,20 @@ import {
 } from "../utils/Common";
 
 export const Service = (target: Function | any) => {
-  if (!SoServer._Service.has(target)) {
+  if (!_Service.has(target)) {
     inject(target);
-    SoServer._Service.add(target);
+    _Service.add(target);
   }
 };
 
 export function Controller(path: string) {
   return (target: Function | any) => {
-    // const targetName = target.name;
     if (path) {
       Reflect.defineMetadata(CONTROL, path, target);
 
-      if (!SoServer._Controller.has(target)) {
+      if (!_Controller.has(target)) {
         inject(target);
-        SoServer._Controller.add(target);
+        _Controller.add(target);
       }
     } else {
       throw new Error(`Controller can't omit the path field.`);
@@ -42,9 +41,9 @@ export function Config(env: string) {
   return (target: Function | any) => {
     if (env) {
       Reflect.defineMetadata(CONFIG, env, target);
-      if (!SoServer._Config.has(target)) {
+      if (!_Config.has(target)) {
         inject(target);
-        SoServer._Config.add(target);
+        _Config.add(target);
       }
     } else {
       throw new Error(
@@ -69,9 +68,9 @@ export function Middleware() {
     if (middlewareInstance.run) {
       const initMethod = middlewareInstance.run;
       Reflect.defineMetadata(MIDDLEWARE, initMethod, target);
-      if (!SoServer._Middleware.has(target)) {
+      if (!_Middleware.has(target)) {
         inject(target);
-        SoServer._Middleware.add(target);
+        _Middleware.add(target);
       }
     } else {
       throw new Error(
