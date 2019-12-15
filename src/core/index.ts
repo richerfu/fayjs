@@ -6,6 +6,7 @@ import logger from "../utils/Logger";
 import { Loader } from "../loader";
 import { Options } from "../types/interface";
 import { getLocalIPAddress } from "./../utils/Common";
+// import { Parser } from "../plugin/RequestParser";
 
 const router: KoaRouter = new KoaRouter();
 
@@ -36,6 +37,12 @@ export default class SoServer {
     this.__app.on("error", (err: any) => {
       logger.error(err);
     });
+    // const parser: Parser = new Parser();
+    // this.__app.use(async (ctx, next) => {
+    //   const request = await parser.parsePostData(ctx);
+    //   console.log(request)
+    //   await next();
+    // });
 
     const loader: Loader = new Loader(this.baseDir);
 

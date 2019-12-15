@@ -29,7 +29,7 @@ export class DbLoader {
     }
   }
 
-  public LoaderDb(): Object {
+  public LoaderDb(): { [key: string]: Db } {
     let db: DbInstance = {};
     if (this.config.client) {
       db.mysql = new Db(this.dbClient.getClient("mysql"));

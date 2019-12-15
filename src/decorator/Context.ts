@@ -1,5 +1,6 @@
 import * as Koa from "koa";
 import { Config } from "./../types/interface";
+import { Db } from "iqy-mysql";
 class SoContext {
   public ctx: Koa.Context;
   public next: Koa.Next;
@@ -20,6 +21,7 @@ export class SoController extends SoContext {
 }
 
 export class SoService extends SoContext {
+  public db?: { [key: string]: Db };
   public constructor(ctx: Koa.Context, next: Koa.Next, config: Config) {
     super(ctx, next, config);
   }
