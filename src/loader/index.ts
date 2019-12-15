@@ -4,11 +4,13 @@ import { statSync, readdirSync } from "fs";
 import { join } from "path";
 import * as Koa from "koa";
 import * as KoaRouter from "koa-router";
+import * as KoaBodyParser from "koa-bodyparser";
 import { iocContainer } from "./../decorator/Inject";
 import { MIDDLEWARE, CONFIG, RESTFUL, CONTROL } from "./../decorator/Constants";
 import { Config } from "./../types/interface";
 import { DbLoader } from "./../plugin/MySql";
 import logger from "../utils/Logger";
+import { SelfBody } from "./../types/interface";
 
 export class Loader {
   private _baseDir: string;
@@ -73,12 +75,17 @@ export class Loader {
           const parameterMap = restfulMap.get(method);
           const methodPath = parameterMap.get("path");
           const querySet = parameterMap.get("query");
-          const paramsSet = parameterMap.get("params") as Set<string>;
-          const bodySet = parameterMap.get("body") as Set<string>;
-          const requestBodySet = parameterMap.get("RequestBody") as Set<string>;
+          const paramsSet = parameterMap.get("params") as Set<string | any>;
+          const bodySet = parameterMap.get("body") as Set<string | any>;
+          const requestBodySet = parameterMap.get("RequestBody") as Set<
+            string | any
+          >;
           const methodType = parameterMap.get("methodType");
           const args = parameterMap.get("args");
           const middleWareSet = parameterMap.get(MIDDLEWARE);
+
+          console.log(bodySet);
+          console.log(requestBodySet);
 
           const handleRequest = async (ctx: Koa.Context, next: Koa.Next) => {
             const parametersVals = args.map((arg: string) => {
@@ -88,13 +95,13 @@ export class Loader {
               if (querySet && querySet.has(arg)) {
                 return ctx.query[arg];
               }
-              // if (bodySet && bodySet.has("body")) {
-              //   return ctx.request.req.;
-              // }
 
-              // if (requestBodySet && requestBodySet.has(arg)) {
-              //   return ctx.body[arg];
-              // }
+              if (requestBodySet && requestBodySet.has(arg)) {
+                return ctx.request.body[arg];
+              }
+              if (bodySet && bodySet.has(SelfBody)) {
+                return ctx.request.body;
+              }
             });
             controlInstance.ctx = ctx;
             controlInstance.next = next;
@@ -155,7 +162,12 @@ export class Loader {
     }
   }
 
-  public UseMiddleware(_App: Koa, config: Config): void {}
+  public UseMiddleware(_App: Koa, config: Config): void {
+    /**
+     * use koa-bodyparser to get request body
+     */
+    _App.use(KoaBodyParser());
+  }
 
   /**
    * load something to service

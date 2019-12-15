@@ -2,7 +2,7 @@ import { networkInterfaces } from "os";
 export function getRestfulMap(
   key: any,
   target: ClassDecorator
-): WeakMap<ClassDecorator, string | Map<string, any> | Set<string>> {
+): WeakMap<ClassDecorator, string | Map<string, any> | Set<string | any>> {
   let restfulMap = Reflect.getMetadata(key, target);
   if (!restfulMap) {
     restfulMap = new WeakMap();
@@ -18,7 +18,10 @@ export function getRestfulParameterMap(key: any, map: any): Map<any, any> {
   return parameterMap;
 }
 
-export function getRestfulParameterSet(map: any, type: string): Set<string> {
+export function getRestfulParameterSet(
+  map: any,
+  type: string
+): Set<string | any> {
   let set = map.get(type);
   if (!set) {
     set = new Set();

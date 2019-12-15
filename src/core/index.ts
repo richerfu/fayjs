@@ -40,6 +40,7 @@ export default class SoServer {
 
     const loader: Loader = new Loader(this.baseDir);
     const config = loader.InjectConfig(_Config, this.env);
+    loader.UseMiddleware(this.__app, config);
     loader.InjectMiddleware(_Middleware, this.__app, config);
     loader.InjectService(_Service, config);
     loader.InjectController(_Controller, this.__app, this.__router, config);

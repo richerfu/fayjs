@@ -4,8 +4,12 @@ import {
   getRestfulParameterMap,
   getRestfulParameterSet,
 } from "../utils/Common";
+import { SelfBody } from "./../types/interface";
 
-function CheckAndSetParameters(paramterName: string, parameterType: string) {
+function CheckAndSetParameters(
+  paramterName: string | Symbol,
+  parameterType: string
+) {
   return (
     target: any,
     propertyKey: string | symbol,
@@ -46,10 +50,10 @@ export function RequestParams(paramterName: string) {
   return CheckAndSetParameters(paramterName, "params");
 }
 
-// export function Body() {
-//   return CheckAndSetParameters("body", "body");
-// }
+export function Body() {
+  return CheckAndSetParameters(SelfBody, "body");
+}
 
-// export function RequestBody(paramterName: string) {
-//   return CheckAndSetParameters(paramterName, "RequestBody");
-// }
+export function RequestBody(paramterName: string) {
+  return CheckAndSetParameters(paramterName, "RequestBody");
+}
