@@ -1,5 +1,5 @@
 import { DbClient, Db } from "iqy-mysql";
-import { Connection, Pool } from "mysql";
+import logger from "../utils/Logger";
 
 interface Config {
   enable: boolean;
@@ -19,16 +19,20 @@ export class DbLoader {
   }
 
   public async init(): Promise<any> {
-    this.dbClient = new DbClient();
-    if (this.config.client && this.config.clients) {
-      throw new Error(
-        `clients and client are existed.please delete client field`
-      );
-    }
-    if (this.config.client) {
-      await this.dbClient.createClient("mysql", this.config.client);
-    } else {
-      await this.dbClient.init(this.config.clients);
+    try {
+      this.dbClient = new DbClient();
+      if (this.config.client && this.config.clients) {
+        throw new Error(
+          `clients and client are existed.please delete client field`
+        );
+      }
+      if (this.config.client) {
+        await this.dbClient.createClient("mysql", this.config.client);
+      } else {
+        await this.dbClient.init(this.config.clients);
+      }
+    } catch (e) {
+      logger.error(e);
     }
   }
 
