@@ -11,7 +11,7 @@ export class TestConfig {
       port: 3306,
       user: "root",
       password: "",
-      database: "",
+      database: "test_sql",
     },
   };
 }
