@@ -58,3 +58,10 @@ export function getLocalIPAddress() {
     }
   }
 }
+
+export function getFormatTime(date?: Date): string {
+  const newDate = date ? new Date(date) : new Date();
+  const currentDate = `${newDate.getFullYear()}-${newDate.getMonth() +
+    1}-${newDate.getDate()} ${newDate.getHours()}:${newDate.getMinutes()}:${newDate.getSeconds()}`;
+  return currentDate;
+}

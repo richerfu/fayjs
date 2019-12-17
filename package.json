@@ -19,7 +19,7 @@
   "author": "SouthOrange",
   "license": "MIT",
   "dependencies": {
-    "iqy-mysql": "^0.0.4",
+    "iqy-mysql": "^0.0.5",
     "koa": "^2.11.0",
     "koa-body": "^4.1.1",
     "koa-router": "^7.4.0",

@@ -9,6 +9,7 @@ import { iocContainer } from "./../decorator/Inject";
 import { MIDDLEWARE, CONFIG, RESTFUL, CONTROL } from "./../decorator/Constants";
 import { Config } from "../utils/interface";
 import { DbLoader } from "./../plugin/MySql";
+import { RequestLog } from "./../plugin/RequestLog";
 import logger from "../utils/Logger";
 import { SelfBody } from "../utils/interface";
 
@@ -161,7 +162,11 @@ export class Loader {
 
   public UseMiddleware(_App: Koa, config: Config): void {
     /**
-     * use koa-bodyparser to get request body
+     * use request-log to console request info
+     */
+    _App.use(RequestLog);
+    /**
+     * use koa-body to get request body
      */
     _App.use(
       KoaBodyParser({
@@ -194,6 +199,7 @@ export class Loader {
   public InjectService(_Service: Set<Function | any>, config: Config): void {
     const dbLoader: DbLoader = new DbLoader(config.mysql);
     const db = dbLoader.LoaderDb();
+    console.log(db)
     for (const service of _Service) {
       const serviceInstance = iocContainer.get(service);
       serviceInstance.db = db;

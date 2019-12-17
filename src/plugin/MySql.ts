@@ -38,6 +38,7 @@ export class DbLoader {
       Object.keys(this.config.clients).forEach(item => {
         db[item] = new Db(this.dbClient.getClient(item));
       });
+      console.log(db)
       return db;
     }
   }
