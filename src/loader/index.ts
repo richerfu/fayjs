@@ -197,13 +197,15 @@ export class Loader {
    * @param config app config
    */
   public InjectService(_Service: Set<Function | any>, config: Config): void {
-    const dbLoader: DbLoader = new DbLoader(config.mysql);
-    const db = dbLoader.LoaderDb();
-    console.log(db)
-    for (const service of _Service) {
-      const serviceInstance = iocContainer.get(service);
-      serviceInstance.db = db;
-    }
+    (async () => {
+      const dbLoader: DbLoader = new DbLoader(config.mysql);
+      await dbLoader.init();
+      const db = dbLoader.LoaderDb();
+      for (const service of _Service) {
+        const serviceInstance = iocContainer.get(service);
+        serviceInstance.db = db;
+      }
+    })();
   }
 
   /**

@@ -16,16 +16,19 @@ export class DbLoader {
   private config: Config;
   public constructor(config: Config) {
     this.config = config;
-    if (config.client && config.clients) {
+  }
+
+  public async init(): Promise<any> {
+    this.dbClient = new DbClient();
+    if (this.config.client && this.config.clients) {
       throw new Error(
         `clients and client are existed.please delete client field`
       );
     }
-    if (config.client) {
-      this.dbClient = new DbClient();
-      this.dbClient.createClient("mysql", config.client);
+    if (this.config.client) {
+      await this.dbClient.createClient("mysql", this.config.client);
     } else {
-      this.dbClient = new DbClient(config.clients);
+      await this.dbClient.init(this.config.clients);
     }
   }
 
@@ -38,7 +41,6 @@ export class DbLoader {
       Object.keys(this.config.clients).forEach(item => {
         db[item] = new Db(this.dbClient.getClient(item));
       });
-      console.log(db)
       return db;
     }
   }
