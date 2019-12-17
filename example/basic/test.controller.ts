@@ -6,6 +6,7 @@ import {
   Post,
   Body,
   RequestBody,
+  RequestQuery,
 } from "./../../dist/index";
 import { TestService } from "./test.service";
 
@@ -14,10 +15,18 @@ export class TestController extends SoController {
   @Autowired
   private testService: TestService;
   @Post("/")
-  public async name(@Body() body: any, @RequestBody("name") name: string) {
-    console.log(`name is ${name}`);
-    console.log(this.ctx.request.body);
+  public async name(@RequestQuery("name") name: string) {
+    console.log(this);
+
     this.testService.query();
+
     this.ctx.body = "hello iqyserver";
+  }
+
+  @Get("/test")
+  public async names(@RequestQuery("name") name: string) {
+    console.log(name);
+    this.testService.query();
+    this.ctx.body = "test";
   }
 }

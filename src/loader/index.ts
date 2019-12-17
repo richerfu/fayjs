@@ -4,13 +4,13 @@ import { statSync, readdirSync } from "fs";
 import { join } from "path";
 import * as Koa from "koa";
 import * as KoaRouter from "koa-router";
-import * as KoaBodyParser from "koa-bodyparser";
+import * as KoaBodyParser from "koa-body";
 import { iocContainer } from "./../decorator/Inject";
 import { MIDDLEWARE, CONFIG, RESTFUL, CONTROL } from "./../decorator/Constants";
-import { Config } from "./../types/interface";
+import { Config } from "../utils/interface";
 import { DbLoader } from "./../plugin/MySql";
 import logger from "../utils/Logger";
-import { SelfBody } from "./../types/interface";
+import { SelfBody } from "../utils/interface";
 
 export class Loader {
   private _baseDir: string;
@@ -83,9 +83,6 @@ export class Loader {
           const methodType = parameterMap.get("methodType");
           const args = parameterMap.get("args");
           const middleWareSet = parameterMap.get(MIDDLEWARE);
-
-          console.log(bodySet);
-          console.log(requestBodySet);
 
           const handleRequest = async (ctx: Koa.Context, next: Koa.Next) => {
             const parametersVals = args.map((arg: string) => {
@@ -166,7 +163,27 @@ export class Loader {
     /**
      * use koa-bodyparser to get request body
      */
-    _App.use(KoaBodyParser());
+    _App.use(
+      KoaBodyParser({
+        patchKoa: true,
+        patchNode: true,
+        jsonLimit: "1mb",
+        formLimit: "56kb",
+        textLimit: "56kb",
+        encoding: "utf-8",
+        multipart: true,
+        text: true,
+        json: true,
+        jsonStrict: false,
+        includeUnparsed: false,
+        formidable: {},
+        onError: (e, ctx) => {
+          console.log(e, ctx);
+        },
+        strict: false,
+        parsedMethods: ["POST", "PUT", "PATCH"],
+      })
+    );
   }
 
   /**

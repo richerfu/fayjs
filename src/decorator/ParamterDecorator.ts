@@ -1,10 +1,11 @@
+import "reflect-metadata";
 import { RESTFUL } from "./Constants";
 import {
   getRestfulMap,
   getRestfulParameterMap,
   getRestfulParameterSet,
 } from "../utils/Common";
-import { SelfBody } from "./../types/interface";
+import { SelfBody } from "../utils/interface";
 
 function CheckAndSetParameters(
   paramterName: string | Symbol,

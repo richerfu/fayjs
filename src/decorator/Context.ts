@@ -1,34 +1,35 @@
 import * as Koa from "koa";
-import { Config } from "./../types/interface";
+import { Config, SoContext } from "../utils/interface";
 import { Db } from "iqy-mysql";
-class SoContext {
-  public ctx: Koa.Context;
+
+class IContext {
+  public ctx: SoContext;
   public next: Koa.Next;
   public config: Config;
   [propName: string]: any;
 
-  public constructor(ctx: Koa.Context, next: Koa.Next, config: Config) {
+  public constructor(ctx: SoContext, next: Koa.Next, config: Config) {
     this.ctx = ctx;
     this.next = next;
     this.config = config;
   }
 }
 
-export class SoController extends SoContext {
-  public constructor(ctx: Koa.Context, next: Koa.Next, config: Config) {
+export class SoController extends IContext {
+  public constructor(ctx: SoContext, next: Koa.Next, config: Config) {
     super(ctx, next, config);
   }
 }
 
-export class SoService extends SoContext {
+export class SoService extends IContext {
   public db?: { [key: string]: Db };
-  public constructor(ctx: Koa.Context, next: Koa.Next, config: Config) {
+  public constructor(ctx: SoContext, next: Koa.Next, config: Config) {
     super(ctx, next, config);
   }
 }
 
-export class SoMiddleware extends SoContext {
-  public constructor(ctx: Koa.Context, next: Koa.Next, config: Config) {
+export class SoMiddleware extends IContext {
+  public constructor(ctx: SoContext, next: Koa.Next, config: Config) {
     super(ctx, next, config);
   }
 }
