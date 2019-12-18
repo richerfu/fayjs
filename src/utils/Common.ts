@@ -1,4 +1,6 @@
 import { networkInterfaces } from "os";
+import { exec } from "child_process";
+
 export function getRestfulMap(
   key: any,
   target: ClassDecorator
@@ -64,4 +66,21 @@ export function getFormatTime(date?: Date): string {
   const currentDate = `${newDate.getFullYear()}-${newDate.getMonth() +
     1}-${newDate.getDate()} ${newDate.getHours()}:${newDate.getMinutes()}:${newDate.getSeconds()}`;
   return currentDate;
+}
+
+export async function execCommander(command: string): Promise<any> {
+  try {
+    const result = await new Promise((s, j) => {
+      exec(command, (e, stdout, stderr) => {
+        if (e) {
+          j(e);
+        }
+        s(stdout);
+      });
+    });
+    return result;
+  } catch (e) {
+    console.log(e);
+    return null;
+  }
 }
