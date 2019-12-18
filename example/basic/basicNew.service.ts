@@ -1,5 +1,5 @@
-import { SoService, Service, Autowired } from "./../../dist";
-import { TestService } from "./test.service";
+import { SoService, Service, Autowired } from "../../dist";
+import { TestService } from "./basic.service";
 
 @Service
 export class TestNewService extends SoService {
