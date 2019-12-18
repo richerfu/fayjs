@@ -68,6 +68,10 @@ export function getFormatTime(date?: Date): string {
   return currentDate;
 }
 
+/**
+ * exec command
+ * @param command command
+ */
 export async function execCommander(command: string): Promise<any> {
   try {
     const result = await new Promise((s, j) => {

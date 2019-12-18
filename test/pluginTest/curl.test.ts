@@ -2,7 +2,6 @@ import { describe, it, before, after } from "mocha";
 import { expect } from "chai";
 import SoServer from "./../../dist/index";
 import { Curl } from "../../dist/plugin/Curl";
-import { execCommander } from "../../dist/utils/Common";
 
 describe("Test Curl Plugin", function() {
   let curl = new Curl();
