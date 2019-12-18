@@ -23,7 +23,8 @@ export class TestController extends SoController {
   @Get("/test")
   public async names(@RequestQuery("name") name: string) {
     console.log(name);
-    this.testService.query();
+    const s = await this.curl.get("https://www.baidu.com");
+    console.log(s);
     this.ctx.body = "test";
   }
 }

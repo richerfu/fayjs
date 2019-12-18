@@ -12,6 +12,9 @@ import { DbLoader } from "./../plugin/MySql";
 import { RequestLog } from "./../plugin/RequestLog";
 import logger from "../utils/Logger";
 import { SelfBody } from "../utils/interface";
+import { Curl } from "../plugin/Curl";
+
+const curl: Curl = new Curl();
 
 export class Loader {
   private _baseDir: string;
@@ -104,6 +107,7 @@ export class Loader {
             controlInstance.ctx = ctx;
             controlInstance.next = next;
             controlInstance.config = config;
+            controlInstance.curl = curl;
             // catch promise error
             try {
               await method.apply(
@@ -150,6 +154,7 @@ export class Loader {
         middlewareInstance.ctx = ctx;
         middlewareInstance.next = next;
         middlewareInstance.config = config;
+        middlewareInstance.curl = curl;
         try {
           await run.apply(middlewareInstance, [ctx, next]);
         } catch (e) {
@@ -204,6 +209,7 @@ export class Loader {
       for (const service of _Service) {
         const serviceInstance = iocContainer.get(service);
         serviceInstance.db = db;
+        serviceInstance.curl = curl;
       }
     })();
   }
