@@ -44,11 +44,11 @@ export class PluginLoader {
       Object.keys(pluginConfig.config).forEach(key => {
         if (
           !pluginConfig.config[key] ||
-          !pluginConfig.config[key].instance ||
+          pluginConfig.config[key].instance === undefined ||
           !pluginConfig.config[key].main
         ) {
           throw new Error(
-            `Plugin config ${key} fields must have type(interface) and main(Function)`
+            `Plugin config ${key} fields must have instance(Object) and main(Function)`
           );
         }
         const pluginInstance = pluginConfig.config[key].main.call(
@@ -71,7 +71,7 @@ export class PluginLoader {
         `Add Plugin Error: key(${key}) is exited,please change it`
       );
     }
-    if (!config.instance || !config.main) {
+    if (config.instance === undefined || !config.main) {
       throw new Error(
         `Plugin config fields must have type(interface) and main(Function)`
       );
