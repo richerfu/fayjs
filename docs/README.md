@@ -2,7 +2,7 @@
 home: true
 heroImage: 
 actionText: 快速上手 →
-actionLink: /zh/guide/
+actionLink: /quickstart/quickStart/
 features:
 - title: TypeScript
   details: JavaScript的超集，为JS提供静态类型。

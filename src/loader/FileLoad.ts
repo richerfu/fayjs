@@ -14,7 +14,6 @@ import logger from "../utils/Logger";
 import { SelfBody } from "../utils/interface";
 import { Curl } from "../plugin/Curl";
 import { PluginLoader } from "./PluginLoad";
-import { Db } from "iqy-mysql";
 import {
   _Config,
   _Controller,
