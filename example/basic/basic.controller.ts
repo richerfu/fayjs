@@ -14,7 +14,7 @@ import { TestService } from "./basic.service";
 export class TestController extends SoController {
   @Autowired
   private testService: TestService;
-  @Post("/")
+  @Get("/")
   public async name(@RequestQuery("name") name: string) {
     this.testService.query();
     this.ctx.body = "hello iqyserver";

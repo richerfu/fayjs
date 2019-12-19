@@ -3,7 +3,7 @@ import "reflect-metadata";
 import * as Koa from "koa";
 import * as KoaRouter from "koa-router";
 import logger from "../utils/Logger";
-import { Loader } from "../loader";
+import { Loader } from "../loader/FileLoad";
 import { Options } from "../utils/interface";
 import { getLocalIPAddress } from "./../utils/Common";
 import {
@@ -40,6 +40,7 @@ export default class SoServer {
 
     const loader: Loader = new Loader(this.baseDir);
     const config = loader.InjectConfig(_Config, this.env);
+    loader.LoadPlugin(config);
     loader.UseMiddleware(this.__app, config);
     loader.InjectMiddleware(_Middleware, this.__app, config);
     loader.InjectService(_Service, config);

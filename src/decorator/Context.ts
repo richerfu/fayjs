@@ -8,6 +8,7 @@ class IContext {
   public next: Koa.Next;
   public config: Config;
   public curl: Curl;
+  public db?: { [key: string]: Db };
   [propName: string]: any;
 
   public constructor(
@@ -35,7 +36,6 @@ export class SoController extends IContext {
 }
 
 export class SoService extends IContext {
-  public db?: { [key: string]: Db };
   public constructor(
     ctx: SoContext,
     next: Koa.Next,
