@@ -15,29 +15,23 @@ import {
 
 const router: KoaRouter = new KoaRouter();
 
-export default class SoServer {
-  private static __Instance: Koa = new Koa();
-  public baseDir: string;
-
+export default class SoServer extends Koa {
+  private options = {
+    baseDir: process.cwd(),
+  };
+  private baseDir: string;
   private __router: KoaRouter;
-  private __app: Koa;
-  private options: Options;
-  private env: string;
-
+  private __app: Koa = this;
   public constructor(options?: Options) {
+    super();
     this.options = options;
-    this.__app = SoServer.__Instance;
     this.env = process.env.NODE_ENV || "dev";
+    this.__router = router;
     this.baseDir = options
       ? options.baseDir
         ? options.baseDir
         : process.cwd()
       : process.cwd();
-    this.__router = router;
-    this.__app.on("error", (err: any) => {
-      logger.error(err);
-    });
-
     const loader: Loader = new Loader(this.baseDir);
     const config = loader.InjectConfig(_Config, this.env);
     loader.LoadPlugin(config);
@@ -50,12 +44,13 @@ export default class SoServer {
   public Listen(
     port = 12280,
     host = "0.0.0.0",
+    backlog?: number,
     callback: () => void = () => {
       logger.warn(
         `SoServer Started Successful...\n  NetWork: \thttp://${getLocalIPAddress()}:${port}\n  Local: \thttp://127.0.0.1:${port}\n`
       );
     }
-  ): void {
-    this.__app.listen(port, host, callback);
+  ) {
+    this.__app.listen(port, host, backlog ? backlog : null, callback);
   }
 }
