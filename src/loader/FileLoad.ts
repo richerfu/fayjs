@@ -212,17 +212,18 @@ export class Loader {
   public LoadPlugin(config: Config, _App: Koa): void {
     (async () => {
       const pluginLoader: PluginLoader = new PluginLoader(config, _App);
-      const wssServer: SocketServer = new SocketServer();
-      const dbLoader: DbLoader = new DbLoader(config.mysql);
-      await dbLoader.init();
 
       if (config.plugins) {
         await pluginLoader.init(config.plugins);
       }
-      await pluginLoader.addPlugin("db", {
-        instance: dbLoader,
-        main: dbLoader.LoaderDb,
-      });
+      if (config.mysql && config.mysql.enable) {
+        const dbLoader: DbLoader = new DbLoader(config.mysql);
+        await dbLoader.init();
+        await pluginLoader.addPlugin("db", {
+          instance: dbLoader,
+          main: dbLoader.LoaderDb,
+        });
+      }
 
       await pluginLoader.addPlugin("curl", {
         instance: curl,
@@ -231,10 +232,13 @@ export class Loader {
         },
       });
 
-      await pluginLoader.addPlugin("wss", {
-        instance: wssServer,
-        main: wssServer.init,
-      });
+      if (config.wss && config.wss.enable) {
+        const wssServer: SocketServer = new SocketServer();
+        await pluginLoader.addPlugin("wss", {
+          instance: wssServer,
+          main: wssServer.init,
+        });
+      }
 
       await pluginLoader.load("controller", _Controller);
       await pluginLoader.load("service", _Service);
