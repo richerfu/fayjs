@@ -208,9 +208,9 @@ export class Loader {
    */
   public InjectService(_Service: Set<Function | any>, config: Config): void {}
 
-  public LoadPlugin(config: Config): void {
+  public LoadPlugin(config: Config, _App: Koa): void {
     (async () => {
-      const pluginLoader: PluginLoader = new PluginLoader(config);
+      const pluginLoader: PluginLoader = new PluginLoader(config, _App);
       const dbLoader: DbLoader = new DbLoader(config.mysql);
       await dbLoader.init();
 

@@ -35,7 +35,7 @@ export default class SoServer extends Koa {
       : process.cwd();
     const loader: Loader = new Loader(this.baseDir);
     const config = loader.InjectConfig(_Config, this.env);
-    loader.LoadPlugin(config);
+    loader.LoadPlugin(config, this.__app);
     loader.UseMiddleware(this.__app, config);
     loader.InjectMiddleware(_Middleware, this.__app, config);
     loader.InjectService(_Service, config);
