@@ -9,6 +9,7 @@ import { iocContainer } from "../decorator/Inject";
 import { MIDDLEWARE, CONFIG, RESTFUL, CONTROL } from "../decorator/Constants";
 import { Config } from "../utils/interface";
 import { DbLoader } from "../plugin/MySql";
+import { SocketServer } from "../plugin/Socket";
 import { RequestLog } from "../plugin/RequestLog";
 import logger from "../utils/Logger";
 import { SelfBody } from "../utils/interface";
@@ -211,6 +212,7 @@ export class Loader {
   public LoadPlugin(config: Config, _App: Koa): void {
     (async () => {
       const pluginLoader: PluginLoader = new PluginLoader(config, _App);
+      const wssServer: SocketServer = new SocketServer();
       const dbLoader: DbLoader = new DbLoader(config.mysql);
       await dbLoader.init();
 
@@ -227,6 +229,11 @@ export class Loader {
         main: () => {
           return curl;
         },
+      });
+
+      await pluginLoader.addPlugin("wss", {
+        instance: wssServer,
+        main: wssServer.init,
       });
 
       await pluginLoader.load("controller", _Controller);

@@ -16,7 +16,7 @@ export class TestController extends SoController {
   private testService: TestService;
   @Get("/")
   public async name(@RequestQuery("name") name: string) {
-    this.testService.query();
+    console.log(this.wss);
     this.ctx.body = "hello iqyserver";
   }
 

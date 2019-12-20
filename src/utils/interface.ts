@@ -1,6 +1,7 @@
 import * as Koa from "koa";
 import { Request } from "koa";
 import { Files } from "formidable";
+import { Server } from "socket.io";
 
 export interface Options {
   baseDir: string;
