@@ -14,4 +14,8 @@ export class TestConfig {
       database: "test_sql",
     },
   };
+
+  public wss = {
+    enable: true,
+  };
 }
