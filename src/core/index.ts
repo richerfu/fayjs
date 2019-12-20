@@ -22,6 +22,7 @@ export default class SoServer extends Koa {
   private baseDir: string;
   private __router: KoaRouter;
   private __app: Koa = this;
+
   public constructor(options?: Options) {
     super();
     this.options = options;

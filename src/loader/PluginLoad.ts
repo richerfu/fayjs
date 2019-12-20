@@ -66,6 +66,7 @@ export class PluginLoader {
     key: string,
     config: { instance: any; main: Function }
   ): Promise<any> {
+    this.pluginConfig.config[key] = config;
     if (this.pluginMap.get(key)) {
       throw new Error(
         `Add Plugin Error: key(${key}) is exited,please change it`
@@ -91,13 +92,17 @@ export class PluginLoader {
     type: "controller" | "middleware" | "service",
     instances: Set<Function | any>
   ): Promise<any> {
-    if (this.pluginConfig[type]) {
-      for (const instance of instances) {
-        const iocInstance = iocContainer.get(instance);
-        this.pluginMap.forEach((plugin, pluginKey) => {
-          iocInstance[pluginKey] = plugin;
-        });
+    try {
+      if (this.pluginConfig[type]) {
+        for (const instance of instances) {
+          const iocInstance = iocContainer.get(instance);
+          this.pluginMap.forEach((plugin, pluginKey) => {
+            iocInstance[pluginKey] = plugin;
+          });
+        }
       }
+    } catch (e) {
+      console.log(e);
     }
   }
 

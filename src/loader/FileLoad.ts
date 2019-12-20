@@ -223,7 +223,7 @@ export class Loader {
       });
 
       await pluginLoader.addPlugin("curl", {
-        instance: null,
+        instance: curl,
         main: () => {
           return curl;
         },

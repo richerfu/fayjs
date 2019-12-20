@@ -5,8 +5,8 @@ import { TestNewService } from "./basicNew.service";
 export class TestService extends SoService {
   @Autowired
   private testNewService: TestNewService;
+
   public async query(): Promise<string> {
-    console.log(this.db);
     return "aaa";
   }
 }
