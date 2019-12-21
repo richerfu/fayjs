@@ -1,14 +1,14 @@
-## 快速入门
+###  快速入门
 
 通过本文，快速入门iqy-server。
 
-###  环境准备
+####  环境准备
 
 - 操作系统：Win,Mac,Linux
 - 系统环境： Node.js >= V7.6.0，最好选择LTS版本  
 - TypeScript >= 3.0
 
-### 快速初始化
+#### 快速初始化
 
 ```shell
 mkdir demo && cd demo
@@ -55,7 +55,7 @@ npm install typescript --save-dev
 
 
 
-###  启动
+####  启动
 
 ```js
 // 在demo文件夹下新建src/index.ts文件

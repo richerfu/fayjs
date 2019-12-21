@@ -1,8 +1,8 @@
-## 控制器（Controller） ##
+### 控制器（Controller）
 
 同常见的MVC开发，用于解析用户请求和返回用户响应，写过SpringMVC的话，将会很熟悉此类写法。
 
-### 编写Controller ###
+#### 编写Controller
 
 规范：
 
@@ -26,7 +26,7 @@ export TestController extends SoController {
 
 如上示例代码所见，Get即确定当前请求路径和请求方式（使用目前REST结构），目前支持Get,Post,Put,Delete,Patch五种请求方式。
 
-###  Controller中使用Service ###
+####  Controller中使用Service
 
 通常在MVC开发中我们一般将数据库等操作放在service中和业务解耦，当我们编写好了一个service之后，只需要在controller中，引入即可。
 
