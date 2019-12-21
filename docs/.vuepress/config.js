@@ -21,8 +21,8 @@ module.exports = {
         title: '高级功能',
         collapsable: false,
         children:[
-          ["plguins/mysql",'MySQL'],
-          ["plugins/websocket","WebSocket"],
+          ["high/mysql",'MySQL'],
+          ["high/websocket","WebSocket"],
         ]
       },
       {
