@@ -21,4 +21,5 @@ export interface SoContext extends Koa.Context {
   request: SoRequest;
 }
 
-export const SelfBody = Symbol("body");
+export const RequestBodySymbol = Symbol("RequestBody");
+export const RequestContextSymbol = Symbol("RequestContext");

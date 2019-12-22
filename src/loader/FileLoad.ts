@@ -12,7 +12,7 @@ import { DbLoader } from "../plugin/MySql";
 import { SocketServer } from "../plugin/Socket";
 import { RequestLog } from "../plugin/RequestLog";
 import logger from "../utils/Logger";
-import { SelfBody } from "../utils/interface";
+import { RequestBodySymbol, RequestContextSymbol } from "../utils/interface";
 import { Curl } from "../plugin/Curl";
 import { PluginLoader } from "./PluginLoad";
 import {
@@ -92,6 +92,9 @@ export class Loader {
           const requestBodySet = parameterMap.get("RequestBody") as Set<
             string | any
           >;
+          const contextSet = parameterMap.get("RequestContext") as Set<
+            string | any
+          >;
           const methodType = parameterMap.get("methodType");
           const args = parameterMap.get("args");
           const middleWareSet = parameterMap.get(MIDDLEWARE);
@@ -104,12 +107,14 @@ export class Loader {
               if (querySet && querySet.has(arg)) {
                 return ctx.query[arg];
               }
-
               if (requestBodySet && requestBodySet.has(arg)) {
                 return ctx.request.body[arg];
               }
-              if (bodySet && bodySet.has(SelfBody)) {
+              if (bodySet && bodySet.has(RequestBodySymbol)) {
                 return ctx.request.body;
+              }
+              if (contextSet && contextSet.has(RequestContextSymbol)) {
+                return ctx;
               }
             });
             controlInstance.ctx = ctx;
@@ -117,10 +122,7 @@ export class Loader {
             controlInstance.config = config;
             // catch promise error
             try {
-              await method.apply(
-                controlInstance,
-                parametersVals.concat([ctx, next])
-              );
+              await method.apply(controlInstance, parametersVals);
             } catch (error) {
               ctx.status = 500;
             }

@@ -11,7 +11,11 @@ export const _Service: Set<Function | any> = new Set<Function | any>();
 export const _Middleware: Set<Function | any> = new Set<Function | any>();
 export const _Config: Set<Function | any> = new Set<Function | any>();
 
-export function inject(target: any) {
+/**
+ * IOC Core
+ * @param target class
+ */
+export function Inject(target: any) {
   if (!target) {
     return;
   }
@@ -19,30 +23,26 @@ export function inject(target: any) {
   // instantiate target
   const targetInstance = new target();
 
-  // get the dependance of target
   const depends = Reflect.getOwnMetadataKeys(target).filter(
     (meta: string) => "design:paramtypes" !== meta
   );
 
-  // iterator dependance
   depends.forEach((depClass: string) => {
-    // get @@AUTOWIRED
-
+    // autowired depend to instance
     if (depClass.match(autowired_reg)) {
       // get constructor of dependance
       const _constructor = Reflect.getMetadata(depClass, target);
 
-      // get depenance's name
-      const prop = depClass.replace(autowired_reg, "");
+      const dependName = depClass.replace(autowired_reg, "");
       // check if has been instantiated in iocContainer
       let depInstance = iocContainer.get(_constructor);
       if (!iocContainer.has(_constructor)) {
         // has not been instantiated , new dependance via recurring
-        depInstance = inject(_constructor);
+        depInstance = Inject(_constructor);
       }
 
       // add dependance's instance to target
-      targetInstance[prop] = depInstance;
+      targetInstance[dependName] = depInstance;
     }
   });
 

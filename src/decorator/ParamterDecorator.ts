@@ -5,7 +5,7 @@ import {
   getRestfulParameterMap,
   getRestfulParameterSet,
 } from "../utils/Common";
-import { SelfBody } from "../utils/interface";
+import { RequestBodySymbol, RequestContextSymbol } from "../utils/interface";
 
 function CheckAndSetParameters(
   paramterName: string | Symbol,
@@ -38,7 +38,6 @@ function CheckAndSetParameters(
     if (!restfulMap.has(method)) {
       restfulMap.set(method, methodMap);
     }
-    // define or overwrite RESTFUL map
     Reflect.defineMetadata(RESTFUL, restfulMap, target);
   };
 }
@@ -52,9 +51,13 @@ export function RequestParams(paramterName: string) {
 }
 
 export function Body() {
-  return CheckAndSetParameters(SelfBody, "body");
+  return CheckAndSetParameters(RequestBodySymbol, "body");
 }
 
 export function RequestBody(paramterName: string) {
   return CheckAndSetParameters(paramterName, "RequestBody");
+}
+
+export function RequestContext() {
+  return CheckAndSetParameters(RequestContextSymbol, "RequestContext");
 }
