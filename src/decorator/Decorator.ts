@@ -8,7 +8,7 @@ import {
   MIDDLEWARE,
   CONFIG,
 } from "./Constants";
-import { inject, _Config, _Controller, _Middleware, _Service } from "./Inject";
+import { Inject, _Config, _Controller, _Middleware, _Service } from "./Inject";
 import {
   getRestfulMap,
   getRestfulParameterMap,
@@ -17,7 +17,7 @@ import {
 
 export const Service = (target: Function | any) => {
   if (!_Service.has(target)) {
-    inject(target);
+    Inject(target);
     _Service.add(target);
   }
 };
@@ -28,7 +28,7 @@ export function Controller(path: string) {
       Reflect.defineMetadata(CONTROL, path, target);
 
       if (!_Controller.has(target)) {
-        inject(target);
+        Inject(target);
         _Controller.add(target);
       }
     } else {
@@ -42,7 +42,7 @@ export function Config(env: string) {
     if (env) {
       Reflect.defineMetadata(CONFIG, env, target);
       if (!_Config.has(target)) {
-        inject(target);
+        Inject(target);
         _Config.add(target);
       }
     } else {
@@ -69,7 +69,7 @@ export function Middleware() {
       const initMethod = middlewareInstance.run;
       Reflect.defineMetadata(MIDDLEWARE, initMethod, target);
       if (!_Middleware.has(target)) {
-        inject(target);
+        Inject(target);
         _Middleware.add(target);
       }
     } else {
@@ -120,15 +120,11 @@ function handleRequest(reqType: RestfulMethodType, path: string) {
 
     methodMap.set("path", path);
     methodMap.set("methodType", reqType);
-    methodMap.set(
-      "args",
-      getFunctionParams(method).filter(arg => !["ctx", "next"].includes(arg))
-    );
+    methodMap.set("args", getFunctionParams(method));
 
     if (!restfulMap.has(method)) {
       restfulMap.set(method, methodMap);
     }
-    // define or overwrite RESTFUL map
     Reflect.defineMetadata(RESTFUL, restfulMap, target);
   };
 }

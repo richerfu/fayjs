@@ -1,6 +1,7 @@
 import * as Koa from "koa";
 import { Config, SoContext } from "../utils/interface";
 import { Db } from "iqy-mysql";
+import { Server } from "socket.io";
 import { Curl } from "../plugin/Curl";
 
 class IContext {
@@ -8,6 +9,7 @@ class IContext {
   public next: Koa.Next;
   public config: Config;
   public curl: Curl;
+  public wss: Server;
   public db?: { [key: string]: Db };
   [propName: string]: any;
 

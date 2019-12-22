@@ -1,3 +1,4 @@
+import * as Koa from "koa";
 import { iocContainer } from "../decorator/Inject";
 
 interface PluginConfig {
@@ -16,9 +17,11 @@ export class PluginLoader {
     middleware: false,
     config: {},
   };
+  private _app: Koa;
 
-  public constructor(config: Object) {
+  public constructor(config: Object, app: Koa) {
     this.appConfig = config;
+    this._app = app;
   }
   /**
    * init all plugin
@@ -53,6 +56,7 @@ export class PluginLoader {
         }
         const pluginInstance = pluginConfig.config[key].main.call(
           pluginConfig.config[key].instance,
+          this._app,
           this.appConfig
         );
         this.pluginMap.set(key, pluginInstance);
@@ -78,7 +82,11 @@ export class PluginLoader {
       );
     }
     try {
-      const pluginInstance = config.main.call(config.instance, this.appConfig);
+      const pluginInstance = config.main.call(
+        config.instance,
+        this._app,
+        this.appConfig
+      );
       this.pluginMap.set(key, pluginInstance);
     } catch (e) {
       console.log(e);

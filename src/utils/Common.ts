@@ -34,7 +34,6 @@ export function getRestfulParameterSet(
 export function getFunctionParams(method: Function) {
   const STRIP_COMMENTS = /((\/\/.*$)|(\/\*[\s\S]*?\*\/))/gm;
   const ARGUMENT_NAMES = /([^\s,]+)/g;
-
   const fnStr = method.toString().replace(STRIP_COMMENTS, "");
   let result = fnStr
     .slice(fnStr.indexOf("(") + 1, fnStr.indexOf(")"))

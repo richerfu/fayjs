@@ -9,9 +9,10 @@ import { iocContainer } from "../decorator/Inject";
 import { MIDDLEWARE, CONFIG, RESTFUL, CONTROL } from "../decorator/Constants";
 import { Config } from "../utils/interface";
 import { DbLoader } from "../plugin/MySql";
+import { SocketServer } from "../plugin/Socket";
 import { RequestLog } from "../plugin/RequestLog";
 import logger from "../utils/Logger";
-import { SelfBody } from "../utils/interface";
+import { RequestBodySymbol, RequestContextSymbol } from "../utils/interface";
 import { Curl } from "../plugin/Curl";
 import { PluginLoader } from "./PluginLoad";
 import {
@@ -91,6 +92,9 @@ export class Loader {
           const requestBodySet = parameterMap.get("RequestBody") as Set<
             string | any
           >;
+          const contextSet = parameterMap.get("RequestContext") as Set<
+            string | any
+          >;
           const methodType = parameterMap.get("methodType");
           const args = parameterMap.get("args");
           const middleWareSet = parameterMap.get(MIDDLEWARE);
@@ -103,12 +107,14 @@ export class Loader {
               if (querySet && querySet.has(arg)) {
                 return ctx.query[arg];
               }
-
               if (requestBodySet && requestBodySet.has(arg)) {
                 return ctx.request.body[arg];
               }
-              if (bodySet && bodySet.has(SelfBody)) {
+              if (bodySet && bodySet.has(RequestBodySymbol)) {
                 return ctx.request.body;
+              }
+              if (contextSet && contextSet.has(RequestContextSymbol)) {
+                return ctx;
               }
             });
             controlInstance.ctx = ctx;
@@ -116,10 +122,7 @@ export class Loader {
             controlInstance.config = config;
             // catch promise error
             try {
-              await method.apply(
-                controlInstance,
-                parametersVals.concat([ctx, next])
-              );
+              await method.apply(controlInstance, parametersVals);
             } catch (error) {
               ctx.status = 500;
             }
@@ -208,19 +211,21 @@ export class Loader {
    */
   public InjectService(_Service: Set<Function | any>, config: Config): void {}
 
-  public LoadPlugin(config: Config): void {
+  public LoadPlugin(config: Config, _App: Koa): void {
     (async () => {
-      const pluginLoader: PluginLoader = new PluginLoader(config);
-      const dbLoader: DbLoader = new DbLoader(config.mysql);
-      await dbLoader.init();
+      const pluginLoader: PluginLoader = new PluginLoader(config, _App);
 
       if (config.plugins) {
         await pluginLoader.init(config.plugins);
       }
-      await pluginLoader.addPlugin("db", {
-        instance: dbLoader,
-        main: dbLoader.LoaderDb,
-      });
+      if (config.mysql && config.mysql.enable) {
+        const dbLoader: DbLoader = new DbLoader(config.mysql);
+        await dbLoader.init();
+        await pluginLoader.addPlugin("db", {
+          instance: dbLoader,
+          main: dbLoader.LoaderDb,
+        });
+      }
 
       await pluginLoader.addPlugin("curl", {
         instance: curl,
@@ -228,6 +233,14 @@ export class Loader {
           return curl;
         },
       });
+
+      if (config.wss && config.wss.enable) {
+        const wssServer: SocketServer = new SocketServer();
+        await pluginLoader.addPlugin("wss", {
+          instance: wssServer,
+          main: wssServer.init,
+        });
+      }
 
       await pluginLoader.load("controller", _Controller);
       await pluginLoader.load("service", _Service);
