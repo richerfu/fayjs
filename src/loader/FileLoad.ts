@@ -95,12 +95,16 @@ export class Loader {
           const contextSet = parameterMap.get("RequestContext") as Set<
             string | any
           >;
+          const headersSet = parameterMap.get("headers") as Set<string | any>;
           const methodType = parameterMap.get("methodType");
           const args = parameterMap.get("args");
           const middleWareSet = parameterMap.get(MIDDLEWARE);
 
           const handleRequest = async (ctx: Koa.Context, next: Koa.Next) => {
             const parametersVals = args.map((arg: string) => {
+              if (headersSet && headersSet.has(arg)) {
+                return ctx.header[arg];
+              }
               if (paramsSet && paramsSet.has(arg)) {
                 return ctx.params[arg];
               }

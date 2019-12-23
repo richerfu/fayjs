@@ -61,3 +61,7 @@ export function RequestBody(paramterName: string) {
 export function RequestContext() {
   return CheckAndSetParameters(RequestContextSymbol, "RequestContext");
 }
+
+export function RequestHeader(paramterName: string) {
+  return CheckAndSetParameters(paramterName, "headers");
+}

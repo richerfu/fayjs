@@ -8,6 +8,7 @@ import {
   RequestBody,
   RequestContext,
   RequestQuery,
+  RequestHeader,
 } from "../../dist/index";
 import { TestService } from "./basic.service";
 
@@ -18,11 +19,10 @@ export class TestController extends SoController {
   @Get("/")
   public async name(
     @RequestQuery("name") name: string,
+    @RequestHeader("host") host: string,
     @RequestContext() ctx: any
   ) {
-    console.log(name);
     // this.ctx.body = "hello iqyserver";
-    console.log(ctx);
     ctx.body = "hello world";
   }
 
