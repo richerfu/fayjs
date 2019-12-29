@@ -2,8 +2,6 @@ import { Config } from "iqy-server";
 
 @Config("dev")
 export class TestConfig {
-  public baseDir: string = __dirname;
-
   public mysql = {
     enable: true,
     client: {
