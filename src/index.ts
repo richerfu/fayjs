@@ -10,7 +10,7 @@ import {
   Controller,
   Autowired,
 } from "./decorator/Decorator";
-import { Injected, Provided } from "./decorator/Inject";
+import { Injected, Provided, Inject } from "./decorator/Inject";
 import { SoController, SoMiddleware, SoService } from "./decorator/Context";
 import Logger from "./utils/Logger";
 import {
@@ -50,4 +50,5 @@ export {
   Body,
   Injected,
   Provided,
+  Inject,
 };
