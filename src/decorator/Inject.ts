@@ -1,7 +1,20 @@
 import "reflect-metadata";
-import { autowired_reg, CONTROL, RESTFUL, MIDDLEWARE } from "./Constants";
+import {
+  autowired_reg,
+  provide_reg,
+  injects_reg,
+  Provide,
+  Injects,
+} from "./Constants";
 
+// ioc core container
 export const iocContainer: WeakMap<Function, any> = new WeakMap<
+  Function,
+  any
+>();
+
+// user provided container
+export const providedContainer: WeakMap<Function, any> = new WeakMap<
   Function,
   any
 >();
@@ -12,7 +25,7 @@ export const _Middleware: Set<Function | any> = new Set<Function | any>();
 export const _Config: Set<Function | any> = new Set<Function | any>();
 
 /**
- * IOC Core
+ * IOC Core container inject
  * @param target class
  */
 export function Inject(target: any) {
@@ -50,4 +63,42 @@ export function Inject(target: any) {
   iocContainer.set(target, targetInstance);
 
   return targetInstance;
+}
+
+export function Provided(target: Function | any) {
+  if (!target) {
+    return;
+  }
+  // instantiate target
+  const targetInstance = new target();
+
+  const depends = Reflect.getOwnMetadataKeys(target).filter(
+    (meta: string) => "design:paramtypes" !== meta
+  );
+
+  depends.forEach((depClass: string) => {
+    if (depClass.match(injects_reg)) {
+      const _constructor = Reflect.getMetadata(depClass, target);
+      const dependName = depClass.replace(injects_reg, "");
+      let depInstance = providedContainer.get(_constructor);
+      if (!providedContainer.has(_constructor)) {
+        depInstance = Provided(_constructor);
+      }
+      targetInstance[dependName] = depInstance;
+    }
+  });
+
+  // inject instance to container
+  providedContainer.set(target, targetInstance);
+
+  return targetInstance;
+}
+
+export function Injected(target: any, propKey: string) {
+  const _constructor = Reflect.getMetadata("design:type", target, propKey);
+  Reflect.defineMetadata(
+    `${Injects}@@${propKey}`,
+    _constructor,
+    target.constructor
+  );
 }
