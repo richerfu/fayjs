@@ -3,7 +3,7 @@ import { autowired_reg } from "./Constants";
 export class BaseContainer {
   protected container: WeakMap<Function, any> = new WeakMap<Function, any>();
 
-  public register(target: any): void {
+  public register(target: any): any {
     const targetInstance = new target();
     const depends = Reflect.getOwnMetadataKeys(target).filter(
       (meta: string) => "design:paramtypes" !== meta
@@ -22,6 +22,11 @@ export class BaseContainer {
     });
 
     this.container.set(target, targetInstance);
+    return targetInstance;
+  }
+
+  public getContainerInstance(target: any): any {
+    return this.container.get(target);
   }
 
   public getContainer(): WeakMap<Function, any> {
