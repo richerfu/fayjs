@@ -10,7 +10,7 @@ import {
   Controller,
   Autowired,
 } from "./decorator/Decorator";
-import { Inject } from "./decorator/Inject";
+import { Injected, Provided } from "./decorator/Inject";
 import { SoController, SoMiddleware, SoService } from "./decorator/Context";
 import Logger from "./utils/Logger";
 import {
@@ -20,6 +20,7 @@ import {
   RequestParams,
   Body,
   RequestHeader,
+  RouteMiddleware,
 } from "./decorator/ParamterDecorator";
 import SoServer from "./core";
 
@@ -45,6 +46,8 @@ export {
   RequestParams,
   RequestQuery,
   RequestHeader,
+  RouteMiddleware,
   Body,
-  Inject,
+  Injected,
+  Provided,
 };

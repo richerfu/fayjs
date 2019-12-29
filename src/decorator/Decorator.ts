@@ -1,5 +1,4 @@
 import "reflect-metadata";
-import SoServer from "../core";
 import {
   CONTROL,
   RestfulMethodType,
