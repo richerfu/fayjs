@@ -1,4 +1,4 @@
-import { SoMiddleware, Middleware } from "../../dist/index";
+import { SoMiddleware, Middleware } from "iqy-server";
 
 @Middleware()
 export class TestMiddleware extends SoMiddleware {

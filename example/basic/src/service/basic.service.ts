@@ -1,4 +1,4 @@
-import { SoService, Service, Autowired } from "../../dist";
+import { SoService, Service, Autowired } from "iqy-server";
 import { TestNewService } from "./basicNew.service";
 
 @Service

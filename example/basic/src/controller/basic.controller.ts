@@ -9,8 +9,8 @@ import {
   RequestContext,
   RequestQuery,
   RequestHeader,
-} from "../../dist/index";
-import { TestService } from "./basic.service";
+} from "iqy-server";
+import { TestService } from "../service/basic.service";
 
 @Controller("/")
 export class TestController extends SoController {

@@ -1,4 +1,4 @@
-import SoServer from "./../../dist";
+import SoServer from "iqy-server";
 
 const server: SoServer = new SoServer({
   baseDir: __dirname,

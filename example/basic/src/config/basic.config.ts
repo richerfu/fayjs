@@ -1,4 +1,4 @@
-import { Config } from "../../dist/index";
+import { Config } from "iqy-server";
 
 @Config("dev")
 export class TestConfig {
