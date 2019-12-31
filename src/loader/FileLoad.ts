@@ -219,10 +219,10 @@ export class Loader {
     (async () => {
       const pluginLoader: PluginLoader = new PluginLoader(config, _App);
 
-      if (config.plugins) {
+      if (config && config.plugins) {
         await pluginLoader.init(config.plugins);
       }
-      if (config.mysql && config.mysql.enable) {
+      if (config && config.mysql && config.mysql.enable) {
         const dbLoader: DbLoader = new DbLoader(config.mysql);
         await dbLoader.init();
         await pluginLoader.addPlugin("db", {
@@ -238,7 +238,7 @@ export class Loader {
         },
       });
 
-      if (config.wss && config.wss.enable) {
+      if (config && config.wss && config.wss.enable) {
         const wssServer: SocketServer = new SocketServer();
         await pluginLoader.addPlugin("wss", {
           instance: wssServer,
