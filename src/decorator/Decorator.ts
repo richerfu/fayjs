@@ -98,6 +98,10 @@ export function Patch(path: string) {
   return handleRequest("patch", path);
 }
 
+export function All(path: string) {
+  return handleRequest("all", path);
+}
+
 function handleRequest(reqType: RestfulMethodType, path: string) {
   return function(
     target: any,

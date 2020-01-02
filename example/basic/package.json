@@ -10,7 +10,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "iqy-server": "^0.1.5"
+    "iqy-server": "^0.1.6"
   },
   "devDependencies": {
     "ts-node": "^8.5.4",

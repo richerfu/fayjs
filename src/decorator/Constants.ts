@@ -18,4 +18,10 @@ export const error_reg = new RegExp(`^${ERROR}`);
 export const CONFIG = "@@CONFIG";
 export const config_reg = new RegExp(`^${CONFIG}`);
 
-export type RestfulMethodType = "get" | "post" | "put" | "patch" | "delete";
+export type RestfulMethodType =
+  | "get"
+  | "post"
+  | "put"
+  | "patch"
+  | "delete"
+  | "all";
