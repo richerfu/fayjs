@@ -17,6 +17,8 @@ export const ERROR = "@@ERROR";
 export const error_reg = new RegExp(`^${ERROR}`);
 export const CONFIG = "@@CONFIG";
 export const config_reg = new RegExp(`^${CONFIG}`);
+export const PLUGIN = "@@PLUGIN";
+export const plugin_reg = new RegExp(`^${PLUGIN}`);
 
 export type RestfulMethodType =
   | "get"

@@ -6,8 +6,16 @@ import {
   AUTOWIRED,
   MIDDLEWARE,
   CONFIG,
+  PLUGIN,
 } from "./Constants";
-import { Inject, _Config, _Controller, _Middleware, _Service } from "./Inject";
+import {
+  Inject,
+  _Config,
+  _Controller,
+  _Middleware,
+  _Service,
+  _Plugin,
+} from "./Inject";
 import {
   getRestfulMap,
   getRestfulParameterMap,
@@ -21,17 +29,12 @@ export const Service = (target: Function | any) => {
   }
 };
 
-export function Controller(path: string) {
+export function Controller(path?: string) {
   return (target: Function | any) => {
-    if (path) {
-      Reflect.defineMetadata(CONTROL, path, target);
-
-      if (!_Controller.has(target)) {
-        Inject(target);
-        _Controller.add(target);
-      }
-    } else {
-      throw new Error(`Controller can't omit the path field.`);
+    Reflect.defineMetadata(CONTROL, path ? path : "", target);
+    if (!_Controller.has(target)) {
+      Inject(target);
+      _Controller.add(target);
     }
   };
 }
@@ -49,6 +52,14 @@ export function Config(env: string) {
         `Config must has 'env' field to distinguish the environment`
       );
     }
+  };
+}
+
+export function Plugin(pluginKey?: string) {
+  return (target: Function | any) => {
+    Reflect.defineMetadata(PLUGIN, pluginKey ? pluginKey : target.name, target);
+    Inject(target);
+    _Plugin.add(target);
   };
 }
 

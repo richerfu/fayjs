@@ -23,6 +23,7 @@ export const _Controller: Set<Function | any> = new Set<Function | any>();
 export const _Service: Set<Function | any> = new Set<Function | any>();
 export const _Middleware: Set<Function | any> = new Set<Function | any>();
 export const _Config: Set<Function | any> = new Set<Function | any>();
+export const _Plugin: Set<Function | any> = new Set<Function | any>();
 
 /**
  * IOC Core container inject
