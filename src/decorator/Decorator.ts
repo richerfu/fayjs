@@ -113,6 +113,10 @@ export function All(path: string) {
   return handleRequest("all", path);
 }
 
+export function Options(path: string) {
+  return handleRequest("options", path);
+}
+
 function handleRequest(reqType: RestfulMethodType, path: string) {
   return function(
     target: any,

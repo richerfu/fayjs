@@ -20,7 +20,7 @@ export const config_reg = new RegExp(`^${CONFIG}`);
 export const PLUGIN = "@@PLUGIN";
 export const plugin_reg = new RegExp(`^${PLUGIN}`);
 
-export type RestfulMethodType =
+export type RestfulMethodType ="options"
   | "get"
   | "post"
   | "put"
