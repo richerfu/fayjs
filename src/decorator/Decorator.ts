@@ -56,7 +56,7 @@ export function Config(env: string) {
 }
 
 export function Plugin(pluginKey?: string) {
-  return (target: Function | any) => {
+  return (target: Function | any) => {   
     Reflect.defineMetadata(PLUGIN, pluginKey ? pluginKey : target.name, target);
     Inject(target);
     _Plugin.add(target);

@@ -24,7 +24,7 @@ import {
 
 const curl: Curl = new Curl();
 
-export const filePath: Map<string,any> = new Map<string,any>();
+export const filePath: Map<string, any> = new Map<string, any>();
 
 export class Loader {
   private _baseDir: string;
@@ -220,7 +220,11 @@ export class Loader {
 
   public LoadPlugin(config: Config, _App: Koa): void {
     (async () => {
-      const pluginLoader: PluginLoader = new PluginLoader(this._baseDir,config, _App);
+      const pluginLoader: PluginLoader = new PluginLoader(
+        this._baseDir,
+        config,
+        _App
+      );
       await pluginLoader.autoLoadPlugin("controller", _Controller);
       await pluginLoader.autoLoadPlugin("service", _Service);
       await pluginLoader.autoLoadPlugin("middleware", _Middleware);
@@ -233,7 +237,7 @@ export class Loader {
    * @since 0.0.1
    */
   public LoadControllerFile(path: string): void {
-    const Reg = /.*[^\.]+\b\.controller\.(t|j)s\b$/;
+    const Reg = /.*[^\.]+\b\.controller\.ts\b$/;
     this.LoadFile(path, Reg);
   }
 
@@ -243,7 +247,7 @@ export class Loader {
    * @since 0.0.1
    */
   public LoadServiceFile(path: string): void {
-    const Reg = /.*[^\.]+\b\.service\.(t|j)s\b$/;
+    const Reg = /.*[^\.]+\b\.service\.ts\b$/;
     this.LoadFile(path, Reg);
   }
 
@@ -253,7 +257,7 @@ export class Loader {
    * @since 0.0.1
    */
   public LoadMiddlewareFile(path: string): void {
-    const Reg = /.*[^\.]+\b\.middleware\.(t|j)s\b$/;
+    const Reg = /.*[^\.]+\b\.middleware\.ts\b$/;
     this.LoadFile(path, Reg);
   }
 
@@ -263,12 +267,12 @@ export class Loader {
    * @since 0.0.7
    */
   public LoadConfigFile(path: string): void {
-    const Reg = /.*[^\.]+\b\.config\.(t|j)s\b$/;
+    const Reg = /.*[^\.]+\b\.config\.ts\b$/;
     this.LoadFile(path, Reg);
   }
 
-  public LoadPluginFile(path: string): void{
-    const Reg = /.*[^\.]+\b\.plugin\.(t|j)s\b$/;
+  public LoadPluginFile(path: string): void {
+    const Reg = /.*[^\.]+\b\.plugin\.ts\b$/;
     this.LoadFile(path, Reg);
   }
 
@@ -290,7 +294,7 @@ export class Loader {
     } else {
       if (path.match(reg)) {
         const modules = require(path);
-        filePath.set(path,Object.keys(modules));
+        filePath.set(path, Object.keys(modules));
         // eslint-disable-next-line @typescript-eslint/no-require-imports
         require(path);
       }
