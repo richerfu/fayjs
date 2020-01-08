@@ -14,10 +14,10 @@ import { TestService } from "./test.service";
 export class TestController extends SoController {
   @Autowired
   private testService: TestService;
+
   @Get("/")
   public async name() {
     this.ctx.body = "Test Get Method Success";
-    this.
   }
 
   @Post("/test")

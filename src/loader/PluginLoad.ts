@@ -9,6 +9,7 @@ import {
   writeTypingsFile,
   MkdirFolder,
   FindModulePath,
+  DelDir,
 } from "../utils/helper";
 interface PluginConfig {
   controller?: boolean;
@@ -143,8 +144,7 @@ export class PluginLoader {
             importContent += FindModulePath(pluginItem.name);
           }
           const template = FinalTemplate(Name[type], importContent, prop);
-          const folderName = join(this.baseDir, `./src`);
-          await MkdirFolder(folderName);
+          const folderName = this.baseDir;
           await MkdirFolder(join(folderName, "./types"));
           await writeTypingsFile(
             join(folderName, "./types", `./${type}.d.ts`),

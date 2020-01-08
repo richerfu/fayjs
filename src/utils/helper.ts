@@ -1,12 +1,24 @@
-import { writeFile, mkdir, stat, Stats, exists } from "fs";
-import { isAbsolute, join, relative } from "path";
+import {
+  writeFile,
+  mkdir,
+  existsSync,
+  readdirSync,
+  statSync,
+  unlinkSync,
+  rmdirSync,
+  exists,
+} from "fs";
 import { filePath } from "../loader/FileLoad";
 /**
  * 生成最终的.d.ts文件字符串
  * @param moduleName "SoController" | "SoService" | "SoMiddleware"
  * @param prop string
  */
-export const FinalTemplate = (moduleName: string,importContent: string, prop: string): string => {
+export const FinalTemplate = (
+  moduleName: string,
+  importContent: string,
+  prop: string
+): string => {
   return `
   import {${moduleName}} from 'iqy-server';
   ${importContent}
@@ -58,8 +70,6 @@ export const MkdirFolder = async (path: string): Promise<any> => {
       s(exists);
     });
   });
-  console.log("folder----");
-  console.log(folder);
   if (folder) {
     return null;
   }
@@ -72,9 +82,25 @@ export const MkdirFolder = async (path: string): Promise<any> => {
 };
 
 export const FindModulePath = (moduleName: string): string | void => {
-  for(const modules of filePath){
-    if(modules[1].includes(moduleName)){
-      return `import {${moduleName}} from '${modules[0]}';\n`
+  for (const modules of filePath) {
+    if (modules[1].includes(moduleName)) {
+      return `import {${moduleName}} from '${modules[0]}';\n`;
     }
+  }
+};
+
+export const DelDir = (path: string) => {
+  let files = [];
+  if (existsSync(path)) {
+    files = readdirSync(path);
+    files.forEach((file, index) => {
+      let curPath = path + "/" + file;
+      if (statSync(curPath).isDirectory()) {
+        DelDir(curPath); //递归删除文件夹
+      } else {
+        unlinkSync(curPath); //删除文件
+      }
+    });
+    rmdirSync(path);
   }
 };
