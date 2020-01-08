@@ -7,8 +7,8 @@ import {
   Body,
   RequestBody,
   RequestQuery,
-} from "./../../dist/index";
-import { TestService } from "./test.service";
+} from "../../../dist/index";
+import { TestService } from "../test.service";
 
 @Controller("/")
 export class TestController extends SoController {

@@ -6,7 +6,7 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "release": "tsc && npm publish --access public",
+    "release": "npm publish --access public",
     "docs:dev": "vuepress dev docs",
     "docs:build": "vuepress build docs",
     "test": "mocha --timeout 10000 --require ts-node/register \"./test/**/*.test.ts\" --exit"

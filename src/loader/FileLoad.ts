@@ -24,6 +24,8 @@ import {
 
 const curl: Curl = new Curl();
 
+export const filePath: Map<string,any> = new Map<string,any>();
+
 export class Loader {
   private _baseDir: string;
 
@@ -315,6 +317,8 @@ export class Loader {
       }
     } else {
       if (path.match(reg)) {
+        const modules = require(path);
+        filePath.set(path,Object.keys(modules));
         // eslint-disable-next-line @typescript-eslint/no-require-imports
         require(path);
       }

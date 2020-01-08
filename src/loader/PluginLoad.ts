@@ -8,6 +8,7 @@ import {
   FinalTemplate,
   writeTypingsFile,
   MkdirFolder,
+  FindModulePath,
 } from "../utils/helper";
 interface PluginConfig {
   controller?: boolean;
@@ -133,22 +134,27 @@ export class PluginLoader {
         for (const instance of instances) {
           const iocInstance = iocContainer.get(instance);
           let prop = "";
-          _Plugin.forEach(plugin => {
-            const nameKey = Reflect.getMetadata(PLUGIN, plugin);
-            const pluginInstance = new plugin(this.appConfig, this._app);
-            console.log(plugin.name);
+          let importContent = '';
+          // _Plugin.forEach(plugin => {
+            
+          // });
+          for(const pluginItem of _Plugin){
+            const nameKey = Reflect.getMetadata(PLUGIN, pluginItem);
+            const pluginInstance = new pluginItem(this.appConfig, this._app);
             iocInstance[nameKey] = pluginInstance;
-            prop += GeneratorProp(nameKey, plugin.name);
-          });
-          console.log(Name[type]);
-          const template = FinalTemplate(Name[type], prop);
+            prop += GeneratorProp(nameKey, pluginItem.name);
+            importContent += FindModulePath(pluginItem.name);
+          }
+          console.log(importContent);
+          const template = FinalTemplate(Name[type],importContent, prop);
           const folderName = join(this.baseDir, `./src`);
           await MkdirFolder(folderName);
-          await MkdirFolder(join(folderName, "./typings"));
+          await MkdirFolder(join(folderName, "./types"));
           await writeTypingsFile(
-            join(folderName, "./typings", `./${type}.d.ts`),
+            join(folderName, "./types", `./${type}.d.ts`),
             template
           );
+          
         }
       }
     } catch (e) {

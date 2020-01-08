@@ -1,16 +1,15 @@
 import { writeFile, mkdir, stat, Stats, exists } from "fs";
 import { isAbsolute, join, relative } from "path";
+import { filePath } from "../loader/FileLoad";
 /**
  * 生成最终的.d.ts文件字符串
  * @param moduleName "SoController" | "SoService" | "SoMiddleware"
  * @param prop string
  */
-export const FinalTemplate = (
-  moduleName: string,
-  prop: string
-): string => {
+export const FinalTemplate = (moduleName: string,importContent: string, prop: string): string => {
   return `
   import {${moduleName}} from 'iqy-server';
+  ${importContent}
   declare module 'iqy-server' {
     interface ${moduleName} {
       ${prop}
@@ -56,11 +55,11 @@ export const GeneratorProp = (key: string, value: string): string => {
 export const MkdirFolder = async (path: string): Promise<any> => {
   const folder: boolean = await new Promise((s, j) => {
     exists(path, exists => {
-      s(exists)
+      s(exists);
     });
   });
   console.log("folder----");
-  console.log(folder)
+  console.log(folder);
   if (folder) {
     return null;
   }
@@ -70,4 +69,12 @@ export const MkdirFolder = async (path: string): Promise<any> => {
     });
   });
   return null;
+};
+
+export const FindModulePath = (moduleName: string): string | void => {
+  for(const modules of filePath){
+    if(modules[1].includes(moduleName)){
+      return `import {${moduleName}} from '${modules[0]}';\n`
+    }
+  }
 };

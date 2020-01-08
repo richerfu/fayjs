@@ -56,7 +56,10 @@ export function Config(env: string) {
 }
 
 export function Plugin(pluginKey?: string) {
+  console.log("plugin path---")
+    console.log(__filename);
   return (target: Function | any) => {
+    
     Reflect.defineMetadata(PLUGIN, pluginKey ? pluginKey : target.name, target);
     Inject(target);
     _Plugin.add(target);
