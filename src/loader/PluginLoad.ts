@@ -134,19 +134,15 @@ export class PluginLoader {
         for (const instance of instances) {
           const iocInstance = iocContainer.get(instance);
           let prop = "";
-          let importContent = '';
-          // _Plugin.forEach(plugin => {
-            
-          // });
-          for(const pluginItem of _Plugin){
+          let importContent = "";
+          for (const pluginItem of _Plugin) {
             const nameKey = Reflect.getMetadata(PLUGIN, pluginItem);
             const pluginInstance = new pluginItem(this.appConfig, this._app);
             iocInstance[nameKey] = pluginInstance;
             prop += GeneratorProp(nameKey, pluginItem.name);
             importContent += FindModulePath(pluginItem.name);
           }
-          console.log(importContent);
-          const template = FinalTemplate(Name[type],importContent, prop);
+          const template = FinalTemplate(Name[type], importContent, prop);
           const folderName = join(this.baseDir, `./src`);
           await MkdirFolder(folderName);
           await MkdirFolder(join(folderName, "./types"));
@@ -154,7 +150,6 @@ export class PluginLoader {
             join(folderName, "./types", `./${type}.d.ts`),
             template
           );
-          
         }
       }
     } catch (e) {

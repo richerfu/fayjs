@@ -221,34 +221,6 @@ export class Loader {
   public LoadPlugin(config: Config, _App: Koa): void {
     (async () => {
       const pluginLoader: PluginLoader = new PluginLoader(this._baseDir,config, _App);
-      // pluginLoader.autoLoadPlugin();
-      // if (config && config.plugins) {
-      //   await pluginLoader.init(config.plugins);
-      // }
-      // if (config && config.mysql && config.mysql.enable) {
-      //   const dbLoader: DbLoader = new DbLoader(config.mysql);
-      //   await dbLoader.init();
-      //   await pluginLoader.addPlugin("db", {
-      //     instance: dbLoader,
-      //     main: dbLoader.LoaderDb,
-      //   });
-      // }
-
-      // await pluginLoader.addPlugin("curl", {
-      //   instance: curl,
-      //   main: () => {
-      //     return curl;
-      //   },
-      // });
-
-      // if (config && config.wss && config.wss.enable) {
-      //   const wssServer: SocketServer = new SocketServer();
-      //   await pluginLoader.addPlugin("wss", {
-      //     instance: wssServer,
-      //     main: wssServer.init,
-      //   });
-      // }
-
       await pluginLoader.autoLoadPlugin("controller", _Controller);
       await pluginLoader.autoLoadPlugin("service", _Service);
       await pluginLoader.autoLoadPlugin("middleware", _Middleware);
