@@ -7,8 +7,8 @@ import {
   Body,
   RequestBody,
   RequestQuery,
-} from "../../../dist/index";
-import { TestService } from "../test.service";
+} from "../../dist/index";
+import { TestService } from "./test.service";
 
 @Controller("/")
 export class TestController extends SoController {
@@ -17,7 +17,7 @@ export class TestController extends SoController {
   @Get("/")
   public async name() {
     this.ctx.body = "Test Get Method Success";
-    
+    this.
   }
 
   @Post("/test")
