@@ -1,6 +1,14 @@
+import "reflect-metadata";
 import * as Koa from "koa";
-import { iocContainer } from "../decorator/Inject";
-
+import { join } from "path";
+import { iocContainer, _Plugin } from "../decorator/Inject";
+import { PLUGIN, Name } from "../decorator/Constants";
+import {
+  GeneratorProp,
+  FinalTemplate,
+  writeTypingsFile,
+  MkdirFolder,
+} from "../utils/helper";
 interface PluginConfig {
   controller?: boolean;
   service?: boolean;
@@ -11,6 +19,7 @@ interface PluginConfig {
 export class PluginLoader {
   private pluginMap: Map<string, any> = new Map();
   private appConfig: any;
+  private baseDir: string;
   private pluginConfig: PluginConfig = {
     controller: true,
     service: true,
@@ -19,7 +28,8 @@ export class PluginLoader {
   };
   private _app: Koa;
 
-  public constructor(config: Object, app: Koa) {
+  public constructor(baseDir: string, config: Object, app: Koa) {
+    this.baseDir = baseDir;
     this.appConfig = config;
     this._app = app;
   }
@@ -113,6 +123,43 @@ export class PluginLoader {
       console.log(e);
     }
   }
+
+  public async autoLoadPlugin(
+    type: "controller" | "middleware" | "service",
+    instances: Set<Function | any>
+  ): Promise<any> {
+    try {
+      if (this.pluginConfig[type]) {
+        for (const instance of instances) {
+          const iocInstance = iocContainer.get(instance);
+          let prop = "";
+          _Plugin.forEach(plugin => {
+            const nameKey = Reflect.getMetadata(PLUGIN, plugin);
+            const pluginInstance = new plugin(this.appConfig, this._app);
+            console.log(plugin.name);
+            iocInstance[nameKey] = pluginInstance;
+            prop += GeneratorProp(nameKey, plugin.name);
+          });
+          console.log(Name[type]);
+          const template = FinalTemplate(Name[type], prop);
+          const folderName = join(this.baseDir, `./src`);
+          await MkdirFolder(folderName);
+          await MkdirFolder(join(folderName, "./typings"));
+          await writeTypingsFile(
+            join(folderName, "./typings", `./${type}.d.ts`),
+            template
+          );
+        }
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  /**
+   * 生成types文件
+   */
+  public createTypes(): void {}
 
   public async getPlugin(): Promise<Map<string, any>> {
     return this.pluginMap;

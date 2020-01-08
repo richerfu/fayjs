@@ -17,6 +17,7 @@ export class TestController extends SoController {
   @Get("/")
   public async name() {
     this.ctx.body = "Test Get Method Success";
+    
   }
 
   @Post("/test")

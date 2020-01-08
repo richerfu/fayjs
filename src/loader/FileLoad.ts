@@ -29,6 +29,7 @@ export class Loader {
 
   public constructor(BaseDir: string) {
     this._baseDir = BaseDir;
+    this.LoadPluginFile(this._baseDir);
     this.LoadControllerFile(this._baseDir);
     this.LoadMiddlewareFile(this._baseDir);
     this.LoadServiceFile(this._baseDir);
@@ -217,38 +218,38 @@ export class Loader {
 
   public LoadPlugin(config: Config, _App: Koa): void {
     (async () => {
-      const pluginLoader: PluginLoader = new PluginLoader(config, _App);
+      const pluginLoader: PluginLoader = new PluginLoader(this._baseDir,config, _App);
+      // pluginLoader.autoLoadPlugin();
+      // if (config && config.plugins) {
+      //   await pluginLoader.init(config.plugins);
+      // }
+      // if (config && config.mysql && config.mysql.enable) {
+      //   const dbLoader: DbLoader = new DbLoader(config.mysql);
+      //   await dbLoader.init();
+      //   await pluginLoader.addPlugin("db", {
+      //     instance: dbLoader,
+      //     main: dbLoader.LoaderDb,
+      //   });
+      // }
 
-      if (config && config.plugins) {
-        await pluginLoader.init(config.plugins);
-      }
-      if (config && config.mysql && config.mysql.enable) {
-        const dbLoader: DbLoader = new DbLoader(config.mysql);
-        await dbLoader.init();
-        await pluginLoader.addPlugin("db", {
-          instance: dbLoader,
-          main: dbLoader.LoaderDb,
-        });
-      }
+      // await pluginLoader.addPlugin("curl", {
+      //   instance: curl,
+      //   main: () => {
+      //     return curl;
+      //   },
+      // });
 
-      await pluginLoader.addPlugin("curl", {
-        instance: curl,
-        main: () => {
-          return curl;
-        },
-      });
+      // if (config && config.wss && config.wss.enable) {
+      //   const wssServer: SocketServer = new SocketServer();
+      //   await pluginLoader.addPlugin("wss", {
+      //     instance: wssServer,
+      //     main: wssServer.init,
+      //   });
+      // }
 
-      if (config && config.wss && config.wss.enable) {
-        const wssServer: SocketServer = new SocketServer();
-        await pluginLoader.addPlugin("wss", {
-          instance: wssServer,
-          main: wssServer.init,
-        });
-      }
-
-      await pluginLoader.load("controller", _Controller);
-      await pluginLoader.load("service", _Service);
-      await pluginLoader.load("middleware", _Middleware);
+      await pluginLoader.autoLoadPlugin("controller", _Controller);
+      await pluginLoader.autoLoadPlugin("service", _Service);
+      await pluginLoader.autoLoadPlugin("middleware", _Middleware);
     })();
   }
 
@@ -289,6 +290,11 @@ export class Loader {
    */
   public LoadConfigFile(path: string): void {
     const Reg = /.*[^\.]+\b\.config\.(t|j)s\b$/;
+    this.LoadFile(path, Reg);
+  }
+
+  public LoadPluginFile(path: string): void{
+    const Reg = /.*[^\.]+\b\.plugin\.(t|j)s\b$/;
     this.LoadFile(path, Reg);
   }
 

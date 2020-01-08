@@ -1,6 +1,6 @@
 {
   "name": "iqy-server",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "description": "a web framework by koa and typescript",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -38,6 +38,7 @@
     "chai": "^4.2.0",
     "eslint-config-iqyserver": "^0.0.5",
     "mocha": "^6.2.2",
+    "ts-node": "^8.5.4",
     "typescript": "^3.7.3",
     "vuepress": "^1.2.0"
   },
