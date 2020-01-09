@@ -2,7 +2,7 @@ import "reflect-metadata";
 import * as Koa from "koa";
 import { join } from "path";
 import { iocContainer, _Plugin } from "../decorator/Inject";
-import { PLUGIN, Name } from "../decorator/Constants";
+import { PLUGIN, Name, Plugins } from "../decorator/Constants";
 import {
   GeneratorProp,
   FinalTemplate,
@@ -140,8 +140,10 @@ export class PluginLoader {
             const nameKey = Reflect.getMetadata(PLUGIN, pluginItem);
             const pluginInstance = new pluginItem(this.appConfig, this._app);
             iocInstance[nameKey] = pluginInstance;
-            prop += GeneratorProp(nameKey, pluginItem.name);
-            importContent += FindModulePath(pluginItem.name);
+            if (!Plugins.includes(nameKey)) {
+              prop += GeneratorProp(nameKey, pluginItem.name);
+              importContent += FindModulePath(pluginItem.name);
+            }
           }
           const template = FinalTemplate(Name[type], importContent, prop);
           const folderName = this.baseDir;

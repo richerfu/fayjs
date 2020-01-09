@@ -1,5 +1,7 @@
 import * as request from "request";
 
+import {Plugin} from '../decorator/Decorator'
+@Plugin('curl')
 export class Curl {
   /**
    * send custom request

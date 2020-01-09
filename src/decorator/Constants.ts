@@ -34,3 +34,5 @@ export const Name = {
   service: "SoService",
   middleware: "SoMiddleware",
 };
+
+export const Plugins = ['curl','mysql','socketio']
