@@ -1,16 +1,15 @@
 import * as Koa from "koa";
 import { Config, SoContext } from "../utils/interface";
-import { Db } from "iqy-mysql";
-import { Server } from "socket.io";
 import { Curl } from "../plugin/Curl";
 import { MySQL } from "../plugin/MySql";
+import { SocketServer } from "../plugin/Socket";
 
 interface IContext {
   ctx: SoContext;
   next: Koa.Next;
   config: Config;
   curl: Curl;
-  wss: Server;
+  wss: SocketServer;
   db?: MySQL;
   [propName: string]: any;
 }
@@ -20,7 +19,7 @@ export class SoController implements IContext {
   public next: Koa.Next;
   public config: Config;
   public curl: Curl;
-  public wss: Server;
+  public wss: SocketServer;
   public db?: MySQL;
   [propName: string]: any;
 
@@ -42,7 +41,7 @@ export class SoService implements IContext {
   public next: Koa.Next;
   public config: Config;
   public curl: Curl;
-  public wss: Server;
+  public wss: SocketServer;
   public db?: MySQL;
   [propName: string]: any;
 
@@ -64,7 +63,7 @@ export class SoMiddleware implements IContext {
   public next: Koa.Next;
   public config: Config;
   public curl: Curl;
-  public wss: Server;
+  public wss: SocketServer;
   public db?: MySQL;
   [propName: string]: any;
 

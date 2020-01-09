@@ -66,7 +66,6 @@ export class MySQL {
   constructor(config: any, app: any) {
     this.config = config;
     this.app = app;
-    console.log(`mysql config: ${config}`);
     if (config && config.mysql) {
       this.dbLoader = new DbLoader(config.mysql);
       this.dbLoader.init().then(() => {

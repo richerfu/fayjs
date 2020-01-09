@@ -21,13 +21,15 @@ export default class SoServer extends Koa {
   };
   private baseDir: string;
   private __router: KoaRouter;
-  private __app: Koa = this;
+  private __app:SoServer;
 
   public constructor(options?: Options) {
     super();
     this.options = options;
     this.env = process.env.NODE_ENV || "dev";
     this.__router = router;
+    this.__app = this;
+    console.log(this);
     this.baseDir = options
       ? options.baseDir
         ? options.baseDir
