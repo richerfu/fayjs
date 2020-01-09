@@ -3,6 +3,7 @@ import { Config, SoContext } from "../utils/interface";
 import { Db } from "iqy-mysql";
 import { Server } from "socket.io";
 import { Curl } from "../plugin/Curl";
+import { MySQL } from "../plugin/MySql";
 
 interface IContext {
   ctx: SoContext;
@@ -10,7 +11,7 @@ interface IContext {
   config: Config;
   curl: Curl;
   wss: Server;
-  db?: { [key: string]: Db };
+  db?: MySQL;
   [propName: string]: any;
 }
 
@@ -20,7 +21,7 @@ export class SoController implements IContext {
   public config: Config;
   public curl: Curl;
   public wss: Server;
-  public db?: { [key: string]: Db };
+  public db?: MySQL;
   [propName: string]: any;
 
   public constructor(
@@ -42,7 +43,7 @@ export class SoService implements IContext {
   public config: Config;
   public curl: Curl;
   public wss: Server;
-  public db?: { [key: string]: Db };
+  public db?: MySQL;
   [propName: string]: any;
 
   public constructor(
@@ -64,9 +65,9 @@ export class SoMiddleware implements IContext {
   public config: Config;
   public curl: Curl;
   public wss: Server;
-  public db?: { [key: string]: Db };
+  public db?: MySQL;
   [propName: string]: any;
-  
+
   public constructor(
     ctx: SoContext,
     next: Koa.Next,

@@ -1,5 +1,6 @@
 import { DbClient, Db } from "iqy-mysql";
 import logger from "../utils/Logger";
+import { Plugin } from "../decorator/Decorator";
 
 interface Config {
   enable: boolean;
@@ -20,6 +21,9 @@ export class DbLoader {
 
   public async init(): Promise<any> {
     try {
+      if (!this.config) {
+        return;
+      }
       this.dbClient = new DbClient();
       if (this.config.client && this.config.clients) {
         throw new Error(
@@ -28,7 +32,8 @@ export class DbLoader {
       }
       if (this.config.client) {
         await this.dbClient.createClient("mysql", this.config.client);
-      } else {
+      }
+      if (this.config.clients) {
         await this.dbClient.init(this.config.clients);
       }
     } catch (e) {
@@ -47,5 +52,30 @@ export class DbLoader {
       });
       return db;
     }
+  }
+}
+
+@Plugin("db")
+export class MySQL {
+  private config: any;
+  private app: any;
+  private dbLoader: DbLoader;
+  private db: {
+    [key: string]: Db;
+  };
+  constructor(config: any, app: any) {
+    this.config = config;
+    this.app = app;
+    console.log(`mysql config: ${config}`);
+    if (config && config.mysql) {
+      this.dbLoader = new DbLoader(config.mysql);
+      this.dbLoader.init().then(() => {
+        this.db = this.dbLoader.LoaderDb(config.mysql);
+      });
+    }
+  }
+
+  public getDb(): any {
+    return this.db;
   }
 }

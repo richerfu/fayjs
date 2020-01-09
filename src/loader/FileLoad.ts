@@ -14,6 +14,7 @@ import { RequestLog } from "../plugin/RequestLog";
 import logger from "../utils/Logger";
 import { RequestBodySymbol, RequestContextSymbol } from "../utils/interface";
 import { Curl } from "../plugin/Curl";
+import { MySQL } from "../plugin/MySql";
 import { PluginLoader } from "./PluginLoad";
 import {
   _Config,
@@ -36,6 +37,7 @@ export class Loader {
     this.LoadMiddlewareFile(this._baseDir);
     this.LoadServiceFile(this._baseDir);
     this.LoadConfigFile(this._baseDir);
+    this.LoadInnerPlugin();
   }
 
   /**
@@ -297,6 +299,17 @@ export class Loader {
         filePath.set(path, Object.keys(modules));
         // eslint-disable-next-line @typescript-eslint/no-require-imports
         require(path);
+      }
+    }
+  }
+
+  public LoadInnerPlugin() {
+    const Reg = /.*[^\.]+\b\.js\b$/;
+    const stats = statSync(join(__dirname, "../plugin"));
+    const files = readdirSync(join(__dirname, "../plugin"));
+    for (const file of files) {
+      if (file.match(Reg)) {
+        require(join(__dirname, "../plugin", file));
       }
     }
   }
