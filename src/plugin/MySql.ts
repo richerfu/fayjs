@@ -63,6 +63,7 @@ export class MySQL {
   private db: {
     [key: string]: Db;
   };
+
   constructor(config: any, app: any) {
     this.config = config;
     this.app = app;
@@ -74,7 +75,18 @@ export class MySQL {
     }
   }
 
-  public getDb(): any {
-    return this.db;
+  /**
+   * 获取单数据库
+   */
+  public get mysql(): Db {
+    return this.db.mysql;
+  }
+
+  /**
+   * 获取多数据源对应的数据库实例
+   * @param key string db key
+   */
+  public get(key: string): Db {
+    return this.db[key];
   }
 }
