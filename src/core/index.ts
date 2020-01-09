@@ -29,7 +29,6 @@ export default class SoServer extends Koa {
     this.env = process.env.NODE_ENV || "dev";
     this.__router = router;
     this.__app = this;
-    console.log(this);
     this.baseDir = options
       ? options.baseDir
         ? options.baseDir
