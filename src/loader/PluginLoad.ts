@@ -136,7 +136,6 @@ export class PluginLoader {
           const iocInstance = iocContainer.get(instance);
           let prop = "";
           let importContent = "";
-          console.log(_Plugin);
           for (const pluginItem of _Plugin) {
             const nameKey = Reflect.getMetadata(PLUGIN, pluginItem);
             const pluginInstance = new pluginItem(this.appConfig, this._app);
