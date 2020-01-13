@@ -9,10 +9,15 @@ import {
   Service,
   Controller,
   Autowired,
-  Plugin
+  Plugin,
 } from "./decorator/Decorator";
 import { Injected, Provided, Inject } from "./decorator/Inject";
-import { SoController, SoMiddleware, SoService } from "./decorator/Context";
+import {
+  SoController,
+  SoMiddleware,
+  SoService,
+  SoPlugin,
+} from "./decorator/Context";
 import Logger from "./utils/Logger";
 import {
   RequestQuery,
@@ -52,5 +57,6 @@ export {
   Injected,
   Provided,
   Inject,
-  Plugin
+  Plugin,
+  SoPlugin,
 };
