@@ -281,6 +281,7 @@ export class Loader {
     const files = readdirSync(join(__dirname, "../plugin"));
     for (const file of files) {
       if (file.match(Reg)) {
+        // eslint-disable-next-line @typescript-eslint/no-require-imports
         require(join(__dirname, "../plugin", file));
       }
     }
@@ -303,6 +304,7 @@ export class Loader {
       }
     } else {
       if (path.match(reg)) {
+        // eslint-disable-next-line @typescript-eslint/no-require-imports
         const modules = require(path);
         filePath.set(path, Object.keys(modules));
         // eslint-disable-next-line @typescript-eslint/no-require-imports
