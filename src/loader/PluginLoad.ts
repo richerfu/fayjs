@@ -138,8 +138,11 @@ export class PluginLoader {
           let importContent = "";
           for (const pluginItem of _Plugin) {
             const nameKey = Reflect.getMetadata(PLUGIN, pluginItem);
-            const pluginInstance = new pluginItem(this.appConfig, this._app);
+            const pluginInstance = iocContainer.get(pluginItem);
+            pluginInstance.app = this._app;
+            pluginInstance.config = this.appConfig;
             iocInstance[nameKey] = pluginInstance;
+            //  生成.d.ts文件
             if (!Plugins.includes(nameKey)) {
               prop += GeneratorProp(nameKey, pluginItem.name);
               importContent += FindModulePath(pluginItem.name);

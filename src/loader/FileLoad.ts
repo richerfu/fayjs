@@ -8,13 +8,10 @@ import * as KoaBodyParser from "koa-body";
 import { iocContainer } from "../decorator/Inject";
 import { MIDDLEWARE, CONFIG, RESTFUL, CONTROL } from "../decorator/Constants";
 import { Config } from "../utils/interface";
-import { DbLoader } from "../plugin/MySql";
-import { SocketServer } from "../plugin/Socket";
 import { RequestLog } from "../plugin/RequestLog";
 import logger from "../utils/Logger";
 import { RequestBodySymbol, RequestContextSymbol } from "../utils/interface";
 import { Curl } from "../plugin/Curl";
-import { MySQL } from "../plugin/MySql";
 import { PluginLoader } from "./PluginLoad";
 import {
   _Config,
@@ -278,6 +275,17 @@ export class Loader {
     this.LoadFile(path, Reg);
   }
 
+  public LoadInnerPlugin() {
+    const Reg = /.*[^\.]+\b\.js\b$/;
+    const stats = statSync(join(__dirname, "../plugin"));
+    const files = readdirSync(join(__dirname, "../plugin"));
+    for (const file of files) {
+      if (file.match(Reg)) {
+        require(join(__dirname, "../plugin", file));
+      }
+    }
+  }
+
   /**
    * load file by path and regexp
    * @param path String
@@ -299,17 +307,6 @@ export class Loader {
         filePath.set(path, Object.keys(modules));
         // eslint-disable-next-line @typescript-eslint/no-require-imports
         require(path);
-      }
-    }
-  }
-
-  public LoadInnerPlugin() {
-    const Reg = /.*[^\.]+\b\.js\b$/;
-    const stats = statSync(join(__dirname, "../plugin"));
-    const files = readdirSync(join(__dirname, "../plugin"));
-    for (const file of files) {
-      if (file.match(Reg)) {
-        require(join(__dirname, "../plugin", file));
       }
     }
   }

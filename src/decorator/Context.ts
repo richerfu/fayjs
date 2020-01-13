@@ -79,3 +79,8 @@ export class SoMiddleware implements IContext {
     this.curl = curl;
   }
 }
+
+export interface SoPlugin {
+  app: any;
+  config: any;
+}
