@@ -1,4 +1,5 @@
 ## **iqy-server**
+[![GitHub stars](https://img.shields.io/github/stars/southorange1228/iqy-server)](https://github.com/southorange1228/iqy-server/stargazers)![npm](https://img.shields.io/npm/dt/iqy-server)[![GitHub forks](https://img.shields.io/github/forks/southorange1228/iqy-server)](https://github.com/southorange1228/iqy-server/network)[![GitHub issues](https://img.shields.io/github/issues/southorange1228/iqy-server)](https://github.com/southorange1228/iqy-server/issues)![npm](https://img.shields.io/npm/v/iqy-server)[![GitHub license](https://img.shields.io/github/license/southorange1228/iqy-server)](https://github.com/southorange1228/iqy-server/blob/master/LICENSE)
 
 ###  [Read Doc](https://southorange1228.github.io/)
 
