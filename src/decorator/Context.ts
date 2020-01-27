@@ -83,4 +83,5 @@ export class SoMiddleware implements IContext {
 export interface SoPlugin {
   app: any;
   config: any;
+  start: () => void
 }

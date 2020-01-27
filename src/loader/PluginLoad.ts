@@ -141,6 +141,9 @@ export class PluginLoader {
             const pluginInstance = iocContainer.get(pluginItem);
             pluginInstance.app = this._app;
             pluginInstance.config = this.appConfig;
+            if(pluginInstance && pluginInstance.start){
+              pluginInstance.start();
+            }
             iocInstance[nameKey] = pluginInstance;
             //  生成.d.ts文件
             if (!Plugins.includes(nameKey)) {
