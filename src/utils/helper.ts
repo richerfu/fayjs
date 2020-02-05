@@ -19,8 +19,7 @@ export const FinalTemplate = (
   importContent: string,
   prop: string
 ): string => {
-  return `
-  import {${moduleName}} from 'iqy-server';
+  return `import { ${moduleName} } from 'iqy-server';
   ${importContent}
   declare module 'iqy-server' {
     interface ${moduleName} {
@@ -55,9 +54,7 @@ export const writeTypingsFile = async (
  * @param value string  属性类型
  */
 export const GeneratorProp = (key: string, value: string): string => {
-  return `
-  ${key}: ${value}\n
-  `;
+  return `${key}: ${value}; \n`;
 };
 
 /**
@@ -84,7 +81,7 @@ export const MkdirFolder = async (path: string): Promise<any> => {
 export const FindModulePath = (moduleName: string): string | void => {
   for (const modules of filePath) {
     if (modules[1].includes(moduleName)) {
-      return `import {${moduleName}} from '${modules[0]}';\n`;
+      return `import { ${moduleName} } from '${modules[0].replace(/\.ts$/,"")}'; \n`;
     }
   }
 };
