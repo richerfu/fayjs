@@ -9,6 +9,6 @@ export async function RequestLog(ctx: Koa.Context, next: Koa.Next) {
   logger.info(
     `=>${getFormatTime(reqTime)}\t ${ctx.request.method}\t ${
       ctx.request.url
-    }\t ${resTime.valueOf() - reqTime.valueOf()} ms\t`
+    }\t ${ctx.status}\t ${resTime.valueOf() - reqTime.valueOf()} ms\t`
   );
 }
