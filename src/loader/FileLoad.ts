@@ -187,8 +187,10 @@ export class Loader {
     /**
      * use koa-body to get request body
      */
-    _App.use(
-      KoaBodyParser({
+    const KoaBodyParserConfig = Object.assign(
+      {},
+      config ? config.KoaBodyConfig : {},
+      {
         patchKoa: true,
         patchNode: true,
         jsonLimit: "1mb",
@@ -201,13 +203,13 @@ export class Loader {
         jsonStrict: false,
         includeUnparsed: false,
         formidable: {},
-        onError: (e, ctx) => {
+        onError: (e: any, ctx: any) => {
           console.log(e, ctx);
         },
         strict: false,
-        parsedMethods: ["POST", "PUT", "PATCH"],
-      })
+      }
     );
+    _App.use(KoaBodyParser(KoaBodyParserConfig));
   }
 
   /**
