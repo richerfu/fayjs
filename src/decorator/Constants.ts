@@ -35,4 +35,4 @@ export const Name = {
   middleware: "SoMiddleware",
 };
 
-export const Plugins = ["curl", "db", "wss"];
+export const Plugins = ["curl", "db"];
