@@ -1,10 +1,10 @@
 import "reflect-metadata";
-import { RESTFUL, MIDDLEWARE } from "./Constants";
+import { RESTFUL, MIDDLEWARE } from "./constants";
 import {
   getRestfulMap,
   getRestfulParameterMap,
   getRestfulParameterSet,
-} from "../utils/Common";
+} from "../utils/common";
 import { RequestBodySymbol, RequestContextSymbol } from "../utils/interface";
 
 function CheckAndSetParameters(

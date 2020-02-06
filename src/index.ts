@@ -10,15 +10,15 @@ import {
   Controller,
   Autowired,
   Plugin,
-} from "./decorator/Decorator";
-import { Injected, Provided, Inject } from "./decorator/Inject";
+} from "./decorator/decorator";
+import { Injected, Provided, Inject } from "./decorator/inject";
 import {
   SoController,
   SoMiddleware,
   SoService,
   SoPlugin,
-} from "./decorator/Context";
-import Logger from "./utils/Logger";
+} from "./decorator/context";
+import Logger from "./utils/logger";
 import {
   RequestQuery,
   RequestContext,
@@ -27,7 +27,7 @@ import {
   Body,
   RequestHeader,
   RouteMiddleware,
-} from "./decorator/ParamterDecorator";
+} from "./decorator/paramterDecorator";
 import SoServer from "./core";
 
 export default SoServer;

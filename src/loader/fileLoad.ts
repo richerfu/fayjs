@@ -5,45 +5,66 @@ import { join } from "path";
 import * as Koa from "koa";
 import * as KoaRouter from "koa-router";
 import * as KoaBodyParser from "koa-body";
-import { iocContainer } from "../decorator/Inject";
-import { MIDDLEWARE, CONFIG, RESTFUL, CONTROL } from "../decorator/Constants";
+import { iocContainer } from "../decorator/inject";
+import { MIDDLEWARE, CONFIG, RESTFUL, CONTROL } from "../decorator/constants";
 import { Config } from "../utils/interface";
-import { RequestLog } from "../plugin/RequestLog";
-import logger from "../utils/Logger";
+import { RequestLog } from "../middlewares/requestLog";
+import logger from "../utils/logger";
 import { RequestBodySymbol, RequestContextSymbol } from "../utils/interface";
-import { Curl } from "../plugin/Curl";
-import { PluginLoader } from "./PluginLoad";
+import { PluginLoader } from "./pluginLoad";
 import {
   _Config,
   _Controller,
   _Middleware,
   _Service,
-} from "../decorator/Inject";
-
-const curl: Curl = new Curl();
+} from "../decorator/inject";
+import { LoadError } from "../utils/error";
 
 export const filePath: Map<string, any> = new Map<string, any>();
 
 export class Loader {
   private _baseDir: string;
+  private _app: any;
+  private _router: any;
+  private _config: any;
+  private _env: string;
 
-  public constructor(BaseDir: string) {
+  public constructor(BaseDir: string, env: string, app: any, router: any) {
     this._baseDir = BaseDir;
+    this._app = app;
+    this._router = router;
+    this._env = env;
     this.LoadPluginFile(this._baseDir);
     this.LoadControllerFile(this._baseDir);
     this.LoadMiddlewareFile(this._baseDir);
     this.LoadServiceFile(this._baseDir);
     this.LoadConfigFile(this._baseDir);
-    this.LoadInnerPlugin();
   }
 
   /**
-   * get current runtime config
+   * 初始化挂载
+   */
+  public async init() {
+    // app实例化加载config到loader中
+    this._config = this.LoadConfig(_Config, this._env);
+    // 加载plugin
+    this.LoadInnerPlugin();
+    this.LoadPlugin(this._config, this._app);
+    // 加载内置middleware
+    this.UseInnerMiddleware(this._app, this._config);
+    // 加载中间件
+    this.LoadMiddleware(_Middleware, this._app, this._config);
+    // 加载router
+    this.LoadController(_Controller, this._app, this._router, this._config);
+  }
+
+  /**
+   * 获取config配置文件
    * @param {Set<Function| any>} _Config all config instance
    * @param {string} env runtime env
    * @since 0.0.7
    */
-  public InjectConfig(_Config: Set<Function | any>, env: string): Config {
+  private LoadConfig(_Config: Set<Function | any>, env: string): Config {
     let flag = false;
     for (const config of _Config) {
       const configInstance: Config = iocContainer.get(config);
@@ -56,18 +77,18 @@ export class Loader {
       }
     }
     if (flag) {
-      throw new Error(
+      throw new LoadError(
         `${env} config is not exist or NODE_ENV and ${env} are not equal.please check it`
       );
     }
   }
 
   /**
-   * load controller to router
+   * 挂载koa-router相应方法
    * @param _Controller
    * @since 0.0.7
    */
-  public InjectController(
+  private LoadController(
     _Controller: Set<Function | any>,
     _App: Koa,
     _KoaRouter: KoaRouter,
@@ -126,11 +147,10 @@ export class Loader {
             controlInstance.ctx = ctx;
             controlInstance.next = next;
             controlInstance.config = config;
-            // catch promise error
             try {
               await method.apply(controlInstance, parametersVals);
             } catch (error) {
-              ctx.status = 500;
+              throw new LoadError(`${controller} Init Error: ${error.message}`);
             }
           };
 
@@ -145,7 +165,7 @@ export class Loader {
             _KoaRouter[methodType](routePath, handleRequest);
           }
           logger.info(
-            `SoRouter Registered: Path: ${routePath}\t Method: ${methodType}`
+            `[SoRouter Registered::] Path: ${routePath}\t Method: ${methodType}`
           );
         });
     }
@@ -153,11 +173,11 @@ export class Loader {
   }
 
   /**
-   * load middleware to koa instance
+   * 挂载middleware到koa实例
    * @param _Middleware
    * @since 0.0.7
    */
-  public InjectMiddleware(
+  private LoadMiddleware(
     _Middleware: Set<Function | any>,
     _App: Koa,
     config: Config
@@ -172,14 +192,18 @@ export class Loader {
         try {
           await run.apply(middlewareInstance, [ctx, next]);
         } catch (e) {
-          console.error(e);
-          ctx.status = 500;
+          throw new LoadError(`${middleware} Init Error: ${e.message}`);
         }
       });
     }
   }
 
-  public UseMiddleware(_App: Koa, config: Config): void {
+  /**
+   * 使用内置中间件
+   * @param _App
+   * @param config
+   */
+  private UseInnerMiddleware(_App: Koa, config: Config): void {
     /**
      * use request-log to console request info
      */
@@ -206,20 +230,13 @@ export class Loader {
         onError: (e: any, ctx: any) => {
           console.log(e, ctx);
         },
-        strict: false,
+        parseMethods: ["POST", "PUT", "PATCH"],
       }
     );
     _App.use(KoaBodyParser(KoaBodyParserConfig));
   }
 
-  /**
-   * load something to service
-   * @param _Service service instance
-   * @param config app config
-   */
-  public InjectService(_Service: Set<Function | any>, config: Config): void {}
-
-  public LoadPlugin(config: Config, _App: Koa): void {
+  private LoadPlugin(config: Config, _App: Koa): void {
     (async () => {
       const pluginLoader: PluginLoader = new PluginLoader(
         this._baseDir,
@@ -237,8 +254,8 @@ export class Loader {
    * @param path file path
    * @since 0.0.1
    */
-  public LoadControllerFile(path: string): void {
-    const Reg = /.*[^\.]+\b\.controller\.ts\b$/;
+  private LoadControllerFile(path: string): void {
+    const Reg = /.*[^\.]+\b\.controller\.(t|j)s\b$/;
     this.LoadFile(path, Reg);
   }
 
@@ -247,8 +264,8 @@ export class Loader {
    * @param path file path
    * @since 0.0.1
    */
-  public LoadServiceFile(path: string): void {
-    const Reg = /.*[^\.]+\b\.service\.ts\b$/;
+  private LoadServiceFile(path: string): void {
+    const Reg = /.*[^\.]+\b\.service\.(t|j)s\b$/;
     this.LoadFile(path, Reg);
   }
 
@@ -257,8 +274,8 @@ export class Loader {
    * @param path file path
    * @since 0.0.1
    */
-  public LoadMiddlewareFile(path: string): void {
-    const Reg = /.*[^\.]+\b\.middleware\.ts\b$/;
+  private LoadMiddlewareFile(path: string): void {
+    const Reg = /.*[^\.]+\b\.middleware\.(t|j)s\b$/;
     this.LoadFile(path, Reg);
   }
 
@@ -267,24 +284,26 @@ export class Loader {
    * @param path file path
    * @since 0.0.7
    */
-  public LoadConfigFile(path: string): void {
-    const Reg = /.*[^\.]+\b\.config\.ts\b$/;
+  private LoadConfigFile(path: string): void {
+    const Reg = /.*[^\.]+\b\.config\.(t|j)s\b$/;
     this.LoadFile(path, Reg);
   }
 
-  public LoadPluginFile(path: string): void {
-    const Reg = /.*[^\.]+\b\.plugin\.ts\b$/;
+  private LoadPluginFile(path: string): void {
+    const Reg = /.*[^\.]+\b\.plugin\.(t|j)s\b$/;
     this.LoadFile(path, Reg);
   }
 
-  public LoadInnerPlugin() {
+  /**
+   * 加载内置插件
+   */
+  private LoadInnerPlugin() {
     const Reg = /.*[^\.]+\b\.js\b$/;
-    const stats = statSync(join(__dirname, "../plugin"));
-    const files = readdirSync(join(__dirname, "../plugin"));
+    const files = readdirSync(join(__dirname, "../plugins"));
     for (const file of files) {
       if (file.match(Reg)) {
         // eslint-disable-next-line @typescript-eslint/no-require-imports
-        require(join(__dirname, "../plugin", file));
+        require(join(__dirname, "../plugins", file));
       }
     }
   }

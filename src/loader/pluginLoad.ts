@@ -1,0 +1,82 @@
+import "reflect-metadata";
+import * as Koa from "koa";
+import { join } from "path";
+import { iocContainer, _Plugin } from "../decorator/inject";
+import { PLUGIN, Name, Plugins } from "../decorator/constants";
+import {
+  GeneratorProp,
+  FinalTemplate,
+  writeTypingsFile,
+  MkdirFolder,
+  FindModulePath,
+} from "../utils/helper";
+import { LoadError } from "../utils/error";
+interface PluginConfig {
+  controller?: boolean;
+  service?: boolean;
+  middleware?: boolean;
+  config: Object;
+}
+
+export class PluginLoader {
+  private appConfig: any;
+  private baseDir: string;
+  private pluginConfig: PluginConfig = {
+    controller: true,
+    service: true,
+    middleware: false,
+    config: {},
+  };
+  private _app: Koa;
+
+  public constructor(baseDir: string, config: Object, app: Koa) {
+    this.baseDir = baseDir;
+    this.appConfig = config;
+    this._app = app;
+    for (const pluginItem of _Plugin) {
+      const nameKey = Reflect.getMetadata(PLUGIN, pluginItem);
+      const pluginInstance = iocContainer.get(pluginItem);
+      pluginInstance.app = this._app;
+      pluginInstance.config = this.appConfig;
+      if (pluginInstance && pluginInstance.start) {
+        pluginInstance.start();
+      } else {
+        throw new LoadError(`${nameKey} Plugin Init Error.`);
+      }
+    }
+  }
+
+  public async autoLoadPlugin(
+    type: "controller" | "middleware" | "service",
+    instances: Set<Function | any>
+  ): Promise<any> {
+    try {
+      if (this.pluginConfig[type]) {
+        for (const instance of instances) {
+          const iocInstance = iocContainer.get(instance);
+          let prop = "";
+          let importContent = "";
+          for (const pluginItem of _Plugin) {
+            const nameKey = Reflect.getMetadata(PLUGIN, pluginItem);
+            const pluginInstance = iocContainer.get(pluginItem);
+            iocInstance[nameKey] = pluginInstance;
+            //  生成.d.ts文件
+            if (!Plugins.includes(nameKey)) {
+              prop += GeneratorProp(nameKey, pluginItem.name);
+              importContent += FindModulePath(pluginItem.name);
+            }
+          }
+          const template = FinalTemplate(Name[type], importContent, prop);
+          const folderName = this.baseDir;
+          await MkdirFolder(join(folderName, "./types"));
+          await writeTypingsFile(
+            join(folderName, "./types", `./${type}.d.ts`),
+            template
+          );
+        }
+      }
+    } catch (e) {
+      throw new LoadError(`AutoLoadPlugin Error: ${e.message}`);
+    }
+  }
+}

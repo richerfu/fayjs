@@ -1,6 +1,6 @@
 import * as Koa from "koa";
-import { getFormatTime } from "./../utils/Common";
-import logger from "../utils/Logger";
+import { getFormatTime } from "../utils/common";
+import logger from "../utils/logger";
 
 export async function RequestLog(ctx: Koa.Context, next: Koa.Next) {
   const reqTime = new Date();

@@ -1,8 +1,8 @@
 import { describe, it } from "mocha";
 import { expect } from "chai";
 import { PluginLoader } from "../../dist/loader/PluginLoad";
-import { DbLoader } from "../../dist/plugin/MySql";
-import { Curl } from "../../dist/plugin/Curl";
+import { DbLoader } from "../../dist/plugins/MySql";
+import { Curl } from "../../dist/plugins/Curl";
 import {Plugin} from '../../dist/index'
 
 describe("Test PluginLoader", function() {

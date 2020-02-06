@@ -2,16 +2,16 @@
 import "reflect-metadata";
 import * as Koa from "koa";
 import * as KoaRouter from "koa-router";
-import logger from "../utils/Logger";
-import { Loader } from "../loader/FileLoad";
+import logger from "../utils/logger";
+import { Loader } from "../loader/fileLoad";
 import { Options } from "../utils/interface";
-import { getLocalIPAddress } from "./../utils/Common";
+import { getLocalIPAddress } from "../utils/common";
 import {
   _Config,
   _Controller,
   _Middleware,
   _Service,
-} from "../decorator/Inject";
+} from "../decorator/inject";
 
 const router: KoaRouter = new KoaRouter();
 
@@ -20,27 +20,27 @@ export default class SoServer extends Koa {
     baseDir: process.cwd(),
   };
   private baseDir: string;
-  private __router: KoaRouter;
-  private __app: SoServer;
+  private _router: KoaRouter;
+  private _app: SoServer;
 
   public constructor(options?: Options) {
     super();
     this.options = options;
     this.env = process.env.NODE_ENV || "dev";
-    this.__router = router;
-    this.__app = this;
+    this._router = router;
+    this._app = this;
     this.baseDir = options
       ? options.baseDir
         ? options.baseDir
         : process.cwd()
       : process.cwd();
-    const loader: Loader = new Loader(this.baseDir);
-    const config = loader.InjectConfig(_Config, this.env);
-    loader.UseMiddleware(this.__app, config);
-    loader.InjectMiddleware(_Middleware, this.__app, config);
-    loader.InjectService(_Service, config);
-    loader.InjectController(_Controller, this.__app, this.__router, config);
-    loader.LoadPlugin(config, this.__app);
+    const loader: Loader = new Loader(
+      this.baseDir,
+      this.env,
+      this._app,
+      this._router
+    );
+    loader.init();
   }
 
   public Listen(
@@ -53,6 +53,6 @@ export default class SoServer extends Koa {
       );
     }
   ) {
-    this.__app.listen(port, host, backlog ? backlog : null, callback);
+    this._app.listen(port, host, backlog ? backlog : null, callback);
   }
 }
