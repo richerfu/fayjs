@@ -301,7 +301,7 @@ export class Loader {
    * 加载内置插件
    */
   private LoadInnerPlugin() {
-    const Reg = /.*[^\.]+\b\.js\b$/;
+    const Reg = /.*[^\.]+\b\.(t|j)s\b$/;
     const files = readdirSync(join(__dirname, "../plugin"));
     for (const file of files) {
       if (file.match(Reg)) {
