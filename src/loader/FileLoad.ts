@@ -258,7 +258,7 @@ export class Loader {
    * @since 0.0.1
    */
   private LoadControllerFile(path: string): void {
-    const Reg = /.*[^\.]+\b\.controller\.ts\b$/;
+    const Reg = /.*[^\.]+\b\.controller\.(t|j)s\b$/;
     this.LoadFile(path, Reg);
   }
 
@@ -268,7 +268,7 @@ export class Loader {
    * @since 0.0.1
    */
   private LoadServiceFile(path: string): void {
-    const Reg = /.*[^\.]+\b\.service\.ts\b$/;
+    const Reg = /.*[^\.]+\b\.service\.(t|j)s\b$/;
     this.LoadFile(path, Reg);
   }
 
@@ -278,7 +278,7 @@ export class Loader {
    * @since 0.0.1
    */
   private LoadMiddlewareFile(path: string): void {
-    const Reg = /.*[^\.]+\b\.middleware\.ts\b$/;
+    const Reg = /.*[^\.]+\b\.middleware\.(t|j)s\b$/;
     this.LoadFile(path, Reg);
   }
 
@@ -288,12 +288,12 @@ export class Loader {
    * @since 0.0.7
    */
   private LoadConfigFile(path: string): void {
-    const Reg = /.*[^\.]+\b\.config\.ts\b$/;
+    const Reg = /.*[^\.]+\b\.config\.(t|j)s\b$/;
     this.LoadFile(path, Reg);
   }
 
   private LoadPluginFile(path: string): void {
-    const Reg = /.*[^\.]+\b\.plugin\.ts\b$/;
+    const Reg = /.*[^\.]+\b\.plugin\.(t|j)s\b$/;
     this.LoadFile(path, Reg);
   }
 
