@@ -21,8 +21,6 @@ import {
 } from "../decorator/Inject";
 import { LoadError } from "../utils/error";
 
-const curl: Curl = new Curl();
-
 export const filePath: Map<string, any> = new Map<string, any>();
 
 export class Loader {
