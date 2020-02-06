@@ -1,6 +1,7 @@
 import { DbClient, Db } from "iqy-mysql";
 import logger from "../utils/Logger";
 import { Plugin } from "../decorator/Decorator";
+import { SoPlugin } from "../decorator/Context";
 
 interface Config {
   enable: boolean;
@@ -56,22 +57,19 @@ export class DbLoader {
 }
 
 @Plugin("db")
-export class MySQL {
-  private config: any;
-  private app: any;
+export class MySQL implements SoPlugin {
+  public config: any;
+  public app: any;
   private dbLoader: DbLoader;
   private db: {
     [key: string]: Db;
   };
 
-  constructor(config: any, app: any) {
-    this.config = config;
-    this.app = app;
-    if (config && config.mysql) {
-      this.dbLoader = new DbLoader(config.mysql);
-      this.dbLoader.init().then(() => {
-        this.db = this.dbLoader.LoaderDb(config.mysql);
-      });
+  public async start() {
+    if (this.config && this.config.mysql) {
+      this.dbLoader = new DbLoader(this.config.mysql);
+      await this.dbLoader.init();
+      this.db = this.dbLoader.LoaderDb(this.config.mysql);
     }
   }
 

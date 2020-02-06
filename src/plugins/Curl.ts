@@ -1,8 +1,13 @@
 import * as request from "request";
 import { Plugin } from "../decorator/Decorator";
+import { SoPlugin } from "../decorator/Context";
 
 @Plugin("curl")
-export class Curl {
+export class Curl implements SoPlugin {
+  public app: any;
+  public config: any;
+
+  public start() {}
   /**
    * send custom request
    * @param options request options
