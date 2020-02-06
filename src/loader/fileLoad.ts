@@ -11,7 +11,6 @@ import { Config } from "../utils/interface";
 import { RequestLog } from "../middlewares/requestLog";
 import logger from "../utils/logger";
 import { RequestBodySymbol, RequestContextSymbol } from "../utils/interface";
-import { Curl } from "../plugins/curl";
 import { PluginLoader } from "./pluginLoad";
 import {
   _Config,
