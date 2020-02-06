@@ -1,5 +1,5 @@
 import * as Koa from "koa";
-import { getFormatTime } from "./../utils/Common";
+import { getFormatTime } from "../utils/Common";
 import logger from "../utils/Logger";
 
 export async function RequestLog(ctx: Koa.Context, next: Koa.Next) {

@@ -1,7 +1,7 @@
 import * as Koa from "koa";
 import { Config, SoContext } from "../utils/interface";
-import { Curl } from "../plugin/Curl";
-import { MySQL } from "../plugin/MySql";
+import { Curl } from "../plugins/Curl";
+import { MySQL } from "../plugins/MySql";
 
 interface IContext {
   ctx: SoContext;
