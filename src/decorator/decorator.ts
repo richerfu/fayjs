@@ -7,7 +7,7 @@ import {
   MIDDLEWARE,
   CONFIG,
   PLUGIN,
-} from "./Constants";
+} from "./constants";
 import {
   Inject,
   _Config,
@@ -15,12 +15,12 @@ import {
   _Middleware,
   _Service,
   _Plugin,
-} from "./Inject";
+} from "./inject";
 import {
   getRestfulMap,
   getRestfulParameterMap,
   getFunctionParams,
-} from "../utils/Common";
+} from "../utils/common";
 
 export const Service = (target: Function | any) => {
   if (!_Service.has(target)) {

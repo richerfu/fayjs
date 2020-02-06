@@ -5,7 +5,7 @@ import {
   injects_reg,
   Provide,
   Injects,
-} from "./Constants";
+} from "./constants";
 
 // ioc core container
 export const iocContainer: WeakMap<Function, any> = new WeakMap<

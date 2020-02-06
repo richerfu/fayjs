@@ -8,7 +8,7 @@ import {
   rmdirSync,
   exists,
 } from "fs";
-import { filePath } from "../loader/FileLoad";
+import { filePath } from "../loader/fileLoad";
 /**
  * 生成最终的.d.ts文件字符串
  * @param moduleName "SoController" | "SoService" | "SoMiddleware"

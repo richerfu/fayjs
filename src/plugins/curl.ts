@@ -1,6 +1,6 @@
 import * as request from "request";
-import { Plugin } from "../decorator/Decorator";
-import { SoPlugin } from "../decorator/Context";
+import { Plugin } from "../decorator/decorator";
+import { SoPlugin } from "../decorator/context";
 
 @Plugin("curl")
 export class Curl implements SoPlugin {

@@ -1,8 +1,8 @@
 import "reflect-metadata";
 import * as Koa from "koa";
 import { join } from "path";
-import { iocContainer, _Plugin } from "../decorator/Inject";
-import { PLUGIN, Name, Plugins } from "../decorator/Constants";
+import { iocContainer, _Plugin } from "../decorator/inject";
+import { PLUGIN, Name, Plugins } from "../decorator/constants";
 import {
   GeneratorProp,
   FinalTemplate,

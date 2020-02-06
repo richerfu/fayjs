@@ -1,7 +1,7 @@
 import { DbClient, Db } from "iqy-mysql";
-import logger from "../utils/Logger";
-import { Plugin } from "../decorator/Decorator";
-import { SoPlugin } from "../decorator/Context";
+import logger from "../utils/logger";
+import { Plugin } from "../decorator/decorator";
+import { SoPlugin } from "../decorator/context";
 
 interface Config {
   enable: boolean;

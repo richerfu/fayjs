@@ -2,16 +2,16 @@
 import "reflect-metadata";
 import * as Koa from "koa";
 import * as KoaRouter from "koa-router";
-import logger from "../utils/Logger";
-import { Loader } from "../loader/FileLoad";
+import logger from "../utils/logger";
+import { Loader } from "../loader/fileLoad";
 import { Options } from "../utils/interface";
-import { getLocalIPAddress } from "./../utils/Common";
+import { getLocalIPAddress } from "../utils/common";
 import {
   _Config,
   _Controller,
   _Middleware,
   _Service,
-} from "../decorator/Inject";
+} from "../decorator/inject";
 
 const router: KoaRouter = new KoaRouter();
 
