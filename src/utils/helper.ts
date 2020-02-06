@@ -20,13 +20,13 @@ export const FinalTemplate = (
   prop: string
 ): string => {
   return `import { ${moduleName} } from 'iqy-server';
-  ${importContent}
-  declare module 'iqy-server' {
-    interface ${moduleName} {
-      ${prop}
-    }
+${importContent}
+declare module 'iqy-server' {
+  interface ${moduleName} {
+    ${prop}
   }
-  `;
+}
+`;
 };
 
 /**
@@ -54,7 +54,7 @@ export const writeTypingsFile = async (
  * @param value string  属性类型
  */
 export const GeneratorProp = (key: string, value: string): string => {
-  return `${key}: ${value}; \n`;
+  return `${key}: ${value};\n    `;
 };
 
 /**
