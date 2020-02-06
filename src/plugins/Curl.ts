@@ -2,9 +2,6 @@ import * as request from "request";
 import { Plugin } from "../decorator/Decorator";
 import { SoPlugin } from "../decorator/Context";
 
-class A {
-  public start() {}
-}
 @Plugin("curl")
 export class Curl implements SoPlugin {
   public app: any;
