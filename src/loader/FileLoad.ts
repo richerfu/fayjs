@@ -8,7 +8,7 @@ import * as KoaBodyParser from "koa-body";
 import { iocContainer } from "../decorator/Inject";
 import { MIDDLEWARE, CONFIG, RESTFUL, CONTROL } from "../decorator/Constants";
 import { Config } from "../utils/interface";
-import { RequestLog } from "../plugins/RequestLog";
+import { RequestLog } from "../middlewares/RequestLog";
 import logger from "../utils/Logger";
 import { RequestBodySymbol, RequestContextSymbol } from "../utils/interface";
 import { Curl } from "../plugins/Curl";
