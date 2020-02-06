@@ -12,7 +12,7 @@
 
 ```typescript
 // src/service/test.service.ts
-import {SoService,Service} from 'iqy-server'
+import {　SoService,Service　} from 'iqy-server';
 
 @Service
 export TestService extends SoService {
@@ -33,8 +33,8 @@ export TestService extends SoService {
 
   ```typescript
   // src/service/newTest.service.ts
-  import {SoService,Service,Autowired} from 'iqy-server'
-  import {TestService} from './test.service.ts'
+  import { SoService,Service,Autowired } from 'iqy-server';
+  import { TestService } from './test.service.ts'
   
   @Service
   export NewTestService extends SoService {

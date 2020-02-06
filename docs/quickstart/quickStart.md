@@ -60,7 +60,9 @@ npm install typescript --save-dev
 ```js
 // 在demo文件夹下新建src/index.ts文件
 import SoServer from 'iqy-server';
-const server:SoServer = new SoServer();
+const server:SoServer = new SoServer({
+    basedir:__dirname // 设置项目根目录　如果没有设置将通过process.cwd()获取
+});
 server.Listen(3000);
 ```
 

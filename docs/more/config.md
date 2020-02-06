@@ -6,6 +6,7 @@
 
 > 可以使用[cross-env](https://www.npmjs.com/package/cross-env)库用于跨平台设置环境
 
+设置NODE_ENV变量，其值应与Config注解的值一致，使用时通过this.config获得相应的配置参数。
 ```typescript
 // src/config/test.config.ts
 import { Config } from "iqy-server";

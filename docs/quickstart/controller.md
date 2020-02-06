@@ -12,7 +12,7 @@
 
 ```typescript
 // 新增src/controller/test.controller.ts文件
-import {SoController,Controller,Get} from 'iqy-server'
+import { SoController,Controller,Get } from 'iqy-server';
 
 @Controller("/")
 export TestController extends SoController {
@@ -32,8 +32,8 @@ export TestController extends SoController {
 
 ```typescript
 // 假设已经存在src/service/test.service.ts文件
-import {SoController,Controller,Get,Autowired} from 'iqy-server'
-import {TestService} from '../service/test.service.ts'
+import { SoController,Controller,Get,Autowired } from 'iqy-server';
+import { TestService } from '../service/test.service.ts';
 
 @Controller("/")
 export TestController extends SoController {
