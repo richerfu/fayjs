@@ -9,8 +9,8 @@ import {
   writeTypingsFile,
   MkdirFolder,
   FindModulePath,
-  DelDir,
 } from "../utils/helper";
+import { LoadError } from "../utils/error";
 interface PluginConfig {
   controller?: boolean;
   service?: boolean;
@@ -19,7 +19,6 @@ interface PluginConfig {
 }
 
 export class PluginLoader {
-  private pluginMap: Map<string, any> = new Map();
   private appConfig: any;
   private baseDir: string;
   private pluginConfig: PluginConfig = {
@@ -34,95 +33,16 @@ export class PluginLoader {
     this.baseDir = baseDir;
     this.appConfig = config;
     this._app = app;
-  }
-  /**
-   * init all plugin
-   * @param config plugin config
-   * {
-   *    controller: [boolean],
-   *    service: [boolean],
-   *    middleware: [boolean],
-   *    config:{
-   *      db:{
-   *        instance: [Object],
-   *        main: [Function]
-   *      }
-   *    }
-   * }
-   */
-  public async init(pluginConfig: PluginConfig): Promise<any> {
-    if (JSON.stringify(pluginConfig) === "{}") {
-      return;
-    }
-    try {
-      Object.assign(this.pluginConfig, pluginConfig);
-      Object.keys(pluginConfig.config).forEach(key => {
-        if (
-          !pluginConfig.config[key] ||
-          pluginConfig.config[key].instance === undefined ||
-          !pluginConfig.config[key].main
-        ) {
-          throw new Error(
-            `Plugin config ${key} fields must have instance(Object) and main(Function)`
-          );
-        }
-        const pluginInstance = pluginConfig.config[key].main.call(
-          pluginConfig.config[key].instance,
-          this._app,
-          this.appConfig
-        );
-        this.pluginMap.set(key, pluginInstance);
-      });
-    } catch (e) {
-      console.log(e);
-    }
-  }
-
-  public async addPlugin(
-    key: string,
-    config: { instance: any; main: Function }
-  ): Promise<any> {
-    this.pluginConfig.config[key] = config;
-    if (this.pluginMap.get(key)) {
-      throw new Error(
-        `Add Plugin Error: key(${key}) is exited,please change it`
-      );
-    }
-    if (config.instance === undefined || !config.main) {
-      throw new Error(
-        `Plugin config fields must have type(interface) and main(Function)`
-      );
-    }
-    try {
-      const pluginInstance = config.main.call(
-        config.instance,
-        this._app,
-        this.appConfig
-      );
-      this.pluginMap.set(key, pluginInstance);
-    } catch (e) {
-      console.log(e);
-    }
-  }
-
-  /**
-   * load all plugin to controller | service | middleware
-   */
-  public async load(
-    type: "controller" | "middleware" | "service",
-    instances: Set<Function | any>
-  ): Promise<any> {
-    try {
-      if (this.pluginConfig[type]) {
-        for (const instance of instances) {
-          const iocInstance = iocContainer.get(instance);
-          this.pluginMap.forEach((plugin, pluginKey) => {
-            iocInstance[pluginKey] = plugin;
-          });
-        }
+    for (const pluginItem of _Plugin) {
+      const nameKey = Reflect.getMetadata(PLUGIN, pluginItem);
+      const pluginInstance = iocContainer.get(pluginItem);
+      pluginInstance.app = this._app;
+      pluginInstance.config = this.appConfig;
+      if (pluginInstance && pluginInstance.start) {
+        pluginInstance.start();
+      } else {
+        throw new LoadError(`${nameKey} Plugin Init Error.`);
       }
-    } catch (e) {
-      console.log(e);
     }
   }
 
@@ -139,11 +59,6 @@ export class PluginLoader {
           for (const pluginItem of _Plugin) {
             const nameKey = Reflect.getMetadata(PLUGIN, pluginItem);
             const pluginInstance = iocContainer.get(pluginItem);
-            pluginInstance.app = this._app;
-            pluginInstance.config = this.appConfig;
-            if(pluginInstance && pluginInstance.start){
-              pluginInstance.start();
-            }
             iocInstance[nameKey] = pluginInstance;
             //  生成.d.ts文件
             if (!Plugins.includes(nameKey)) {
@@ -161,16 +76,7 @@ export class PluginLoader {
         }
       }
     } catch (e) {
-      console.log(e);
+      throw new LoadError(`AutoLoadPlugin Error: ${e.message}`);
     }
-  }
-
-  /**
-   * 生成types文件
-   */
-  public createTypes(): void {}
-
-  public async getPlugin(): Promise<Map<string, any>> {
-    return this.pluginMap;
   }
 }
