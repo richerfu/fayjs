@@ -300,11 +300,11 @@ export class Loader {
    */
   private LoadInnerPlugin() {
     const Reg = /.*[^\.]+\b\.js\b$/;
-    const files = readdirSync(join(__dirname, "../plugin"));
+    const files = readdirSync(join(__dirname, "../plugins"));
     for (const file of files) {
       if (file.match(Reg)) {
         // eslint-disable-next-line @typescript-eslint/no-require-imports
-        require(join(__dirname, "../plugin", file));
+        require(join(__dirname, "../plugins", file));
       }
     }
   }
