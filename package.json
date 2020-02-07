@@ -35,6 +35,8 @@
     "@types/mocha": "^5.2.7",
     "chai": "^4.2.0",
     "eslint-config-iqyserver": "^0.0.5",
+    "husky": "^4.2.1",
+    "lint-staged": "^10.0.7",
     "mocha": "^6.2.2",
     "ts-node": "^8.5.4",
     "typescript": "^3.7.3",
