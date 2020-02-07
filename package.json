@@ -9,7 +9,21 @@
     "release": "npm publish --access public",
     "docs:dev": "vuepress dev docs",
     "docs:build": "vuepress build docs",
+    "lint": "eslint .  --ext .ts",
+    "prettier": "prettier --write '**/*.{js,json,md,ts}'",
     "test": "mocha --timeout 10000 --require ts-node/register \"./test/**/*.test.ts\" --exit"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "**/*.ts": [
+      "prettier --write",
+      "eslint --fix",
+      "git add"
+    ]
   },
   "keywords": [
     "koa",
