@@ -34,13 +34,18 @@ export default class SoServer extends Koa {
         ? options.baseDir
         : process.cwd()
       : process.cwd();
-    const loader: Loader = new Loader(
-      this.baseDir,
-      this.env,
-      this._app,
-      this._router
-    );
-    loader.init();
+    try {
+      const loader: Loader = new Loader(
+        this.baseDir,
+        this.env,
+        this._app,
+        this._router
+      );
+      loader.init();
+    } catch (e) {
+      logger.error(e);
+      process.exit(0);
+    }
   }
 
   public Listen(
