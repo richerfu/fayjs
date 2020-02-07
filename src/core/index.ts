@@ -60,4 +60,9 @@ export default class SoServer extends Koa {
   ) {
     this._app.listen(port, host, backlog ? backlog : null, callback);
   }
+
+  public close() {
+    logger.info("SoServer Closed Successful...");
+    process.exit(0);
+  }
 }
