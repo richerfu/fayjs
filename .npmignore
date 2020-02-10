@@ -4,6 +4,7 @@
 /docs/
 /src/
 /test/
+/benchmark/
 /example/
 .gitignore
 .npmignore
