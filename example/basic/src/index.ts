@@ -4,4 +4,4 @@ const server: SoServer = new SoServer({
   baseDir: __dirname,
 });
 
-server.Listen(3001);
+server.Listen(3000);

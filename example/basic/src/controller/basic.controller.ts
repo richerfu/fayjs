@@ -14,13 +14,8 @@ export class TestController extends SoController {
   @Autowired
   private testService: TestService;
   @Get("/")
-  public async name(
-    @RequestQuery("name") name: string,
-    @RequestHeader("host") host: string,
-    @RequestContext() ctx: any
-  ) {
-    // this.ctx.body = "hello iqyserver";
-    ctx.body = "hello world";
+  public async name() {
+    this.ctx.body = "hello world";
   }
 
   @Get("/test")

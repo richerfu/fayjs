@@ -5,7 +5,7 @@
   "main": "src/index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon --watch src/**/* -e ts,tsx --exec ts-node src/index.ts"
+    "dev": "nodemon --watch './src/**/*' -e 'ts' --ignore './src/types/' --exec 'ts-node ./src/index.ts'"
   },
   "author": "",
   "license": "MIT",
@@ -13,6 +13,7 @@
     "iqy-server": "^0.1.18"
   },
   "devDependencies": {
+    "nodemon": "^2.0.2",
     "ts-node": "^8.5.4",
     "typescript": "^3.7.4"
   }

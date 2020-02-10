@@ -1,0 +1,538 @@
+Statistical profiling result from isolate-0x454cf90-9208-v8.log, (4836 ticks, 19 unaccounted, 0 excluded).
+
+ [Shared libraries]:
+   ticks  total  nonlib   name
+   2010   41.6%          /home/southorange/.nvm/versions/node/v12.14.1/bin/node
+    127    2.6%          /usr/lib/x86_64-linux-gnu/libpthread-2.24.so
+     63    1.3%          /usr/lib/x86_64-linux-gnu/libc-2.24.so
+      8    0.2%          [vdso]
+      1    0.0%          /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.22
+
+ [JavaScript]:
+   ticks  total  nonlib   name
+     41    0.8%    1.6%  LazyCompile: *handleRequest /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_koa@2.11.0@koa/lib/application.js:146:27
+     40    0.8%    1.5%  LazyCompile: *parserOnIncoming _http_server.js:679:26
+     39    0.8%    1.5%  LazyCompile: *processTicksAndRejections internal/process/task_queues.js:66:35
+     36    0.7%    1.4%  LazyCompile: *parserOnHeadersComplete _http_common.js:70:33
+     34    0.7%    1.3%  LazyCompile: *setStreamTimeout internal/stream_base_commons.js:219:26
+     30    0.6%    1.1%  LazyCompile: *_storeHeader _http_outgoing.js:306:22
+     30    0.6%    1.1%  LazyCompile: *Writable.uncork _stream_writable.js:319:37
+     29    0.6%    1.1%  LazyCompile: *socketListenerWrap _http_server.js:797:37
+     29    0.6%    1.1%  LazyCompile: *dispatch /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_koa-router@8.0.7@koa-router/lib/router.js:339:35
+     25    0.5%    1.0%  LazyCompile: *write_ _http_outgoing.js:592:16
+     24    0.5%    0.9%  LazyCompile: *cleanup /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_ee-first@1.1.1@ee-first/index.js:58:19
+     23    0.5%    0.9%  LazyCompile: *Writable.write _stream_writable.js:282:36
+     19    0.4%    0.7%  LazyCompile: *resOnFinish _http_server.js:633:21
+     19    0.4%    0.7%  LazyCompile: *Readable.read _stream_readable.js:401:35
+     19    0.4%    0.7%  LazyCompile: *<anonymous> /home/southorange/project/node_project/iqy-server/benchmark/koa_test/index.js:7:20
+     18    0.4%    0.7%  LazyCompile: *handleResponse /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_koa@2.11.0@koa/lib/application.js:164:28
+     17    0.4%    0.6%  LazyCompile: *append internal/linkedlist.js:29:16
+     16    0.3%    0.6%  LazyCompile: *Timeout.refresh internal/timers.js:192:37
+     15    0.3%    0.6%  LazyCompile: *onSocket /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_on-finished@2.3.0@on-finished/index.js:106:20
+     15    0.3%    0.6%  LazyCompile: *first /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_ee-first@1.1.1@ee-first/index.js:24:15
+     12    0.2%    0.5%  LazyCompile: *set /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_koa@2.11.0@koa/lib/response.js:457:6
+     12    0.2%    0.5%  LazyCompile: *resume_ _stream_readable.js:974:17
+     12    0.2%    0.5%  LazyCompile: *onwrite _stream_writable.js:463:17
+     11    0.2%    0.4%  RegExp: [^\t\x20-\x7e\x80-\xff]
+     11    0.2%    0.4%  LazyCompile: *parserOnMessageComplete _http_common.js:134:33
+     11    0.2%    0.4%  LazyCompile: *dispatch /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_koa-compose@4.1.0@koa-compose/index.js:35:23
+     10    0.2%    0.4%  LazyCompile: *afterWriteTick _stream_writable.js:507:24
+     10    0.2%    0.4%  LazyCompile: *_send _http_outgoing.js:243:49
+      9    0.2%    0.3%  LazyCompile: *readableAddChunk _stream_readable.js:232:26
+      9    0.2%    0.3%  LazyCompile: *assignSocket _http_server.js:210:62
+      8    0.2%    0.3%  LazyCompile: *get _stream_duplex.js:141:6
+      8    0.2%    0.3%  LazyCompile: *createWriteWrap internal/stream_base_commons.js:99:25
+      8    0.2%    0.3%  LazyCompile: *clearIncoming _http_server.js:620:23
+      8    0.2%    0.3%  LazyCompile: *_addListener events.js:234:22
+      7    0.1%    0.3%  RegExp: ^[\^_`a-zA-Z\-0-9!#$%&'*+.|~]+$
+      7    0.1%    0.3%  LazyCompile: *push internal/fixed_queue.js:71:7
+      7    0.1%    0.3%  LazyCompile: *matchKnownFields _http_incoming.js:139:26
+      7    0.1%    0.3%  LazyCompile: *addListener events.js:296:58
+      6    0.1%    0.2%  LazyCompile: *push internal/fixed_queue.js:95:7
+      6    0.1%    0.2%  LazyCompile: *onCorkedFinish _stream_writable.js:709:24
+      6    0.1%    0.2%  LazyCompile: *nextTick internal/process/task_queues.js:102:18
+      6    0.1%    0.2%  LazyCompile: *module.exports /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_cache-content-type@1.0.1@cache-content-type/index.js:8:18
+      6    0.1%    0.2%  LazyCompile: *emitReadable_ _stream_readable.js:572:23
+      6    0.1%    0.2%  LazyCompile: *emit events.js:173:44
+      6    0.1%    0.2%  LazyCompile: *byteLength buffer.js:699:20
+      6    0.1%    0.2%  LazyCompile: *afterWriteDispatched internal/stream_base_commons.js:144:30
+      6    0.1%    0.2%  LazyCompile: *_dump _http_incoming.js:273:49
+      6    0.1%    0.2%  LazyCompile: *Readable.removeListener _stream_readable.js:898:45
+      5    0.1%    0.2%  LazyCompile: *resetHeadersTimeoutOnReqEnd _http_server.js:813:37
+      5    0.1%    0.2%  LazyCompile: *onParserExecute _http_server.js:531:25
+      5    0.1%    0.2%  LazyCompile: *get internal/bootstrap/pre_execution.js:307:8
+      5    0.1%    0.2%  LazyCompile: *_flush _http_outgoing.js:778:51
+      4    0.1%    0.2%  RegExp: ^\s*<
+      4    0.1%    0.2%  RegExp: ^(?:\/(?=$))?$
+      4    0.1%    0.2%  LazyCompile: *onFinish _http_outgoing.js:685:18
+      4    0.1%    0.2%  LazyCompile: *initAsyncResource internal/timers.js:142:27
+      4    0.1%    0.2%  LazyCompile: *hidden internal/errors.js:243:25
+      4    0.1%    0.2%  LazyCompile: *get path /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_koa@2.11.0@koa/lib/request.js:144:11
+      4    0.1%    0.2%  LazyCompile: *endReadableNT _stream_readable.js:1178:23
+      4    0.1%    0.2%  LazyCompile: *arrayClone events.js:497:20
+      4    0.1%    0.2%  LazyCompile: *OutgoingMessage _http_outgoing.js:72:25
+      4    0.1%    0.2%  LazyCompile: *<anonymous> internal/util/debuglog.js:57:18
+      3    0.1%    0.1%  LazyCompile: *writeOrBuffer _stream_writable.js:385:23
+      3    0.1%    0.1%  LazyCompile: *getDefaultTriggerAsyncId internal/async_hooks.js:282:34
+      3    0.1%    0.1%  LazyCompile: *get writable /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_koa@2.11.0@koa/lib/response.js:521:15
+      3    0.1%    0.1%  LazyCompile: *debug /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_debug@4.1.1@debug/src/common.js:67:17
+      2    0.0%    0.1%  LazyCompile: *set status /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_koa@2.11.0@koa/lib/response.js:84:13
+      2    0.0%    0.1%  LazyCompile: *onerror /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_koa@2.11.0@koa/lib/application.js:163:21
+      2    0.0%    0.1%  LazyCompile: *emitCloseNT _http_server.js:672:21
+      2    0.0%    0.1%  LazyCompile: *callback /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_ee-first@1.1.1@ee-first/index.js:53:20
+      2    0.0%    0.1%  LazyCompile: *_finish _http_server.js:176:52
+      2    0.0%    0.1%  LazyCompile: *ReadableState _stream_readable.js:76:23
+      2    0.0%    0.1%  LazyCompile: *<anonymous> _http_outgoing.js:467:44
+      2    0.0%    0.1%  LazyCompile: *<anonymous> /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_koa-router@8.0.7@koa-router/lib/router.js:364:25
+      1    0.0%    0.0%  LazyCompile: *updateOutgoingData _http_server.js:448:28
+      1    0.0%    0.0%  LazyCompile: *processPromiseRejections internal/process/promises.js:163:34
+      1    0.0%    0.0%  LazyCompile: *onevent /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_ee-first@1.1.1@ee-first/index.js:81:26
+      1    0.0%    0.0%  LazyCompile: *onFinish /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_on-finished@2.3.0@on-finished/index.js:95:20
+      1    0.0%    0.0%  LazyCompile: *has /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_koa@2.11.0@koa/lib/response.js:435:6
+      1    0.0%    0.0%  LazyCompile: *get method /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_koa@2.11.0@koa/lib/request.js:122:13
+      1    0.0%    0.0%  LazyCompile: *Readable.on _stream_readable.js:868:33
+      1    0.0%    0.0%  LazyCompile: *<anonymous> _http_outgoing.js:473:45
+      1    0.0%    0.0%  LazyCompile: *<anonymous> /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_koa-compose@4.1.0@koa-compose/index.js:31:19
+
+ [C++]:
+   ticks  total  nonlib   name
+   1015   21.0%   38.6%  writev
+     47    1.0%    1.8%  epoll_ctl
+     39    0.8%    1.5%  void node::StreamBase::JSMethod<&(int node::StreamBase::WriteString<(node::encoding)1>(v8::FunctionCallbackInfo<v8::Value> const&))>(v8::FunctionCallbackInfo<v8::Value> const&)
+     35    0.7%    1.3%  node::StreamBase::Writev(v8::FunctionCallbackInfo<v8::Value> const&)
+     32    0.7%    1.2%  v8::Object::Get(v8::Local<v8::Context>, unsigned int)
+     27    0.6%    1.0%  node::native_module::NativeModuleEnv::CompileFunction(v8::FunctionCallbackInfo<v8::Value> const&)
+     22    0.5%    0.8%  node::LibuvStreamWrap::Initialize(v8::Local<v8::Object>, v8::Local<v8::Value>, v8::Local<v8::Context>, void*)::{lambda(v8::FunctionCallbackInfo<v8::Value> const&)#1}::_FUN(v8::FunctionCallbackInfo<v8::Value> const&)
+     16    0.3%    0.6%  node::InternalCallbackScope::Close()
+     16    0.3%    0.6%  do_futex_wait.constprop.1
+     15    0.3%    0.6%  void node::StreamBase::JSMethod<&node::StreamBase::Writev>(v8::FunctionCallbackInfo<v8::Value> const&)
+     14    0.3%    0.5%  v8::internal::Builtin_ArrayConcat(int, unsigned long*, v8::internal::Isolate*)
+     14    0.3%    0.5%  v8::String::WriteUtf8(v8::Isolate*, char*, int, int*, int) const
+     14    0.3%    0.5%  v8::HandleScope::HandleScope(v8::Isolate*)
+     14    0.3%    0.5%  v8::(anonymous namespace)::CallDepthScope<false>::CallDepthScope(v8::internal::Isolate*, v8::Local<v8::Context>)
+     14    0.3%    0.5%  node::(anonymous namespace)::Parser::Proxy<int (node::(anonymous namespace)::Parser::*)(), &node::(anonymous namespace)::Parser::on_headers_complete>::Raw(llhttp__internal_s*)
+     14    0.3%    0.5%  __GI___pthread_getspecific
+     13    0.3%    0.5%  node::StringBytes::StorageSize(v8::Isolate*, v8::Local<v8::Value>, node::encoding)
+     13    0.3%    0.5%  int v8::(anonymous namespace)::WriteUtf8Impl<unsigned char>(v8::internal::Vector<unsigned char const>, char*, int, int, int*)
+     11    0.2%    0.4%  v8::Value::IsFunction() const
+     10    0.2%    0.4%  v8::Isolate::GetCurrentContext()
+     10    0.2%    0.4%  v8::HandleScope::~HandleScope()
+     10    0.2%    0.4%  node::InternalCallbackScope::InternalCallbackScope(node::Environment*, v8::Local<v8::Object>, node::async_context const&, node::InternalCallbackScope::ResourceExpectation)
+     10    0.2%    0.4%  node::AsyncWrap::EmitTraceEventAfter(node::AsyncWrap::ProviderType, double)
+     10    0.2%    0.4%  epoll_pwait
+      9    0.2%    0.3%  v8::internal::String::Flatten(v8::internal::Isolate*, v8::internal::Handle<v8::internal::String>, v8::internal::AllocationType)
+      9    0.2%    0.3%  node::ParseEncoding(char const*, node::encoding)
+      9    0.2%    0.3%  node::(anonymous namespace)::Parser::Proxy<int (node::(anonymous namespace)::Parser::*)(char const*, unsigned long), &node::(anonymous namespace)::Parser::on_header_value>::Raw(llhttp__internal_s*, char const*, unsigned long)
+      9    0.2%    0.3%  node::(anonymous namespace)::Parser::OnStreamRead(long, uv_buf_t const&)
+      9    0.2%    0.3%  __libc_malloc
+      8    0.2%    0.3%  write
+      8    0.2%    0.3%  v8::Isolate::InContext()
+      8    0.2%    0.3%  v8::Function::Call(v8::Local<v8::Context>, v8::Local<v8::Value>, int, v8::Local<v8::Value>*)
+      8    0.2%    0.3%  node::contextify::ContextifyContext::CompileFunction(v8::FunctionCallbackInfo<v8::Value> const&)
+      8    0.2%    0.3%  node::Environment::GetNow()
+      7    0.1%    0.3%  v8::EscapableHandleScope::Escape(unsigned long*)
+      7    0.1%    0.3%  node::LibuvStreamWrap::ReadStart()::{lambda(uv_handle_s*, unsigned long, uv_buf_t*)#1}::_FUN(uv_handle_s*, unsigned long, uv_buf_t*)
+      7    0.1%    0.3%  _init
+      7    0.1%    0.3%  __pthread_cond_signal
+      6    0.1%    0.2%  v8::internal::(anonymous namespace)::ProbeInstantiationsCache(v8::internal::Isolate*, int, v8::internal::(anonymous namespace)::CachingMode)
+      6    0.1%    0.2%  v8::String::Utf8Length(v8::Isolate*) const
+      6    0.1%    0.2%  v8::String::NewFromOneByte(v8::Isolate*, unsigned char const*, v8::NewStringType, int)
+      6    0.1%    0.2%  v8::EscapableHandleScope::EscapableHandleScope(v8::Isolate*)
+      6    0.1%    0.2%  v8::Context::GetNumberOfEmbedderDataFields()
+      6    0.1%    0.2%  v8::(anonymous namespace)::CallDepthScope<true>::~CallDepthScope()
+      6    0.1%    0.2%  node::ParseEncoding(v8::Isolate*, v8::Local<v8::Value>, node::encoding)
+      6    0.1%    0.2%  node::AsyncWrap::MakeCallback(v8::Local<v8::Function>, int, v8::Local<v8::Value>*)
+      6    0.1%    0.2%  node::AsyncWrap::EmitTraceEventBefore()
+      6    0.1%    0.2%  node::(anonymous namespace)::Parser::Proxy<int (node::(anonymous namespace)::Parser::*)(char const*, unsigned long), &node::(anonymous namespace)::Parser::on_url>::Raw(llhttp__internal_s*, char const*, unsigned long)
+      5    0.1%    0.2%  v8::Value::ToString(v8::Local<v8::Context>) const
+      5    0.1%    0.2%  v8::TryCatch::SetVerbose(bool)
+      5    0.1%    0.2%  node::(anonymous namespace)::Parser::Proxy<int (node::(anonymous namespace)::Parser::*)(), &node::(anonymous namespace)::Parser::on_message_begin>::Raw(llhttp__internal_s*)
+      5    0.1%    0.2%  __lll_lock_wait
+      5    0.1%    0.2%  __clock_gettime
+      4    0.1%    0.2%  v8::Value::IsArrayBufferView() const
+      4    0.1%    0.2%  v8::TryCatch::~TryCatch()
+      4    0.1%    0.2%  v8::Array::New(v8::Isolate*, v8::Local<v8::Value>*, unsigned long)
+      4    0.1%    0.2%  node::binding::GetInternalBinding(v8::FunctionCallbackInfo<v8::Value> const&)
+      4    0.1%    0.2%  node::StringBytes::Write(v8::Isolate*, char*, unsigned long, v8::Local<v8::Value>, node::encoding, int*)
+      4    0.1%    0.2%  node::(anonymous namespace)::Parser::Proxy<int (node::(anonymous namespace)::Parser::*)(char const*, unsigned long), &node::(anonymous namespace)::Parser::on_header_field>::Raw(llhttp__internal_s*, char const*, unsigned long)
+      4    0.1%    0.2%  __pthread_enable_asynccancel
+      3    0.1%    0.1%  v8::internal::MarkingBarrier(v8::internal::HeapObject, v8::internal::FullObjectSlot, v8::internal::Object)
+      3    0.1%    0.1%  v8::internal::Builtins::builtin_handle(int)
+      3    0.1%    0.1%  v8::internal::Builtin_HandleApiCall(int, unsigned long*, v8::internal::Isolate*)
+      3    0.1%    0.1%  v8::String::Length() const
+      3    0.1%    0.1%  v8::Context::Exit()
+      3    0.1%    0.1%  v8::(anonymous namespace)::CallDepthScope<true>::CallDepthScope(v8::internal::Isolate*, v8::Local<v8::Context>)
+      3    0.1%    0.1%  v8::(anonymous namespace)::CallDepthScope<false>::~CallDepthScope()
+      3    0.1%    0.1%  std::_Function_handler<void (), node::(anonymous namespace)::Parser::OnStreamRead(long, uv_buf_t const&)::{lambda()#1}>::_M_invoke(std::_Any_data const&)
+      3    0.1%    0.1%  non-virtual thunk to node::LibuvStreamWrap::IsAlive()
+      3    0.1%    0.1%  non-virtual thunk to node::(anonymous namespace)::Parser::OnStreamAlloc(unsigned long)
+      3    0.1%    0.1%  node::fs::InternalModuleStat(v8::FunctionCallbackInfo<v8::Value> const&)
+      3    0.1%    0.1%  node::InternalMakeCallback(node::Environment*, v8::Local<v8::Object>, v8::Local<v8::Function>, int, v8::Local<v8::Value>*, node::async_context)
+      3    0.1%    0.1%  node::Buffer::HasInstance(v8::Local<v8::Value>)
+      3    0.1%    0.1%  node::(anonymous namespace)::GetLibuvNow(v8::FunctionCallbackInfo<v8::Value> const&)
+      3    0.1%    0.1%  cfree
+      3    0.1%    0.1%  __GI___libc_read
+      2    0.0%    0.1%  v8::Value::IsObject() const
+      2    0.0%    0.1%  v8::TryCatch::SetCaptureMessage(bool)
+      2    0.0%    0.1%  v8::String::IsExternalOneByte() const
+      2    0.0%    0.1%  v8::MicrotasksScope::PerformCheckpoint(v8::Isolate*)
+      2    0.0%    0.1%  v8::Isolate::GetCurrent()
+      2    0.0%    0.1%  v8::Integer::New(v8::Isolate*, int)
+      2    0.0%    0.1%  v8::Context::Enter()
+      2    0.0%    0.1%  operator new[](unsigned long)
+      2    0.0%    0.1%  operator new(unsigned long)
+      2    0.0%    0.1%  node::fs::Stat(v8::FunctionCallbackInfo<v8::Value> const&)
+      2    0.0%    0.1%  node::Utf8Value::Utf8Value(v8::Isolate*, v8::Local<v8::Value>)
+      2    0.0%    0.1%  node::HandleWrap::Close(v8::FunctionCallbackInfo<v8::Value> const&)
+      2    0.0%    0.1%  node::(anonymous namespace)::Parser::Proxy<int (node::(anonymous namespace)::Parser::*)(), &node::(anonymous namespace)::Parser::on_message_complete>::Raw(llhttp__internal_s*)
+      1    0.0%    0.0%  v8::internal::heap_internals::GenerationalBarrierInternal(v8::internal::HeapObject, unsigned long, v8::internal::HeapObject)
+      1    0.0%    0.0%  v8::internal::UnoptimizedCompilationJob::RecordCompilationStats(v8::internal::Isolate*) const
+      1    0.0%    0.0%  v8::internal::Scope::LookupInScopeInfo(v8::internal::AstRawString const*, v8::internal::Scope*)
+      1    0.0%    0.0%  v8::internal::FunctionCallbackArguments::FunctionCallbackArguments(v8::internal::Isolate*, v8::internal::Object, v8::internal::HeapObject, v8::internal::Object, v8::internal::HeapObject, unsigned long*, int)
+      1    0.0%    0.0%  v8::internal::AstValueFactory::GetString(unsigned int, bool, v8::internal::Vector<unsigned char const>)
+      1    0.0%    0.0%  v8::Value::IsArray() const
+      1    0.0%    0.0%  v8::TryCatch::TryCatch(v8::Isolate*)
+      1    0.0%    0.0%  v8::Integer::NewFromUnsigned(v8::Isolate*, unsigned int)
+      1    0.0%    0.0%  v8::Array::Length() const
+      1    0.0%    0.0%  syscall
+      1    0.0%    0.0%  std::ios_base::~ios_base()
+      1    0.0%    0.0%  std::basic_ostream<char, std::char_traits<char> >& std::__ostream_insert<char, std::char_traits<char> >(std::basic_ostream<char, std::char_traits<char> >&, char const*, long)
+      1    0.0%    0.0%  std::__detail::_Prime_rehash_policy::_M_next_bkt(unsigned long) const
+      1    0.0%    0.0%  std::_Rb_tree_insert_and_rebalance(bool, std::_Rb_tree_node_base*, std::_Rb_tree_node_base*, std::_Rb_tree_node_base&)
+      1    0.0%    0.0%  non-virtual thunk to node::(anonymous namespace)::Parser::OnStreamRead(long, uv_buf_t const&)
+      1    0.0%    0.0%  node::LibuvStreamWrap::OnUvRead(long, uv_buf_t const*)
+      1    0.0%    0.0%  node::LibuvStreamWrap::IsAlive()
+      1    0.0%    0.0%  node::LibuvStreamWrap::DoTryWrite(uv_buf_t**, unsigned long*)
+      1    0.0%    0.0%  node::EnvGetter(v8::Local<v8::Name>, v8::PropertyCallbackInfo<v8::Value> const&)
+      1    0.0%    0.0%  node::Buffer::(anonymous namespace)::ByteLengthUtf8(v8::FunctionCallbackInfo<v8::Value> const&)
+      1    0.0%    0.0%  node::AsyncWrap::EmitBefore(node::Environment*, double)
+      1    0.0%    0.0%  node::AsyncWrap::EmitAfter(node::Environment*, double)
+      1    0.0%    0.0%  mprotect
+      1    0.0%    0.0%  fwrite
+      1    0.0%    0.0%  brk
+      1    0.0%    0.0%  __pthread_mutex_unlock_usercnt
+      1    0.0%    0.0%  __pthread_cond_timedwait
+      1    0.0%    0.0%  __pthread_cond_broadcast
+      1    0.0%    0.0%  __lll_unlock_wake
+      1    0.0%    0.0%  __errno_location
+      1    0.0%    0.0%  __GI___pthread_mutex_lock
+
+ [Summary]:
+   ticks  total  nonlib   name
+    842   17.4%   32.1%  JavaScript
+   1766   36.5%   67.2%  C++
+     85    1.8%    3.2%  GC
+   2209   45.7%          Shared libraries
+     19    0.4%          Unaccounted
+
+ [C++ entry points]:
+   ticks    cpp   total   name
+   1015   66.1%   21.0%  writev
+    164   10.7%    3.4%  v8::internal::Builtin_HandleApiCall(int, unsigned long*, v8::internal::Isolate*)
+     65    4.2%    1.3%  v8::internal::Builtin_ArrayConcat(int, unsigned long*, v8::internal::Isolate*)
+     35    2.3%    0.7%  node::StreamBase::Writev(v8::FunctionCallbackInfo<v8::Value> const&)
+     19    1.2%    0.4%  v8::Object::Get(v8::Local<v8::Context>, unsigned int)
+     14    0.9%    0.3%  v8::String::WriteUtf8(v8::Isolate*, char*, int, int*, int) const
+     13    0.8%    0.3%  node::StringBytes::StorageSize(v8::Isolate*, v8::Local<v8::Value>, node::encoding)
+     13    0.8%    0.3%  int v8::(anonymous namespace)::WriteUtf8Impl<unsigned char>(v8::internal::Vector<unsigned char const>, char*, int, int, int*)
+     10    0.7%    0.2%  node::task_queue::RunMicrotasks(v8::FunctionCallbackInfo<v8::Value> const&)
+      9    0.6%    0.2%  void node::StreamBase::JSMethod<&node::StreamBase::Writev>(v8::FunctionCallbackInfo<v8::Value> const&)
+      9    0.6%    0.2%  v8::internal::String::Flatten(v8::internal::Isolate*, v8::internal::Handle<v8::internal::String>, v8::internal::AllocationType)
+      9    0.6%    0.2%  node::ParseEncoding(char const*, node::encoding)
+      8    0.5%    0.2%  v8::(anonymous namespace)::CallDepthScope<false>::CallDepthScope(v8::internal::Isolate*, v8::Local<v8::Context>)
+      8    0.5%    0.2%  node::Environment::GetNow()
+      7    0.5%    0.1%  v8::Isolate::GetCurrentContext()
+      7    0.5%    0.1%  v8::HandleScope::~HandleScope()
+      6    0.4%    0.1%  v8::String::Utf8Length(v8::Isolate*) const
+      6    0.4%    0.1%  v8::HandleScope::HandleScope(v8::Isolate*)
+      6    0.4%    0.1%  node::ParseEncoding(v8::Isolate*, v8::Local<v8::Value>, node::encoding)
+      5    0.3%    0.1%  v8::Value::ToString(v8::Local<v8::Context>) const
+      5    0.3%    0.1%  v8::TryCatch::SetVerbose(bool)
+      5    0.3%    0.1%  __pthread_cond_signal
+      5    0.3%    0.1%  __libc_malloc
+      4    0.3%    0.1%  write
+      4    0.3%    0.1%  v8::internal::Builtin_JsonParse(int, unsigned long*, v8::internal::Isolate*)
+      4    0.3%    0.1%  v8::internal::Builtin_ErrorConstructor(int, unsigned long*, v8::internal::Isolate*)
+      4    0.3%    0.1%  v8::internal::Builtin_CallSitePrototypeToString(int, unsigned long*, v8::internal::Isolate*)
+      4    0.3%    0.1%  v8::Value::IsArrayBufferView() const
+      4    0.3%    0.1%  v8::TryCatch::~TryCatch()
+      4    0.3%    0.1%  node::StringBytes::Write(v8::Isolate*, char*, unsigned long, v8::Local<v8::Value>, node::encoding, int*)
+      4    0.3%    0.1%  __clock_gettime
+      4    0.3%    0.1%  __GI___pthread_getspecific
+      3    0.2%    0.1%  v8::String::Length() const
+      3    0.2%    0.1%  v8::(anonymous namespace)::CallDepthScope<false>::~CallDepthScope()
+      3    0.2%    0.1%  non-virtual thunk to node::LibuvStreamWrap::IsAlive()
+      3    0.2%    0.1%  node::inspector::(anonymous namespace)::InspectorConsoleCall(v8::FunctionCallbackInfo<v8::Value> const&)
+      3    0.2%    0.1%  node::Buffer::HasInstance(v8::Local<v8::Value>)
+      3    0.2%    0.1%  node::(anonymous namespace)::GetLibuvNow(v8::FunctionCallbackInfo<v8::Value> const&)
+      3    0.2%    0.1%  _init
+      2    0.1%    0.0%  v8::internal::Builtin_ArrayShift(int, unsigned long*, v8::internal::Isolate*)
+      2    0.1%    0.0%  v8::internal::Accessors::ErrorStackGetter(v8::Local<v8::Name>, v8::PropertyCallbackInfo<v8::Value> const&)
+      2    0.1%    0.0%  v8::Value::IsObject() const
+      2    0.1%    0.0%  v8::TryCatch::SetCaptureMessage(bool)
+      2    0.1%    0.0%  v8::String::IsExternalOneByte() const
+      2    0.1%    0.0%  v8::MicrotasksScope::PerformCheckpoint(v8::Isolate*)
+      2    0.1%    0.0%  v8::EscapableHandleScope::Escape(unsigned long*)
+      2    0.1%    0.0%  v8::EscapableHandleScope::EscapableHandleScope(v8::Isolate*)
+      2    0.1%    0.0%  node::Utf8Value::Utf8Value(v8::Isolate*, v8::Local<v8::Value>)
+      1    0.1%    0.0%  v8::internal::UnoptimizedCompilationJob::RecordCompilationStats(v8::internal::Isolate*) const
+      1    0.1%    0.0%  v8::internal::Scope::LookupInScopeInfo(v8::internal::AstRawString const*, v8::internal::Scope*)
+      1    0.1%    0.0%  v8::internal::Builtin_NumberPrototypeToString(int, unsigned long*, v8::internal::Isolate*)
+      1    0.1%    0.0%  v8::internal::AstValueFactory::GetString(unsigned int, bool, v8::internal::Vector<unsigned char const>)
+      1    0.1%    0.0%  v8::Value::IsArray() const
+      1    0.1%    0.0%  v8::TryCatch::TryCatch(v8::Isolate*)
+      1    0.1%    0.0%  v8::Integer::NewFromUnsigned(v8::Isolate*, unsigned int)
+      1    0.1%    0.0%  v8::Array::Length() const
+      1    0.1%    0.0%  std::ios_base::~ios_base()
+      1    0.1%    0.0%  std::basic_ostream<char, std::char_traits<char> >& std::__ostream_insert<char, std::char_traits<char> >(std::basic_ostream<char, std::char_traits<char> >&, char const*, long)
+      1    0.1%    0.0%  std::__detail::_Prime_rehash_policy::_M_next_bkt(unsigned long) const
+      1    0.1%    0.0%  std::_Rb_tree_insert_and_rebalance(bool, std::_Rb_tree_node_base*, std::_Rb_tree_node_base*, std::_Rb_tree_node_base&)
+      1    0.1%    0.0%  node::LibuvStreamWrap::IsAlive()
+      1    0.1%    0.0%  node::LibuvStreamWrap::DoTryWrite(uv_buf_t**, unsigned long*)
+      1    0.1%    0.0%  node::EnvGetter(v8::Local<v8::Name>, v8::PropertyCallbackInfo<v8::Value> const&)
+      1    0.1%    0.0%  cfree
+      1    0.1%    0.0%  brk
+
+ [Bottom up (heavy) profile]:
+  Note: percentage shows a share of a particular caller in the total
+  amount of its parent calls.
+  Callers occupying less than 1.0% are not shown.
+
+   ticks parent  name
+   2010   41.6%  /home/southorange/.nvm/versions/node/v12.14.1/bin/node
+    339   16.9%    /home/southorange/.nvm/versions/node/v12.14.1/bin/node
+     87   25.7%      LazyCompile: *processTicksAndRejections internal/process/task_queues.js:66:35
+     78   23.0%      LazyCompile: *_storeHeader _http_outgoing.js:306:22
+     77   98.7%        LazyCompile: *write_ _http_outgoing.js:592:16
+     77  100.0%          LazyCompile: *handleResponse /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_koa@2.11.0@koa/lib/application.js:164:28
+     77  100.0%            /home/southorange/.nvm/versions/node/v12.14.1/bin/node
+      1    1.3%        LazyCompile: ~writeHead _http_server.js:241:19
+      1  100.0%          LazyCompile: ~_implicitHeader _http_server.js:236:68
+      1  100.0%            LazyCompile: ~write_ _http_outgoing.js:592:16
+     28    8.3%      /home/southorange/.nvm/versions/node/v12.14.1/bin/node
+     15   53.6%        LazyCompile: *<anonymous> /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_koa-router@8.0.7@koa-router/lib/router.js:364:25
+     15  100.0%          LazyCompile: *dispatch /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_koa-compose@4.1.0@koa-compose/index.js:35:23
+     15  100.0%            LazyCompile: *<anonymous> /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_koa-compose@4.1.0@koa-compose/index.js:31:19
+     10   35.7%        /home/southorange/.nvm/versions/node/v12.14.1/bin/node
+     10  100.0%          LazyCompile: *<anonymous> /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_koa-router@8.0.7@koa-router/lib/router.js:364:25
+     10  100.0%            LazyCompile: *dispatch /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_koa-compose@4.1.0@koa-compose/index.js:35:23
+      1    3.6%        LazyCompile: ~Module._findPath internal/modules/cjs/loader.js:463:28
+      1  100.0%          LazyCompile: ~Module._resolveFilename internal/modules/cjs/loader.js:738:35
+      1  100.0%            LazyCompile: ~Module._load internal/modules/cjs/loader.js:667:24
+      1    3.6%        LazyCompile: ~Layer.match /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_koa-router@8.0.7@koa-router/lib/layer.js:61:34
+      1  100.0%          LazyCompile: ~Router.match /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_koa-router@8.0.7@koa-router/lib/router.js:677:35
+      1  100.0%            LazyCompile: ~dispatch /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_koa-router@8.0.7@koa-router/lib/router.js:339:35
+      1    3.6%        LazyCompile: ~<anonymous> /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_debug@3.1.0@debug/src/node.js:49:64
+      1  100.0%          /home/southorange/.nvm/versions/node/v12.14.1/bin/node
+      1  100.0%            Eval: ~<anonymous> /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_debug@3.1.0@debug/src/node.js:1:1
+     20    5.9%      LazyCompile: *<anonymous> /home/southorange/project/node_project/iqy-server/benchmark/koa_test/index.js:7:20
+     20  100.0%        LazyCompile: *dispatch /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_koa-compose@4.1.0@koa-compose/index.js:35:23
+     20  100.0%          LazyCompile: *<anonymous> /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_koa-router@8.0.7@koa-router/lib/router.js:364:25
+     20  100.0%            LazyCompile: *dispatch /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_koa-compose@4.1.0@koa-compose/index.js:35:23
+     19    5.6%      LazyCompile: *<anonymous> /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_koa-router@8.0.7@koa-router/lib/router.js:364:25
+     19  100.0%        LazyCompile: *dispatch /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_koa-compose@4.1.0@koa-compose/index.js:35:23
+     19  100.0%          LazyCompile: *<anonymous> /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_koa-compose@4.1.0@koa-compose/index.js:31:19
+     19  100.0%            LazyCompile: *dispatch /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_koa-router@8.0.7@koa-router/lib/router.js:339:35
+     12    3.5%      LazyCompile: *set /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_koa@2.11.0@koa/lib/response.js:457:6
+     11   91.7%        LazyCompile: *<anonymous> /home/southorange/project/node_project/iqy-server/benchmark/koa_test/index.js:7:20
+     11  100.0%          LazyCompile: *dispatch /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_koa-compose@4.1.0@koa-compose/index.js:35:23
+     11  100.0%            LazyCompile: *<anonymous> /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_koa-router@8.0.7@koa-router/lib/router.js:364:25
+      1    8.3%        LazyCompile: ~set type /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_koa@2.11.0@koa/lib/response.js:307:11
+      1  100.0%          LazyCompile: *set body /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_koa@2.11.0@koa/lib/response.js:135:11
+      1  100.0%            LazyCompile: ~<anonymous> /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_delegates@1.0.0@delegates/index.js:91:40
+      5    1.5%      LazyCompile: ~onSocket /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_on-finished@2.3.0@on-finished/index.js:106:20
+      1   20.0%        LazyCompile: ~attachFinishedListener /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_on-finished@2.3.0@on-finished/index.js:90:32
+      1  100.0%          LazyCompile: ~attachListener /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_on-finished@2.3.0@on-finished/index.js:140:24
+      1  100.0%            LazyCompile: ~onFinished /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_on-finished@2.3.0@on-finished/index.js:45:20
+      1   20.0%        LazyCompile: *handleRequest /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_koa@2.11.0@koa/lib/application.js:160:16
+      1  100.0%          LazyCompile: ~handleRequest /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_koa@2.11.0@koa/lib/application.js:146:27
+      1  100.0%            LazyCompile: *parserOnIncoming _http_server.js:679:26
+      1   20.0%        LazyCompile: *handleRequest /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_koa@2.11.0@koa/lib/application.js:146:27
+      1  100.0%          LazyCompile: *parserOnIncoming _http_server.js:679:26
+      1  100.0%            LazyCompile: *parserOnHeadersComplete _http_common.js:70:33
+      1   20.0%        LazyCompile: *emit events.js:173:44
+      1  100.0%          LazyCompile: ~assignSocket _http_server.js:210:62
+      1  100.0%            LazyCompile: ~resOnFinish _http_server.js:633:21
+      1   20.0%        LazyCompile: *assignSocket _http_server.js:210:62
+      1  100.0%          LazyCompile: *resOnFinish _http_server.js:633:21
+      1  100.0%            LazyCompile: *emit events.js:173:44
+      5    1.5%      LazyCompile: *setStreamTimeout internal/stream_base_commons.js:219:26
+      3   60.0%        LazyCompile: *parserOnIncoming _http_server.js:679:26
+      3  100.0%          LazyCompile: *parserOnHeadersComplete _http_common.js:70:33
+      2   40.0%        LazyCompile: *resOnFinish _http_server.js:633:21
+      2  100.0%          LazyCompile: *onFinish _http_outgoing.js:685:18
+      2  100.0%            LazyCompile: *onCorkedFinish _stream_writable.js:709:24
+    149    7.4%    LazyCompile: *Writable.uncork _stream_writable.js:319:37
+    104   69.8%      LazyCompile: *handleResponse /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_koa@2.11.0@koa/lib/application.js:164:28
+    104  100.0%        /home/southorange/.nvm/versions/node/v12.14.1/bin/node
+    104  100.0%          LazyCompile: *processTicksAndRejections internal/process/task_queues.js:66:35
+     45   30.2%      LazyCompile: *assignSocket _http_server.js:210:62
+     45  100.0%        LazyCompile: *resOnFinish _http_server.js:633:21
+     44   97.8%          LazyCompile: *onFinish _http_outgoing.js:685:18
+     44  100.0%            LazyCompile: *onCorkedFinish _stream_writable.js:709:24
+      1    2.2%          LazyCompile: *emit events.js:173:44
+      1  100.0%            LazyCompile: ~onFinish _http_outgoing.js:685:18
+    108    5.4%    LazyCompile: *handleResponse /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_koa@2.11.0@koa/lib/application.js:164:28
+    108  100.0%      /home/southorange/.nvm/versions/node/v12.14.1/bin/node
+    108  100.0%        LazyCompile: *processTicksAndRejections internal/process/task_queues.js:66:35
+     83    4.1%    LazyCompile: *parserOnHeadersComplete _http_common.js:70:33
+     53    2.6%    LazyCompile: *dispatch /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_koa-compose@4.1.0@koa-compose/index.js:35:23
+     29   54.7%      LazyCompile: *<anonymous> /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_koa-router@8.0.7@koa-router/lib/router.js:364:25
+     29  100.0%        LazyCompile: *dispatch /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_koa-compose@4.1.0@koa-compose/index.js:35:23
+     29  100.0%          LazyCompile: *<anonymous> /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_koa-compose@4.1.0@koa-compose/index.js:31:19
+     29  100.0%            LazyCompile: *dispatch /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_koa-router@8.0.7@koa-router/lib/router.js:339:35
+     16   30.2%      LazyCompile: *handleRequest /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_koa@2.11.0@koa/lib/application.js:146:27
+     16  100.0%        LazyCompile: *parserOnIncoming _http_server.js:679:26
+     16  100.0%          LazyCompile: *parserOnHeadersComplete _http_common.js:70:33
+      8   15.1%      LazyCompile: *<anonymous> /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_koa-compose@4.1.0@koa-compose/index.js:31:19
+      8  100.0%        LazyCompile: *dispatch /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_koa-router@8.0.7@koa-router/lib/router.js:339:35
+      8  100.0%          LazyCompile: *dispatch /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_koa-compose@4.1.0@koa-compose/index.js:35:23
+      8  100.0%            LazyCompile: *handleRequest /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_koa@2.11.0@koa/lib/application.js:146:27
+     48    2.4%    v8::internal::Builtin_ArrayConcat(int, unsigned long*, v8::internal::Isolate*)
+     46   95.8%      LazyCompile: *dispatch /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_koa-router@8.0.7@koa-router/lib/router.js:339:35
+     46  100.0%        LazyCompile: *dispatch /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_koa-compose@4.1.0@koa-compose/index.js:35:23
+     46  100.0%          LazyCompile: *handleRequest /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_koa@2.11.0@koa/lib/application.js:146:27
+     46  100.0%            LazyCompile: *parserOnIncoming _http_server.js:679:26
+      1    2.1%      LazyCompile: ~Module._resolveLookupPaths internal/modules/cjs/loader.js:621:38
+      1  100.0%        LazyCompile: ~Module._resolveFilename internal/modules/cjs/loader.js:738:35
+      1  100.0%          LazyCompile: ~Module._load internal/modules/cjs/loader.js:667:24
+      1  100.0%            LazyCompile: ~Module.require internal/modules/cjs/loader.js:840:36
+      1    2.1%      LazyCompile: ~<anonymous> /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_koa-router@8.0.7@koa-router/lib/router.js:363:47
+      1  100.0%        /home/southorange/.nvm/versions/node/v12.14.1/bin/node
+      1  100.0%          LazyCompile: ~dispatch /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_koa-router@8.0.7@koa-router/lib/router.js:339:35
+      1  100.0%            LazyCompile: ~dispatch /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_koa-compose@4.1.0@koa-compose/index.js:35:23
+     40    2.0%    v8::internal::Builtin_HandleApiCall(int, unsigned long*, v8::internal::Isolate*)
+     36   90.0%      LazyCompile: *createWriteWrap internal/stream_base_commons.js:99:25
+     36  100.0%        LazyCompile: *Writable.uncork _stream_writable.js:319:37
+     27   75.0%          LazyCompile: *handleResponse /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_koa@2.11.0@koa/lib/application.js:164:28
+     27  100.0%            /home/southorange/.nvm/versions/node/v12.14.1/bin/node
+      9   25.0%          LazyCompile: *assignSocket _http_server.js:210:62
+      9  100.0%            LazyCompile: *resOnFinish _http_server.js:633:21
+      1    2.5%      LazyCompile: ~handleWriteReq internal/stream_base_commons.js:40:24
+      1  100.0%        LazyCompile: ~writeGeneric internal/stream_base_commons.js:136:22
+      1  100.0%          LazyCompile: ~Socket._writeGeneric net.js:750:42
+      1  100.0%            LazyCompile: ~Socket._write net.js:787:35
+      1    2.5%      LazyCompile: ~createWriteWrap internal/stream_base_commons.js:99:25
+      1  100.0%        LazyCompile: *Writable.uncork _stream_writable.js:319:37
+      1  100.0%          LazyCompile: *assignSocket _http_server.js:210:62
+      1  100.0%            LazyCompile: *resOnFinish _http_server.js:633:21
+      1    2.5%      LazyCompile: ~byteLength buffer.js:699:20
+      1  100.0%        LazyCompile: *<anonymous> /home/southorange/project/node_project/iqy-server/benchmark/koa_test/index.js:7:20
+      1  100.0%          LazyCompile: *dispatch /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_koa-compose@4.1.0@koa-compose/index.js:35:23
+      1  100.0%            LazyCompile: *<anonymous> /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_koa-router@8.0.7@koa-router/lib/router.js:364:25
+      1    2.5%      LazyCompile: *writevGeneric internal/stream_base_commons.js:111:23
+      1  100.0%        LazyCompile: ~Socket._writeGeneric net.js:750:42
+      1  100.0%          LazyCompile: ~Socket._writev net.js:782:36
+      1  100.0%            LazyCompile: ~doWrite _stream_writable.js:425:17
+     40    2.0%    LazyCompile: *processTicksAndRejections internal/process/task_queues.js:66:35
+     40    2.0%    LazyCompile: *dispatch /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_koa-router@8.0.7@koa-router/lib/router.js:339:35
+     40  100.0%      LazyCompile: *dispatch /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_koa-compose@4.1.0@koa-compose/index.js:35:23
+     40  100.0%        LazyCompile: *handleRequest /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_koa@2.11.0@koa/lib/application.js:146:27
+     40  100.0%          LazyCompile: *parserOnIncoming _http_server.js:679:26
+     40  100.0%            LazyCompile: *parserOnHeadersComplete _http_common.js:70:33
+     38    1.9%    LazyCompile: *parserOnIncoming _http_server.js:679:26
+     38  100.0%      LazyCompile: *parserOnHeadersComplete _http_common.js:70:33
+     35    1.7%    LazyCompile: *write_ _http_outgoing.js:592:16
+     35  100.0%      LazyCompile: *handleResponse /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_koa@2.11.0@koa/lib/application.js:164:28
+     35  100.0%        /home/southorange/.nvm/versions/node/v12.14.1/bin/node
+     35  100.0%          LazyCompile: *processTicksAndRejections internal/process/task_queues.js:66:35
+     29    1.4%    LazyCompile: *<anonymous> /home/southorange/project/node_project/iqy-server/benchmark/koa_test/index.js:7:20
+     29  100.0%      LazyCompile: *dispatch /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_koa-compose@4.1.0@koa-compose/index.js:35:23
+     29  100.0%        LazyCompile: *<anonymous> /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_koa-router@8.0.7@koa-router/lib/router.js:364:25
+     29  100.0%          LazyCompile: *dispatch /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_koa-compose@4.1.0@koa-compose/index.js:35:23
+     29  100.0%            LazyCompile: *<anonymous> /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_koa-compose@4.1.0@koa-compose/index.js:31:19
+     28    1.4%    LazyCompile: *handleRequest /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_koa@2.11.0@koa/lib/application.js:146:27
+     28  100.0%      LazyCompile: *parserOnIncoming _http_server.js:679:26
+     28  100.0%        LazyCompile: *parserOnHeadersComplete _http_common.js:70:33
+     26    1.3%    LazyCompile: *_addListener events.js:234:22
+     25   96.2%      LazyCompile: *parserOnIncoming _http_server.js:679:26
+     25  100.0%        LazyCompile: *parserOnHeadersComplete _http_common.js:70:33
+      1    3.8%      LazyCompile: *handleRequest /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_koa@2.11.0@koa/lib/application.js:146:27
+      1  100.0%        LazyCompile: *parserOnIncoming _http_server.js:679:26
+      1  100.0%          LazyCompile: *parserOnHeadersComplete _http_common.js:70:33
+     24    1.2%    LazyCompile: *cleanup /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_ee-first@1.1.1@ee-first/index.js:58:19
+     13   54.2%      LazyCompile: *onFinish /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_on-finished@2.3.0@on-finished/index.js:95:20
+     13  100.0%        LazyCompile: *callback /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_ee-first@1.1.1@ee-first/index.js:53:20
+     13  100.0%          LazyCompile: *onevent /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_ee-first@1.1.1@ee-first/index.js:81:26
+     13  100.0%            LazyCompile: *onFinish _http_outgoing.js:685:18
+     10   41.7%      LazyCompile: *callback /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_ee-first@1.1.1@ee-first/index.js:53:20
+     10  100.0%        LazyCompile: *onevent /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_ee-first@1.1.1@ee-first/index.js:81:26
+     10  100.0%          LazyCompile: *onFinish _http_outgoing.js:685:18
+     10  100.0%            LazyCompile: *onCorkedFinish _stream_writable.js:709:24
+      1    4.2%      LazyCompile: ~onFinish /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_on-finished@2.3.0@on-finished/index.js:95:20
+      1  100.0%        LazyCompile: ~callback /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_ee-first@1.1.1@ee-first/index.js:53:20
+      1  100.0%          LazyCompile: ~onevent /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_ee-first@1.1.1@ee-first/index.js:81:26
+      1  100.0%            LazyCompile: *emit events.js:173:44
+     23    1.1%    LazyCompile: *resOnFinish _http_server.js:633:21
+     22   95.7%      LazyCompile: *onFinish _http_outgoing.js:685:18
+     22  100.0%        LazyCompile: *onCorkedFinish _stream_writable.js:709:24
+     22  100.0%          LazyCompile: *afterWriteTick _stream_writable.js:507:24
+     22  100.0%            LazyCompile: *processTicksAndRejections internal/process/task_queues.js:66:35
+      1    4.3%      LazyCompile: *emit events.js:173:44
+      1  100.0%        LazyCompile: ~onFinish _http_outgoing.js:685:18
+      1  100.0%          LazyCompile: *onCorkedFinish _stream_writable.js:709:24
+      1  100.0%            LazyCompile: *afterWriteTick _stream_writable.js:507:24
+
+   1015   21.0%  writev
+    998   98.3%    LazyCompile: *Writable.uncork _stream_writable.js:319:37
+    880   88.2%      LazyCompile: *handleResponse /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_koa@2.11.0@koa/lib/application.js:164:28
+    880  100.0%        /home/southorange/.nvm/versions/node/v12.14.1/bin/node
+    880  100.0%          LazyCompile: *processTicksAndRejections internal/process/task_queues.js:66:35
+    118   11.8%      LazyCompile: *assignSocket _http_server.js:210:62
+    118  100.0%        LazyCompile: *resOnFinish _http_server.js:633:21
+    112   94.9%          LazyCompile: *onFinish _http_outgoing.js:685:18
+    112  100.0%            LazyCompile: *onCorkedFinish _stream_writable.js:709:24
+      6    5.1%          LazyCompile: *emit events.js:173:44
+      6  100.0%            LazyCompile: ~onFinish _http_outgoing.js:685:18
+     11    1.1%    LazyCompile: *writevGeneric internal/stream_base_commons.js:111:23
+     11  100.0%      LazyCompile: ~Socket._writeGeneric net.js:750:42
+     11  100.0%        LazyCompile: ~Socket._writev net.js:782:36
+     11  100.0%          LazyCompile: ~doWrite _stream_writable.js:425:17
+     11  100.0%            LazyCompile: ~clearBuffer _stream_writable.js:529:21
+
+    127    2.6%  /usr/lib/x86_64-linux-gnu/libpthread-2.24.so
+
+     63    1.3%  /usr/lib/x86_64-linux-gnu/libc-2.24.so
+     35   55.6%    LazyCompile: *Writable.uncork _stream_writable.js:319:37
+     25   71.4%      LazyCompile: *handleResponse /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_koa@2.11.0@koa/lib/application.js:164:28
+     25  100.0%        /home/southorange/.nvm/versions/node/v12.14.1/bin/node
+     25  100.0%          LazyCompile: *processTicksAndRejections internal/process/task_queues.js:66:35
+     10   28.6%      LazyCompile: *assignSocket _http_server.js:210:62
+     10  100.0%        LazyCompile: *resOnFinish _http_server.js:633:21
+     10  100.0%          LazyCompile: *onFinish _http_outgoing.js:685:18
+     10  100.0%            LazyCompile: *onCorkedFinish _stream_writable.js:709:24
+      6    9.5%    /home/southorange/.nvm/versions/node/v12.14.1/bin/node
+      1   16.7%      LazyCompile: ~shift internal/fixed_queue.js:104:8
+      1  100.0%        LazyCompile: ~processTicksAndRejections internal/process/task_queues.js:66:35
+      1   16.7%      LazyCompile: ~Writable.write _stream_writable.js:282:36
+      1  100.0%        LazyCompile: ~_writeRaw _http_outgoing.js:276:19
+      1  100.0%          LazyCompile: ~_send _http_outgoing.js:243:49
+      1  100.0%            LazyCompile: ~write_ _http_outgoing.js:592:16
+      1   16.7%      LazyCompile: ~<anonymous> /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_delegates@1.0.0@delegates/index.js:91:40
+      1  100.0%        LazyCompile: ~<anonymous> /home/southorange/project/node_project/iqy-server/benchmark/koa_test/index.js:7:20
+      1  100.0%          LazyCompile: *dispatch /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_koa-compose@4.1.0@koa-compose/index.js:35:23
+      1  100.0%            LazyCompile: *<anonymous> /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_koa-router@8.0.7@koa-router/lib/router.js:364:25
+      1   16.7%      LazyCompile: *set /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_koa@2.11.0@koa/lib/response.js:457:6
+      1  100.0%        LazyCompile: *<anonymous> /home/southorange/project/node_project/iqy-server/benchmark/koa_test/index.js:7:20
+      1  100.0%          LazyCompile: *dispatch /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_koa-compose@4.1.0@koa-compose/index.js:35:23
+      1  100.0%            LazyCompile: *<anonymous> /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_koa-router@8.0.7@koa-router/lib/router.js:364:25
+      1   16.7%      LazyCompile: *parserOnMessageComplete _http_common.js:134:33
+      1   16.7%      LazyCompile: *handleRequest /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_koa@2.11.0@koa/lib/application.js:146:27
+      1  100.0%        LazyCompile: *parserOnIncoming _http_server.js:679:26
+      1  100.0%          LazyCompile: *parserOnHeadersComplete _http_common.js:70:33
+      2    3.2%    v8::internal::Builtin_ErrorConstructor(int, unsigned long*, v8::internal::Isolate*)
+      2  100.0%      LazyCompile: ~errnoException internal/errors.js:457:24
+      2  100.0%        LazyCompile: ~afterWriteDispatched internal/stream_base_commons.js:144:30
+      2  100.0%          LazyCompile: ~writevGeneric internal/stream_base_commons.js:111:23
+      2  100.0%            LazyCompile: ~Socket._writeGeneric net.js:750:42
+      2    3.2%    v8::internal::Builtin_ArrayConcat(int, unsigned long*, v8::internal::Isolate*)
+      1   50.0%      LazyCompile: ~<anonymous> /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_koa-router@8.0.7@koa-router/lib/router.js:363:47
+      1  100.0%        /home/southorange/.nvm/versions/node/v12.14.1/bin/node
+      1  100.0%          LazyCompile: ~dispatch /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_koa-router@8.0.7@koa-router/lib/router.js:339:35
+      1  100.0%            LazyCompile: ~dispatch /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_koa-compose@4.1.0@koa-compose/index.js:35:23
+      1   50.0%      LazyCompile: *dispatch /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_koa-router@8.0.7@koa-router/lib/router.js:339:35
+      1  100.0%        LazyCompile: *dispatch /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_koa-compose@4.1.0@koa-compose/index.js:35:23
+      1  100.0%          LazyCompile: *handleRequest /home/southorange/project/node_project/iqy-server/benchmark/koa_test/node_modules/_koa@2.11.0@koa/lib/application.js:146:27
+      1  100.0%            LazyCompile: *parserOnIncoming _http_server.js:679:26
+      2    3.2%    LazyCompile: *parserOnHeadersComplete _http_common.js:70:33
+
