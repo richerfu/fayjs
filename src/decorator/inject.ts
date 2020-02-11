@@ -20,11 +20,9 @@ export const providedContainer: WeakMap<Function, any> = new WeakMap<
 >();
 
 /**
- * 中间件集合　前置中间件和后置中间件
+ * 中间件集合
  */
-export const BeforeMiddleware: Map<number,any[]> = new Map<number,any[]>();
-export const AfterMiddleware: Map<number,any[]> = new Map<number,any[]>();
-
+export const Middleware: Map<number, any[]> = new Map<number, any[]>();
 
 /**
  * ioc实例集合

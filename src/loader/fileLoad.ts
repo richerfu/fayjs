@@ -23,8 +23,7 @@ import {
   _Controller,
   _Middleware,
   _Service,
-  BeforeMiddleware,
-  AfterMiddleware,
+  Middleware,
 } from "../decorator/inject";
 import { LoadError } from "../utils/error";
 
@@ -61,11 +60,9 @@ export class Loader {
     // 加载内置middleware
     this.UseInnerMiddleware(this._app, this._config);
     // 加载中间件
-    this.TypeMiddlewareOrder(_Middleware);
-    this.LoadBeforeMiddleware(BeforeMiddleware, this._app, this._config);
+    this.LoadMiddleware(_Middleware, this._app, this._config);
     // 加载router
     this.LoadController(_Controller, this._app, this._router, this._config);
-    this.LoadAfterMiddleware(AfterMiddleware, this._app, this._config);
   }
 
   /**
@@ -188,40 +185,22 @@ export class Loader {
    * @param _Middleware
    * @since 0.0.7
    */
-  private LoadBeforeMiddleware(
-    beforeMiddleware: Map<number, any[]>,
+  private LoadMiddleware(
+    _Middleware: Set<Function | any>,
     _App: Koa,
     config: Config
   ): void {
-    const mid = Array.from(beforeMiddleware)
-      .sort((a, b) => {
-        return b[0] - a[0];
-      })
-      .reduce((allMid, item) => {
-        allMid.push(item[1]);
-        return allMid;
-      }, [])
-      .forEach(item => {
-        _App.use(async (ctx: Koa.Context, next: Koa.Next) => {
-          const resolve = Reflect.getMetadata(MIDDLEWARE, item[0]);
-          item[1].ctx = ctx;
-          item[1].next = next;
-          item[1].config = config;
-          try {
-            await resolve.apply(item[1]);
-          } catch (e) {
-            throw new LoadError(`${item[0]} Init Error: ${e.message}`);
-          }
-        });
-      });
-  }
-
-  private LoadAfterMiddleware(
-    afterMiddleware: Map<number, any[]>,
-    _App: Koa,
-    config: Config
-  ): void {
-    Array.from(afterMiddleware)
+    for (const middleware of _Middleware) {
+      const middlewareInstance = iocContainer.get(middleware);
+      const order = Reflect.getMetadata(ORDER, middleware);
+      if (Middleware.has(order)) {
+        const mid = Middleware.get(order);
+        Middleware.set(order, mid.concat([middleware, middlewareInstance]));
+      } else {
+        Middleware.set(order, [middleware, middlewareInstance]);
+      }
+    }
+    Array.from(Middleware)
       .sort((a, b) => {
         return b[0] - a[0];
       })
@@ -280,38 +259,6 @@ export class Loader {
       }
     );
     _App.use(KoaBodyParser(KoaBodyParserConfig));
-  }
-
-  /**
-   * 对中间件进行分类　前置中间件和后置中间件
-   * @param _Middleware
-   */
-  private TypeMiddlewareOrder(_Middleware: Set<Function | any>) {
-    for (const middleware of _Middleware) {
-      const middlewareInstance = iocContainer.get(middleware);
-      const order = Reflect.getMetadata(ORDER, middleware);
-      if (Number(order) > 0) {
-        if (BeforeMiddleware.has(order)) {
-          const mid = BeforeMiddleware.get(order);
-          BeforeMiddleware.set(
-            order,
-            mid.concat([middleware, middlewareInstance])
-          );
-        } else {
-          BeforeMiddleware.set(order, [middleware, middlewareInstance]);
-        }
-      } else {
-        if (AfterMiddleware.has(order)) {
-          const mid = BeforeMiddleware.get(order);
-          AfterMiddleware.set(
-            order,
-            mid.concat([middleware, middlewareInstance])
-          );
-        } else {
-          AfterMiddleware.set(order, [middleware, middlewareInstance]);
-        }
-      }
-    }
   }
 
   private LoadPlugin(config: Config, _App: Koa): void {
