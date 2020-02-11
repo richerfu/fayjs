@@ -54,7 +54,10 @@ export class SoService implements IContext {
   }
 }
 
-export interface SoMiddleware extends IContext {
+export interface SoMiddleware {
+  ctx: Koa.Context;
+  next: Koa.Next;
+  config: any;
   resolve(): Promise<void> | void;
 }
 

@@ -79,7 +79,7 @@ export function Middleware(order?: number) {
     if (middlewareInstance.resolve) {
       const initMethod = middlewareInstance.resolve;
       Reflect.defineMetadata(MIDDLEWARE, initMethod, target);
-      Reflect.defineMetadata(ORDER, order ? 1 : order, target);
+      Reflect.defineMetadata(ORDER, order ? order : 1, target);
       if (!_Middleware.has(target)) {
         Inject(target);
         _Middleware.add(target);

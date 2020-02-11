@@ -192,12 +192,13 @@ export class Loader {
     _App: Koa,
     config: Config
   ): void {
-    Array.from(beforeMiddleware)
+    const mid = Array.from(beforeMiddleware)
       .sort((a, b) => {
         return b[0] - a[0];
       })
       .reduce((allMid, item) => {
-        return allMid.concat(item[1]);
+        allMid.push(item[1]);
+        return allMid;
       }, [])
       .forEach(item => {
         _App.use(async (ctx: Koa.Context, next: Koa.Next) => {
@@ -224,7 +225,8 @@ export class Loader {
         return b[0] - a[0];
       })
       .reduce((allMid, item) => {
-        return allMid.concat(item[1]);
+        allMid.push(item[1]);
+        return allMid;
       }, [])
       .forEach(item => {
         _App.use(async (ctx: Koa.Context, next: Koa.Next) => {

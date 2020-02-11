@@ -7,6 +7,7 @@ import {
   _Middleware,
   _Plugin,
   _Service,
+  BeforeMiddleware,
 } from "../../dist/decorator/inject";
 import { Curl } from "../../dist/plugins/curl";
 
