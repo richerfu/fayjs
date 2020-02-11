@@ -2,7 +2,7 @@
 import "reflect-metadata";
 import * as Koa from "koa";
 import * as KoaRouter from "koa-router";
-import logger from "../utils/logger";
+import { Logger } from "../tools/logger";
 import { Loader } from "../loader/fileLoad";
 import { Options } from "../utils/interface";
 import { getLocalIPAddress } from "../utils/common";
@@ -43,7 +43,7 @@ export default class SoServer extends Koa {
       );
       loader.init();
     } catch (e) {
-      logger.error(e);
+      Logger.error(e);
       process.exit(0);
     }
   }
@@ -53,7 +53,7 @@ export default class SoServer extends Koa {
     host = "0.0.0.0",
     backlog?: number,
     callback: () => void = () => {
-      logger.warn(
+      Logger.warn(
         `SoServer Started Successful...\n  NetWork: \thttp://${getLocalIPAddress()}:${port}\n  Local: \thttp://127.0.0.1:${port}\n`
       );
     }
@@ -62,7 +62,7 @@ export default class SoServer extends Koa {
   }
 
   public close() {
-    logger.info("SoServer Closed Successful...");
+    Logger.info("SoServer Closed Successful...");
     process.exit(0);
   }
 }

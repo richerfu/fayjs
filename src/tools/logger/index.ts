@@ -1,4 +1,4 @@
-class Logger {
+class Log {
   public log(msg: string): void {
     console.log(`${msg}`);
   }
@@ -16,4 +16,5 @@ class Logger {
   }
 }
 
-export default new Logger();
+export const Logger = new Log();
+

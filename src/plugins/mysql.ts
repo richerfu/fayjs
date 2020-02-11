@@ -1,5 +1,5 @@
 import { DbClient, Db } from "iqy-mysql";
-import logger from "../utils/logger";
+import { Logger } from "../tools/logger";
 import { Plugin } from "../decorator/decorator";
 import { SoPlugin } from "../decorator/context";
 
@@ -38,7 +38,7 @@ export class DbLoader {
         await this.dbClient.init(this.config.clients);
       }
     } catch (e) {
-      logger.error(e);
+      Logger.error(e);
     }
   }
 

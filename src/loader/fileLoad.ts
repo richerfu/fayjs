@@ -9,7 +9,7 @@ import { iocContainer } from "../decorator/inject";
 import { MIDDLEWARE, CONFIG, RESTFUL, CONTROL } from "../decorator/constants";
 import { Config } from "../utils/interface";
 import { RequestLog } from "../middlewares/requestLog";
-import logger from "../utils/logger";
+import {Logger} from "../tools/logger";
 import { RequestBodySymbol, RequestContextSymbol } from "../utils/interface";
 import { PluginLoader } from "./pluginLoad";
 import {
@@ -164,7 +164,7 @@ export class Loader {
           } else {
             _KoaRouter[methodType](routePath, handleRequest);
           }
-          logger.info(
+          Logger.info(
             `[SoRouter Registered::] Path: ${routePath}\t Method: ${methodType}`
           );
         });

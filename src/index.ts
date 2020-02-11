@@ -18,7 +18,6 @@ import {
   SoService,
   SoPlugin,
 } from "./decorator/context";
-import Logger from "./utils/logger";
 import {
   RequestQuery,
   RequestContext,
@@ -46,7 +45,6 @@ export {
   SoController,
   SoMiddleware,
   SoService,
-  Logger,
   RequestBody,
   RequestContext,
   RequestParams,
