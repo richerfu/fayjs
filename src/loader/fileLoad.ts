@@ -159,6 +159,7 @@ export class Loader {
             controlInstance.config = config;
             try {
               await method.apply(controlInstance, parametersVals);
+              await next();
             } catch (error) {
               throw new LoadError(`${controller} Init Error: ${error.message}`);
             }

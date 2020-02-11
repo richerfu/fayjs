@@ -7,7 +7,7 @@ export class TestAMiddleware implements SoMiddleware {
   public next: Next;
   public config: any;
   public async resolve() {
-    console.log(1);
+    console.log("middleware2");
     await this.next();
   }
 }
