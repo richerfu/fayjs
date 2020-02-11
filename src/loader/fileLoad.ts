@@ -6,10 +6,16 @@ import * as Koa from "koa";
 import * as KoaRouter from "koa-router";
 import * as KoaBodyParser from "koa-body";
 import { iocContainer } from "../decorator/inject";
-import { MIDDLEWARE, CONFIG, RESTFUL, CONTROL } from "../decorator/constants";
+import {
+  MIDDLEWARE,
+  CONFIG,
+  RESTFUL,
+  CONTROL,
+  ORDER,
+} from "../decorator/constants";
 import { Config } from "../utils/interface";
 import { RequestLog } from "../middlewares/requestLog";
-import {Logger} from "../tools/logger";
+import { Logger } from "../tools/logger";
 import { RequestBodySymbol, RequestContextSymbol } from "../utils/interface";
 import { PluginLoader } from "./pluginLoad";
 import {
@@ -17,6 +23,8 @@ import {
   _Controller,
   _Middleware,
   _Service,
+  BeforeMiddleware,
+  AfterMiddleware,
 } from "../decorator/inject";
 import { LoadError } from "../utils/error";
 
@@ -53,9 +61,11 @@ export class Loader {
     // 加载内置middleware
     this.UseInnerMiddleware(this._app, this._config);
     // 加载中间件
-    this.LoadMiddleware(_Middleware, this._app, this._config);
+    this.TypeMiddlewareOrder(_Middleware);
+    this.LoadBeforeMiddleware(BeforeMiddleware, this._app, this._config);
     // 加载router
     this.LoadController(_Controller, this._app, this._router, this._config);
+    this.LoadAfterMiddleware(AfterMiddleware, this._app, this._config);
   }
 
   /**
@@ -149,6 +159,7 @@ export class Loader {
             controlInstance.config = config;
             try {
               await method.apply(controlInstance, parametersVals);
+              await next();
             } catch (error) {
               throw new LoadError(`${controller} Init Error: ${error.message}`);
             }
@@ -177,25 +188,60 @@ export class Loader {
    * @param _Middleware
    * @since 0.0.7
    */
-  private LoadMiddleware(
-    _Middleware: Set<Function | any>,
+  private LoadBeforeMiddleware(
+    beforeMiddleware: Map<number, any[]>,
     _App: Koa,
     config: Config
   ): void {
-    for (const middleware of _Middleware) {
-      const middlewareInstance = iocContainer.get(middleware);
-      const run = Reflect.getMetadata(MIDDLEWARE, middleware);
-      _App.use(async (ctx: Koa.Context, next: Koa.Next) => {
-        middlewareInstance.ctx = ctx;
-        middlewareInstance.next = next;
-        middlewareInstance.config = config;
-        try {
-          await run.apply(middlewareInstance, [ctx, next]);
-        } catch (e) {
-          throw new LoadError(`${middleware} Init Error: ${e.message}`);
-        }
+    const mid = Array.from(beforeMiddleware)
+      .sort((a, b) => {
+        return b[0] - a[0];
+      })
+      .reduce((allMid, item) => {
+        allMid.push(item[1]);
+        return allMid;
+      }, [])
+      .forEach(item => {
+        _App.use(async (ctx: Koa.Context, next: Koa.Next) => {
+          const resolve = Reflect.getMetadata(MIDDLEWARE, item[0]);
+          item[1].ctx = ctx;
+          item[1].next = next;
+          item[1].config = config;
+          try {
+            await resolve.apply(item[1]);
+          } catch (e) {
+            throw new LoadError(`${item[0]} Init Error: ${e.message}`);
+          }
+        });
       });
-    }
+  }
+
+  private LoadAfterMiddleware(
+    afterMiddleware: Map<number, any[]>,
+    _App: Koa,
+    config: Config
+  ): void {
+    Array.from(afterMiddleware)
+      .sort((a, b) => {
+        return b[0] - a[0];
+      })
+      .reduce((allMid, item) => {
+        allMid.push(item[1]);
+        return allMid;
+      }, [])
+      .forEach(item => {
+        _App.use(async (ctx: Koa.Context, next: Koa.Next) => {
+          const resolve = Reflect.getMetadata(MIDDLEWARE, item[0]);
+          item[1].ctx = ctx;
+          item[1].next = next;
+          item[1].config = config;
+          try {
+            await resolve.apply(item[1]);
+          } catch (e) {
+            throw new LoadError(`${item[0]} Init Error: ${e.message}`);
+          }
+        });
+      });
   }
 
   /**
@@ -234,6 +280,38 @@ export class Loader {
       }
     );
     _App.use(KoaBodyParser(KoaBodyParserConfig));
+  }
+
+  /**
+   * 对中间件进行分类　前置中间件和后置中间件
+   * @param _Middleware
+   */
+  private TypeMiddlewareOrder(_Middleware: Set<Function | any>) {
+    for (const middleware of _Middleware) {
+      const middlewareInstance = iocContainer.get(middleware);
+      const order = Reflect.getMetadata(ORDER, middleware);
+      if (Number(order) > 0) {
+        if (BeforeMiddleware.has(order)) {
+          const mid = BeforeMiddleware.get(order);
+          BeforeMiddleware.set(
+            order,
+            mid.concat([middleware, middlewareInstance])
+          );
+        } else {
+          BeforeMiddleware.set(order, [middleware, middlewareInstance]);
+        }
+      } else {
+        if (AfterMiddleware.has(order)) {
+          const mid = BeforeMiddleware.get(order);
+          AfterMiddleware.set(
+            order,
+            mid.concat([middleware, middlewareInstance])
+          );
+        } else {
+          AfterMiddleware.set(order, [middleware, middlewareInstance]);
+        }
+      }
+    }
   }
 
   private LoadPlugin(config: Config, _App: Koa): void {

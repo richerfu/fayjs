@@ -7,6 +7,8 @@ import {
   _Middleware,
   _Plugin,
   _Service,
+  BeforeMiddleware,
+  AfterMiddleware
 } from "../../dist/decorator/inject";
 import { Curl } from "../../dist/plugins/curl";
 
@@ -35,6 +37,12 @@ describe("Test core", function() {
 
   it("Test Service IOC Inject", async function() {
     expect(_Service.size).equals(1);
+  });
+
+  it("Test Middleware IOC Inject", async function() {
+    expect(_Middleware.size).equals(2);
+    expect(Array.from(BeforeMiddleware).length).equals(1);
+    expect(Array.from(AfterMiddleware).length).equals(1);
   });
 
   it("Test Service", async function() {
