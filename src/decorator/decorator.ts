@@ -7,6 +7,7 @@ import {
   MIDDLEWARE,
   CONFIG,
   PLUGIN,
+  ORDER,
 } from "./constants";
 import {
   Inject,
@@ -72,12 +73,13 @@ export function Autowired(target: any, propKey: string) {
   );
 }
 
-export function Middleware() {
+export function Middleware(order?: number) {
   return (target: Function | any) => {
     const middlewareInstance = new target();
-    if (middlewareInstance.run) {
-      const initMethod = middlewareInstance.run;
+    if (middlewareInstance.resolve) {
+      const initMethod = middlewareInstance.resolve;
       Reflect.defineMetadata(MIDDLEWARE, initMethod, target);
+      Reflect.defineMetadata(ORDER, order ? 1 : order, target);
       if (!_Middleware.has(target)) {
         Inject(target);
         _Middleware.add(target);

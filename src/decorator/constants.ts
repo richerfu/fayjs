@@ -17,6 +17,8 @@ export const CONFIG = "@@CONFIG";
 export const config_reg = new RegExp(`^${CONFIG}`);
 export const PLUGIN = "@@PLUGIN";
 export const plugin_reg = new RegExp(`^${PLUGIN}`);
+export const ORDER = "@@ORDER";
+export const order_reg = new RegExp(`^${ORDER}`);
 
 export type RestfulMethodType =
   | "options"

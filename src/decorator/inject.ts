@@ -19,6 +19,16 @@ export const providedContainer: WeakMap<Function, any> = new WeakMap<
   any
 >();
 
+/**
+ * 中间件集合　前置中间件和后置中间件
+ */
+export const BeforeMiddleware: Map<number,any[]> = new Map<number,any[]>();
+export const AfterMiddleware: Map<number,any[]> = new Map<number,any[]>();
+
+
+/**
+ * ioc实例集合
+ */
 export const _Controller: Set<Function | any> = new Set<Function | any>();
 export const _Service: Set<Function | any> = new Set<Function | any>();
 export const _Middleware: Set<Function | any> = new Set<Function | any>();
