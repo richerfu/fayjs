@@ -6,6 +6,14 @@
 
 a koa and typescript based web framework
 
+- iqy-cli 脚手架支持
+使用脚手架快速创建项目，全局安装脚手架。[脚手架地址](https://github.com/southorange1228/iqy-cli)
+```shell
+npm install iqy-cli -g
+
+so init
+```
+
 - Quick Start
 ```shell
 npm install iqy-server --save
