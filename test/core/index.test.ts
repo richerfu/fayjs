@@ -7,7 +7,7 @@ import {
   _Middleware,
   _Plugin,
   _Service,
-  Middleware
+  Middleware,
 } from "../../dist/decorator/inject";
 import { Curl } from "../../dist/plugins/curl";
 
@@ -60,6 +60,26 @@ describe("Test core", function() {
       JSON.stringify({
         host: "127.0.0.1",
         port: 3306,
+      })
+    );
+  });
+
+  it("Test Koa-body", async function() {
+    const result = await curl.init({
+      url: "http://127.0.0.1:8199/formdata",
+      method: "post",
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+      formData: {
+        username: 123,
+        password: 123,
+      },
+    });
+    expect(result).equals(
+      JSON.stringify({
+        username: "123",
+        password: "123",
       })
     );
   });

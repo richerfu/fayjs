@@ -156,7 +156,6 @@ export class Loader {
             controlInstance.config = config;
             try {
               await method.apply(controlInstance, parametersVals);
-              await next();
             } catch (error) {
               throw new LoadError(`${controller} Init Error: ${error.message}`);
             }
@@ -238,7 +237,6 @@ export class Loader {
      */
     const KoaBodyParserConfig = Object.assign(
       {},
-      config ? config.KoaBodyConfig : {},
       {
         patchKoa: true,
         patchNode: true,
@@ -256,7 +254,8 @@ export class Loader {
           console.log(e, ctx);
         },
         parseMethods: ["POST", "PUT", "PATCH"],
-      }
+      },
+      config ? config.KoaBodyConfig : {}
     );
     _App.use(KoaBodyParser(KoaBodyParserConfig));
   }

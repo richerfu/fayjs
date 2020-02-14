@@ -1,4 +1,10 @@
-import { SoController, Get, Controller, Autowired } from "../../../../dist";
+import {
+  SoController,
+  Get,
+  Controller,
+  Autowired,
+  Post,
+} from "../../../../dist";
 import { TestService } from "../services/index.service";
 
 @Controller()
@@ -20,5 +26,10 @@ export class TestController extends SoController {
   @Get("/config")
   async testConfigFunc() {
     this.ctx.body = JSON.stringify(this.config);
+  }
+
+  @Post("/formdata")
+  async testFormDataFunc() {
+    this.ctx.body = this.ctx.request.body;
   }
 }
