@@ -157,7 +157,7 @@ export class Loader {
             try {
               await method.apply(controlInstance, parametersVals);
             } catch (error) {
-              throw new LoadError(`${controller} Init Error: ${error.message}`);
+              throw new LoadError(`${controlInstance.name} Apply Error: ${error.message}`);
             }
           };
 
@@ -216,7 +216,7 @@ export class Loader {
           try {
             await resolve.apply(item[1]);
           } catch (e) {
-            throw new LoadError(`${item[0]} Init Error: ${e.message}`);
+            throw new LoadError(`${item[0].name} apply Error: ${e.message}`);
           }
         });
       });
