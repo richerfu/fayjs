@@ -4,6 +4,8 @@ import {
   Controller,
   Autowired,
   Post,
+  RequestHeader,
+  RequestContext,
 } from "../../../../dist";
 import { TestService } from "../services/index.service";
 
@@ -24,7 +26,9 @@ export class TestController extends SoController {
   }
 
   @Get("/config")
-  async testConfigFunc() {
+  async testConfigFunc(@RequestContext() ctx:any,@RequestHeader('host') header: any) {
+    console.log(ctx)
+    console.log(header)
     this.ctx.body = JSON.stringify(this.config);
   }
 

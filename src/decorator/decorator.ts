@@ -23,6 +23,10 @@ import {
   getFunctionParams,
 } from "../utils/common";
 
+/**
+ * register service
+ * @param target
+ */
 export const Service = (target: Function | any) => {
   if (!_Service.has(target)) {
     Inject(target);
@@ -30,9 +34,13 @@ export const Service = (target: Function | any) => {
   }
 };
 
+/**
+ * register controller
+ * @param path route path
+ */
 export function Controller(path?: string) {
   return (target: Function | any) => {
-    Reflect.defineMetadata(CONTROL, path ? path : "", target);
+    Reflect.defineMetadata(CONTROL, path ? path : "/", target);
     if (!_Controller.has(target)) {
       Inject(target);
       _Controller.add(target);
@@ -40,6 +48,10 @@ export function Controller(path?: string) {
   };
 }
 
+/**
+ * register config
+ * @param env string
+ */
 export function Config(env: string) {
   return (target: Function | any) => {
     if (env) {
@@ -56,6 +68,10 @@ export function Config(env: string) {
   };
 }
 
+/**
+ * register plugin
+ * @param pluginKey string
+ */
 export function Plugin(pluginKey?: string) {
   return (target: Function | any) => {
     Reflect.defineMetadata(PLUGIN, pluginKey ? pluginKey : target.name, target);
@@ -86,35 +102,71 @@ export function Middleware(order?: number) {
       }
     } else {
       throw new Error(
-        `${target.name} middleware must has a 'run' method! please check it`
+        `${target.name} middleware must has a 'resolve' method! please check it`
       );
     }
   };
 }
 
+/**
+ * get reuqest method
+ * @param path string
+ * @default "/"
+ */
 export function Get(path: string) {
   return handleRequest("get", path);
 }
+
+/**
+ * post reuqest method
+ * @param path string
+ * @default "/"
+ */
 export function Post(path: string) {
   return handleRequest("post", path);
 }
 
+/**
+ * put reuqest method
+ * @param path string
+ * @default "/"
+ */
 export function Put(path: string) {
   return handleRequest("put", path);
 }
 
+/**
+ * delete reuqest method
+ * @param path string
+ * @default "/"
+ */
 export function Delete(path: string) {
   return handleRequest("delete", path);
 }
 
+/**
+ * patch reuqest method
+ * @param path string
+ * @default "/"
+ */
 export function Patch(path: string) {
   return handleRequest("patch", path);
 }
 
+/**
+ * all reuqest method
+ * @param path string
+ * @default "/"
+ */
 export function All(path: string) {
   return handleRequest("all", path);
 }
 
+/**
+ * options reuqest method
+ * @param path string
+ * @default "/"
+ */
 export function Options(path: string) {
   return handleRequest("options", path);
 }
