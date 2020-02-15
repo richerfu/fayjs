@@ -6,6 +6,8 @@ import {
   Post,
   RequestHeader,
   RequestContext,
+  RequestBody,
+  Body,
 } from "../../../../dist";
 import { TestService } from "../services/index.service";
 
@@ -27,8 +29,6 @@ export class TestController extends SoController {
 
   @Get("/config")
   async testConfigFunc(@RequestContext() ctx:any,@RequestHeader('host') header: any) {
-    console.log(ctx)
-    console.log(header)
     this.ctx.body = JSON.stringify(this.config);
   }
 
@@ -36,4 +36,14 @@ export class TestController extends SoController {
   async testFormDataFunc() {
     this.ctx.body = this.ctx.request.body;
   }
-}
+
+  @Post('/testrequestbody')
+  async testRequestBodyFunc(@RequestBody('username') username: string){
+    this.ctx.body = username;
+  }
+
+  @Post('/testrequestbodys')
+  async testRequestBodyFuncs(@Body() body: string){
+    this.ctx.body = body;
+  }
+} 

@@ -84,6 +84,41 @@ describe("Test core", function() {
     );
   });
 
+  it("Test RequestBody Decorator", async function() {
+    const result = await curl.init({
+      url: "http://127.0.0.1:8199/testrequestbody",
+      method: "post",
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+      formData: {
+        username: 123,
+        password: 123,
+      },
+    });
+    expect(result).equals("123");
+  });
+
+  it("Test Body Decorator", async function() {
+    const result = await curl.init({
+      url: "http://127.0.0.1:8199/testrequestbodys",
+      method: "post",
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+      formData: {
+        username: 123,
+        password: 123,
+      },
+    });
+    expect(result).equals(
+      JSON.stringify({
+        username: "123",
+        password: "123",
+      })
+    );
+  });
+
   after(function() {
     server.close();
   });
