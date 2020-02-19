@@ -19,6 +19,9 @@ export class TestController extends SoController {
   @Get("/")
   async testServiceFunc() {
     const result = await this.testService.index();
+    if(result.a){
+      console.log(123)
+    }
     this.ctx.body = result;
   }
 
