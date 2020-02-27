@@ -86,8 +86,8 @@ export const FindModulePath = (
   for (const modules of filePath) {
     if (modules[1].includes(moduleName)) {
       const path = relative(
-        modules[0].replace(/\.ts$/, ""),
-        `${baseDir}/src/types`
+        `${baseDir}/src/types`,
+        modules[0].replace(/\.ts$/, "")
       );
       return `import { ${moduleName} } from '${path}'; \n`;
     }
