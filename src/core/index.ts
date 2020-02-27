@@ -3,7 +3,7 @@ import "reflect-metadata";
 import * as Koa from "koa";
 import * as KoaRouter from "koa-router";
 import { Logger } from "../tools/logger";
-import { Loader } from "../loader/fileLoader";
+import { Loader } from "../loader/loader";
 import { Options } from "../utils/interface";
 import { getLocalIPAddress } from "../utils";
 import {

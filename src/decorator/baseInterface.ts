@@ -19,8 +19,9 @@ export interface BaseMiddleware {
 export interface BasePlugin {
   app: any;
   config: any;
-  start: Promise<void> | void;
+  start:() => void;
 }
+
 
 /**
  * app start base options

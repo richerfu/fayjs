@@ -11,13 +11,7 @@ import {
   Autowired,
   Plugin,
 } from "./decorator/decorator";
-import { Injected, Provided, Inject } from "./decorator/inject";
-import {
-  SoController,
-  SoMiddleware,
-  SoService,
-  SoPlugin,
-} from "./decorator/context";
+import { BaseMiddleware, BasePlugin } from "./decorator/baseInterface";
 import {
   RequestQuery,
   RequestContext,
@@ -42,9 +36,6 @@ export {
   Service,
   Controller,
   Autowired,
-  SoController,
-  SoMiddleware,
-  SoService,
   RequestBody,
   RequestContext,
   RequestParams,
@@ -52,9 +43,7 @@ export {
   RequestHeader,
   RouteMiddleware,
   Body,
-  Injected,
-  Provided,
-  Inject,
   Plugin,
-  SoPlugin,
+  BaseMiddleware,
+  BasePlugin,
 };

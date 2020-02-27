@@ -1,7 +1,7 @@
-import { Plugin, SoPlugin } from "../../../../dist";
+import { Plugin, BasePlugin } from "../../../../dist";
 
 @Plugin("pluginsA")
-export class TestPlugin implements SoPlugin{
+export class TestPlugin implements BasePlugin{
   public app:any;
   public config:any;
 

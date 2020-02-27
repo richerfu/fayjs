@@ -1,5 +1,4 @@
 import {
-  SoController,
   Get,
   Controller,
   Autowired,
@@ -10,17 +9,22 @@ import {
   Body,
 } from "../../../../dist";
 import { TestService } from "../services/index.service";
+import { DevConfig } from "../configs/testDev.config";
 
 @Controller()
-export class TestController extends SoController {
+export class TestController {
   @Autowired
   private testService: TestService;
+
+  private ctx: any;
+
+  private config: DevConfig;
 
   @Get("/")
   async testServiceFunc() {
     const result = await this.testService.index();
-    if(result.a){
-      console.log(123)
+    if (result.a) {
+      console.log(123);
     }
     this.ctx.body = result;
   }
@@ -31,7 +35,10 @@ export class TestController extends SoController {
   }
 
   @Get("/config")
-  async testConfigFunc(@RequestContext() ctx:any,@RequestHeader('host') header: any) {
+  async testConfigFunc(
+    @RequestContext() ctx: any,
+    @RequestHeader("host") header: any
+  ) {
     this.ctx.body = JSON.stringify(this.config);
   }
 
@@ -40,13 +47,13 @@ export class TestController extends SoController {
     this.ctx.body = this.ctx.request.body;
   }
 
-  @Post('/testrequestbody')
-  async testRequestBodyFunc(@RequestBody('username') username: string){
+  @Post("/testrequestbody")
+  async testRequestBodyFunc(@RequestBody("username") username: string) {
     this.ctx.body = username;
   }
 
-  @Post('/testrequestbodys')
-  async testRequestBodyFuncs(@Body() body: string){
+  @Post("/testrequestbodys")
+  async testRequestBodyFuncs(@Body() body: string) {
     this.ctx.body = body;
   }
-} 
+}

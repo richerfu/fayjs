@@ -1,8 +1,8 @@
-import { Middleware, SoMiddleware } from "../../../../dist";
+import { Middleware, BaseMiddleware } from "../../../../dist";
 import { Context, Next } from "koa";
 
 @Middleware(-1)
-export class TestAMiddleware implements SoMiddleware {
+export class TestAMiddleware implements BaseMiddleware {
   public ctx: Context;
   public next: Next;
   public config: any;

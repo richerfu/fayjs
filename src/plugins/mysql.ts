@@ -1,7 +1,7 @@
 import { DbClient, Db } from "iqy-mysql";
 import { Logger } from "../tools/logger";
 import { Plugin } from "../decorator/decorator";
-import { SoPlugin } from "../decorator/context";
+import { BasePlugin } from "../decorator/baseInterface";
 
 interface Config {
   enable: boolean;
@@ -57,7 +57,7 @@ export class DbLoader {
 }
 
 @Plugin("db")
-export class MySQL implements SoPlugin {
+export class MySQL implements BasePlugin {
   public config: any;
   public app: any;
   private dbLoader: DbLoader;
