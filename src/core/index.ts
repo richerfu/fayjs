@@ -3,9 +3,9 @@ import "reflect-metadata";
 import * as Koa from "koa";
 import * as KoaRouter from "koa-router";
 import { Logger } from "../tools/logger";
-import { Loader } from "../loader/fileLoad";
+import { Loader } from "../loader/fileLoader";
 import { Options } from "../utils/interface";
-import { getLocalIPAddress } from "../utils/common";
+import { getLocalIPAddress } from "../utils";
 import {
   _Config,
   _Controller,

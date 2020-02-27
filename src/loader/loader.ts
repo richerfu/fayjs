@@ -17,14 +17,14 @@ import { Config } from "../utils/interface";
 import { RequestLog } from "../middlewares/requestLog";
 import { Logger } from "../tools/logger";
 import { RequestBodySymbol, RequestContextSymbol } from "../utils/interface";
-import { PluginLoader } from "./pluginLoad";
+import { PluginLoader } from "./pluginLoader";
+import { FileLoader } from "./fileLoader";
 import {
   _Config,
   _Controller,
   _Middleware,
   _Service,
-  BeforeMiddleware,
-  AfterMiddleware,
+  _UserDefineMiddleware,
 } from "../decorator/inject";
 import { LoadError } from "../utils/error";
 
@@ -36,17 +36,14 @@ export class Loader {
   private _router: any;
   private _config: any;
   private _env: string;
+  private fileloader: FileLoader
 
   public constructor(BaseDir: string, env: string, app: any, router: any) {
     this._baseDir = BaseDir;
     this._app = app;
     this._router = router;
     this._env = env;
-    this.LoadPluginFile(this._baseDir);
-    this.LoadControllerFile(this._baseDir);
-    this.LoadMiddlewareFile(this._baseDir);
-    this.LoadServiceFile(this._baseDir);
-    this.LoadConfigFile(this._baseDir);
+    this.fileloader = new FileLoader(this._baseDir);
   }
 
   /**
@@ -56,16 +53,14 @@ export class Loader {
     // app实例化加载config到loader中
     this._config = this.LoadConfig(_Config, this._env);
     // 加载plugin
-    this.LoadInnerPlugin();
     this.LoadPlugin(this._config, this._app);
     // 加载内置middleware
     this.UseInnerMiddleware(this._app, this._config);
     // 加载中间件
     this.TypeMiddlewareOrder(_Middleware);
-    this.LoadBeforeMiddleware(BeforeMiddleware, this._app, this._config);
+    this.LoadMiddleware(_UserDefineMiddleware, this._app, this._config);
     // 加载router
     this.LoadController(_Controller, this._app, this._router, this._config);
-    this.LoadAfterMiddleware(AfterMiddleware, this._app, this._config);
   }
 
   /**
@@ -159,7 +154,6 @@ export class Loader {
             controlInstance.config = config;
             try {
               await method.apply(controlInstance, parametersVals);
-              await next();
             } catch (error) {
               throw new LoadError(`${controller} Init Error: ${error.message}`);
             }
@@ -188,40 +182,12 @@ export class Loader {
    * @param _Middleware
    * @since 0.0.7
    */
-  private LoadBeforeMiddleware(
-    beforeMiddleware: Map<number, any[]>,
+  private LoadMiddleware(
+    _UserDefineMiddleware: Map<number, any[]>,
     _App: Koa,
     config: Config
   ): void {
-    const mid = Array.from(beforeMiddleware)
-      .sort((a, b) => {
-        return b[0] - a[0];
-      })
-      .reduce((allMid, item) => {
-        allMid.push(item[1]);
-        return allMid;
-      }, [])
-      .forEach(item => {
-        _App.use(async (ctx: Koa.Context, next: Koa.Next) => {
-          const resolve = Reflect.getMetadata(MIDDLEWARE, item[0]);
-          item[1].ctx = ctx;
-          item[1].next = next;
-          item[1].config = config;
-          try {
-            await resolve.apply(item[1]);
-          } catch (e) {
-            throw new LoadError(`${item[0]} Init Error: ${e.message}`);
-          }
-        });
-      });
-  }
-
-  private LoadAfterMiddleware(
-    afterMiddleware: Map<number, any[]>,
-    _App: Koa,
-    config: Config
-  ): void {
-    Array.from(afterMiddleware)
+    const mid = Array.from(_UserDefineMiddleware)
       .sort((a, b) => {
         return b[0] - a[0];
       })
@@ -283,33 +249,21 @@ export class Loader {
   }
 
   /**
-   * 对中间件进行分类　前置中间件和后置中间件
+   * 对中间件进行分类排序
    * @param _Middleware
    */
   private TypeMiddlewareOrder(_Middleware: Set<Function | any>) {
     for (const middleware of _Middleware) {
       const middlewareInstance = iocContainer.get(middleware);
       const order = Reflect.getMetadata(ORDER, middleware);
-      if (Number(order) > 0) {
-        if (BeforeMiddleware.has(order)) {
-          const mid = BeforeMiddleware.get(order);
-          BeforeMiddleware.set(
-            order,
-            mid.concat([middleware, middlewareInstance])
-          );
-        } else {
-          BeforeMiddleware.set(order, [middleware, middlewareInstance]);
-        }
+      if (_UserDefineMiddleware.has(order)) {
+        const mid = _UserDefineMiddleware.get(order);
+        _UserDefineMiddleware.set(
+          order,
+          mid.concat([middleware, middlewareInstance])
+        );
       } else {
-        if (AfterMiddleware.has(order)) {
-          const mid = BeforeMiddleware.get(order);
-          AfterMiddleware.set(
-            order,
-            mid.concat([middleware, middlewareInstance])
-          );
-        } else {
-          AfterMiddleware.set(order, [middleware, middlewareInstance]);
-        }
+        _UserDefineMiddleware.set(order, [middleware, middlewareInstance]);
       }
     }
   }
@@ -325,90 +279,5 @@ export class Loader {
       await pluginLoader.autoLoadPlugin("service", _Service);
       await pluginLoader.autoLoadPlugin("middleware", _Middleware);
     })();
-  }
-
-  /**
-   * load controller file eg: user.controller.ts
-   * @param path file path
-   * @since 0.0.1
-   */
-  private LoadControllerFile(path: string): void {
-    const Reg = /.*[^\.]+\b\.controller\.(t|j)s\b$/;
-    this.LoadFile(path, Reg);
-  }
-
-  /**
-   * load Service file rg: user.service.ts
-   * @param path file path
-   * @since 0.0.1
-   */
-  private LoadServiceFile(path: string): void {
-    const Reg = /.*[^\.]+\b\.service\.(t|j)s\b$/;
-    this.LoadFile(path, Reg);
-  }
-
-  /**
-   * load middleware file rg: user.middleware.ts
-   * @param path file path
-   * @since 0.0.1
-   */
-  private LoadMiddlewareFile(path: string): void {
-    const Reg = /.*[^\.]+\b\.middleware\.(t|j)s\b$/;
-    this.LoadFile(path, Reg);
-  }
-
-  /**
-   * load config file eg:test.config.ts
-   * @param path file path
-   * @since 0.0.7
-   */
-  private LoadConfigFile(path: string): void {
-    const Reg = /.*[^\.]+\b\.config\.(t|j)s\b$/;
-    this.LoadFile(path, Reg);
-  }
-
-  private LoadPluginFile(path: string): void {
-    const Reg = /.*[^\.]+\b\.plugin\.(t|j)s\b$/;
-    this.LoadFile(path, Reg);
-  }
-
-  /**
-   * 加载内置插件
-   */
-  private LoadInnerPlugin() {
-    const Reg = /.*[^\.]+\b\.js\b$/;
-    const files = readdirSync(join(__dirname, "../plugins"));
-    for (const file of files) {
-      if (file.match(Reg)) {
-        // eslint-disable-next-line @typescript-eslint/no-require-imports
-        require(join(__dirname, "../plugins", file));
-      }
-    }
-  }
-
-  /**
-   * load file by path and regexp
-   * @param path String
-   * @param reg RegExp
-   * @since 0.0.7
-   */
-  private LoadFile(path: string, reg: RegExp) {
-    const stats = statSync(path);
-    if (stats.isDirectory()) {
-      const files = readdirSync(path);
-      for (const file of files) {
-        if (file !== "node_modules") {
-          this.LoadFile(join(path, file), reg);
-        }
-      }
-    } else {
-      if (path.match(reg)) {
-        // eslint-disable-next-line @typescript-eslint/no-require-imports
-        const modules = require(path);
-        filePath.set(path, Object.keys(modules));
-        // eslint-disable-next-line @typescript-eslint/no-require-imports
-        require(path);
-      }
-    }
   }
 }

@@ -11,6 +11,7 @@ import {
   FindModulePath,
 } from "../utils/helper";
 import { LoadError } from "../utils/error";
+
 interface PluginConfig {
   controller?: boolean;
   service?: boolean;
@@ -63,7 +64,7 @@ export class PluginLoader {
             //  生成.d.ts文件
             if (!Plugins.includes(nameKey)) {
               prop += GeneratorProp(nameKey, pluginItem.name);
-              importContent += FindModulePath(pluginItem.name);
+              importContent += FindModulePath(pluginItem.name,this.baseDir);
             }
           }
           const template = FinalTemplate(Name[type], importContent, prop);

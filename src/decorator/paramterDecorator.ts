@@ -4,7 +4,7 @@ import {
   getRestfulMap,
   getRestfulParameterMap,
   getRestfulParameterSet,
-} from "../utils/common";
+} from "../utils";
 import { RequestBodySymbol, RequestContextSymbol } from "../utils/interface";
 
 function CheckAndSetParameters(

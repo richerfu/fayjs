@@ -20,9 +20,13 @@ import {
 import {
   getRestfulMap,
   getRestfulParameterMap,
-  getFunctionParams,
-} from "../utils/common";
+  getFunctionParameterName,
+} from "../utils";
 
+/**
+ * register Service
+ * @param target Function | any
+ */
 export const Service = (target: Function | any) => {
   if (!_Service.has(target)) {
     Inject(target);
@@ -30,9 +34,14 @@ export const Service = (target: Function | any) => {
   }
 };
 
+/**
+ * register controller
+ * default path is "/"
+ * @param path string
+ */
 export function Controller(path?: string) {
   return (target: Function | any) => {
-    Reflect.defineMetadata(CONTROL, path ? path : "", target);
+    Reflect.defineMetadata(CONTROL, path ? path : "/", target);
     if (!_Controller.has(target)) {
       Inject(target);
       _Controller.add(target);
@@ -40,6 +49,11 @@ export function Controller(path?: string) {
   };
 }
 
+/**
+ * register config
+ * app default env is "dev"
+ * @param env string
+ */
 export function Config(env: string) {
   return (target: Function | any) => {
     if (env) {
@@ -56,6 +70,11 @@ export function Config(env: string) {
   };
 }
 
+/**
+ * register plugin
+ * plugin default name is plugin instance name
+ * @param pluginKey string
+ */
 export function Plugin(pluginKey?: string) {
   return (target: Function | any) => {
     Reflect.defineMetadata(PLUGIN, pluginKey ? pluginKey : target.name, target);
@@ -64,6 +83,11 @@ export function Plugin(pluginKey?: string) {
   };
 }
 
+/**
+ * auto inject
+ * @param target
+ * @param propKey
+ */
 export function Autowired(target: any, propKey: string) {
   const _constructor = Reflect.getMetadata("design:type", target, propKey);
   Reflect.defineMetadata(
@@ -73,6 +97,11 @@ export function Autowired(target: any, propKey: string) {
   );
 }
 
+/**
+ * register moddleware
+ * middleware default order is 1
+ * @param order number
+ */
 export function Middleware(order?: number) {
   return (target: Function | any) => {
     const middlewareInstance = new target();
@@ -86,36 +115,65 @@ export function Middleware(order?: number) {
       }
     } else {
       throw new Error(
-        `${target.name} middleware must has a 'run' method! please check it`
+        `${target.name} middleware must has a 'resolve' method! please check it`
       );
     }
   };
 }
 
-export function Get(path: string) {
+/**
+ * get restful method
+ * @param path string
+ */
+export function Get(path?: string) {
   return handleRequest("get", path);
 }
-export function Post(path: string) {
+
+/**
+ * post restful method
+ * @param path string
+ */
+export function Post(path?: string) {
   return handleRequest("post", path);
 }
 
-export function Put(path: string) {
+/**
+ * put restful method
+ * @param path string
+ */
+export function Put(path?: string) {
   return handleRequest("put", path);
 }
 
-export function Delete(path: string) {
+/**
+ * delete restful method
+ * @param path string
+ */
+export function Delete(path?: string) {
   return handleRequest("delete", path);
 }
 
-export function Patch(path: string) {
+/**
+ * patch restful method
+ * @param path string
+ */
+export function Patch(path?: string) {
   return handleRequest("patch", path);
 }
 
-export function All(path: string) {
+/**
+ * all method
+ * @param path string
+ */
+export function All(path?: string) {
   return handleRequest("all", path);
 }
 
-export function Options(path: string) {
+/**
+ * options method
+ * @param path string
+ */
+export function Options(path?: string) {
   return handleRequest("options", path);
 }
 
@@ -125,23 +183,12 @@ function handleRequest(reqType: RestfulMethodType, path: string) {
     propertyKey: string | symbol,
     descriptor: PropertyDescriptor
   ) {
-    /**
-     * bind RESTFUL to instance
-     * key    --> method
-     * value  --> Map
-     *                key   --> path
-     *                value --> string
-     */
-
     const restfulMap = getRestfulMap(`${RESTFUL}`, target);
     const method = target[propertyKey];
-
     const methodMap = getRestfulParameterMap(method, restfulMap);
-
-    methodMap.set("path", path);
+    methodMap.set("path", path ? path : "/");
     methodMap.set("methodType", reqType);
-    methodMap.set("args", getFunctionParams(method));
-
+    methodMap.set("args", getFunctionParameterName(method));
     if (!restfulMap.has(method)) {
       restfulMap.set(method, methodMap);
     }

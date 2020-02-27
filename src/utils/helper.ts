@@ -8,7 +8,8 @@ import {
   rmdirSync,
   exists,
 } from "fs";
-import { filePath } from "../loader/fileLoad";
+import { relative } from "path";
+import { filePath } from "../loader/fileLoader";
 /**
  * 生成最终的.d.ts文件字符串
  * @param moduleName "SoController" | "SoService" | "SoMiddleware"
@@ -78,10 +79,17 @@ export const MkdirFolder = async (path: string): Promise<any> => {
   return null;
 };
 
-export const FindModulePath = (moduleName: string): string | void => {
+export const FindModulePath = (
+  moduleName: string,
+  baseDir: string
+): string | void => {
   for (const modules of filePath) {
     if (modules[1].includes(moduleName)) {
-      return `import { ${moduleName} } from '${modules[0].replace(/\.ts$/,"")}'; \n`;
+      const path = relative(
+        modules[0].replace(/\.ts$/, ""),
+        `${baseDir}/src/types`
+      );
+      return `import { ${moduleName} } from '${path}'; \n`;
     }
   }
 };
