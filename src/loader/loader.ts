@@ -155,7 +155,7 @@ export class Loader {
             try {
               await method.apply(controlInstance, parametersVals);
             } catch (error) {
-              throw new LoadError(`${controller} Init Error: ${error.message}`);
+              Logger.error(error);
             }
           };
 
@@ -204,7 +204,7 @@ export class Loader {
           try {
             await resolve.apply(item[1]);
           } catch (e) {
-            throw new LoadError(`${item[0]} Init Error: ${e.message}`);
+            Logger.error(e)
           }
         });
       });
@@ -225,7 +225,6 @@ export class Loader {
      */
     const KoaBodyParserConfig = Object.assign(
       {},
-      config ? config.KoaBodyConfig : {},
       {
         patchKoa: true,
         patchNode: true,
@@ -243,7 +242,8 @@ export class Loader {
           console.log(e, ctx);
         },
         parseMethods: ["POST", "PUT", "PATCH"],
-      }
+      },
+      config ? config.KoaBodyConfig : {}
     );
     _App.use(KoaBodyParser(KoaBodyParserConfig));
   }

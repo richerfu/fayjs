@@ -23,8 +23,8 @@ function CheckAndSetParameters(
      *                key   --> parameters
      *                value --> set
      */
-
     const restfulMap = getRestfulMap(`${RESTFUL}`, target);
+    // 获取当前方法名
     const method = target[propertyKey];
 
     const methodMap = getRestfulParameterMap(method, restfulMap);
@@ -42,7 +42,11 @@ function CheckAndSetParameters(
   };
 }
 
-export function RouteMiddleware(middleware: Function) {
+/**
+ * set router middleware
+ * @param middleware middleware function
+ */
+export function RouteMiddleware(middleware: Function | Function[]) {
   return (target: any, propertyKey: string, descriptor: PropertyDescriptor) => {
     const restfulMap = getRestfulMap(`${RESTFUL}`, target);
     const method = target[propertyKey];
@@ -51,7 +55,11 @@ export function RouteMiddleware(middleware: Function) {
     if (!middleWareSet) {
       middleWareSet = new Set();
     }
-    middleWareSet.add(middleware);
+    Array.isArray(middleware)
+      ? middleware.forEach(item => {
+          middleWareSet.add(item);
+        })
+      : middleWareSet.add(middleware);
     methodMap.set(MIDDLEWARE, middleWareSet);
 
     if (!restfulMap.has(method)) {
@@ -61,26 +69,48 @@ export function RouteMiddleware(middleware: Function) {
   };
 }
 
+/**
+ * get ctx.request.query
+ * @param paramterName string
+ */
 export function RequestQuery(paramterName: string) {
   return CheckAndSetParameters(paramterName, "query");
 }
 
+/**
+ * get ctx.request.params
+ * @param paramterName string
+ */
 export function RequestParams(paramterName: string) {
   return CheckAndSetParameters(paramterName, "params");
 }
 
+/**
+ * get ctx.request.body
+ */
 export function Body() {
   return CheckAndSetParameters(RequestBodySymbol, "body");
 }
 
+/**
+ * get ctx.request.body[paramterName]
+ * @param paramterName string
+ */
 export function RequestBody(paramterName: string) {
   return CheckAndSetParameters(paramterName, "RequestBody");
 }
 
+/**
+ * get ctx
+ */
 export function RequestContext() {
   return CheckAndSetParameters(RequestContextSymbol, "RequestContext");
 }
 
+/**
+ * get headers[paramterName]
+ * @param paramterName string
+ */
 export function RequestHeader(paramterName: string) {
   return CheckAndSetParameters(paramterName, "headers");
 }

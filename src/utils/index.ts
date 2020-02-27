@@ -57,7 +57,7 @@ export const getFunctionParameterName = (fn: Function) => {
 export const getLocalIPAddress = () => {
   var interfaces = networkInterfaces();
   for (var devName in interfaces) {
-    var iface = interfaces[devName];
+    const iface = interfaces[devName];
     // eslint-disable-next-line @typescript-eslint/prefer-for-of
     for (let i = 0; i < iface.length; i++) {
       const alias = iface[i];

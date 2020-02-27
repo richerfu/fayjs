@@ -4,8 +4,6 @@ import { Curl } from "../plugins/curl";
 import { MySQL } from "../plugins/mysql";
 
 interface IContext {
-  ctx: SoContext;
-  next: Koa.Next;
   config: Config;
   curl: Curl;
   db?: MySQL;
@@ -34,8 +32,6 @@ export class SoController implements IContext {
 }
 
 export class SoService implements IContext {
-  public ctx: SoContext;
-  public next: Koa.Next;
   public config: Config;
   public curl: Curl;
   public db?: MySQL;

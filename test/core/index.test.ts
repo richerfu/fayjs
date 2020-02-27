@@ -7,8 +7,7 @@ import {
   _Middleware,
   _Plugin,
   _Service,
-  BeforeMiddleware,
-  AfterMiddleware
+  Middleware,
 } from "../../dist/decorator/inject";
 import { Curl } from "../../dist/plugins/curl";
 
@@ -41,8 +40,7 @@ describe("Test core", function() {
 
   it("Test Middleware IOC Inject", async function() {
     expect(_Middleware.size).equals(2);
-    expect(Array.from(BeforeMiddleware).length).equals(1);
-    expect(Array.from(AfterMiddleware).length).equals(1);
+    expect(Array.from(Middleware).length).equals(2);
   });
 
   it("Test Service", async function() {
@@ -62,6 +60,61 @@ describe("Test core", function() {
       JSON.stringify({
         host: "127.0.0.1",
         port: 3306,
+      })
+    );
+  });
+
+  it("Test Koa-body", async function() {
+    const result = await curl.init({
+      url: "http://127.0.0.1:8199/formdata",
+      method: "post",
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+      formData: {
+        username: 123,
+        password: 123,
+      },
+    });
+    expect(result).equals(
+      JSON.stringify({
+        username: "123",
+        password: "123",
+      })
+    );
+  });
+
+  it("Test RequestBody Decorator", async function() {
+    const result = await curl.init({
+      url: "http://127.0.0.1:8199/testrequestbody",
+      method: "post",
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+      formData: {
+        username: 123,
+        password: 123,
+      },
+    });
+    expect(result).equals("123");
+  });
+
+  it("Test Body Decorator", async function() {
+    const result = await curl.init({
+      url: "http://127.0.0.1:8199/testrequestbodys",
+      method: "post",
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+      formData: {
+        username: 123,
+        password: 123,
+      },
+    });
+    expect(result).equals(
+      JSON.stringify({
+        username: "123",
+        password: "123",
       })
     );
   });
