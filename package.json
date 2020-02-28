@@ -1,6 +1,6 @@
 {
-  "name": "iqy-server",
-  "version": "0.2.5",
+  "name": "fayjs",
+  "version": "0.0.1",
   "description": "a web framework by koa and typescript",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -28,8 +28,9 @@
   "keywords": [
     "koa",
     "typescript",
-    "iqy-server",
-    "framework"
+    "fayjs",
+    "framework",
+    "spring"
   ],
   "author": "SouthOrange",
   "license": "MIT",
