@@ -67,15 +67,6 @@ export const RequestBodySymbol = Symbol("RequestBody");
  */
 export const RequestContextSymbol = Symbol("RequestContext");
 
-/**
- * Context Symbol
- */
-export const ContextSymbol = Symbol("context");
-
-/**
- * Next Symbol
- */
-export const NextSymbol = Symbol("next");
 
 export const Name = {
   controller: "BaseController",
@@ -83,7 +74,7 @@ export const Name = {
   middleware: "BaseMiddleware",
 };
 
-export const Plugins = ["curl", "db"];
+export const Plugins:string[] = [];
 
 export interface Config {
   baseDir: string;
@@ -91,5 +82,5 @@ export interface Config {
 }
 
 export interface Options {
-  baseDir: string
+  baseDir: string;
 }

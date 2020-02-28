@@ -52,7 +52,18 @@ export class Loader {
    */
   public async init() {
     // app实例化加载config到loader中
-    this._config = this.LoadConfig(_Config, this._env);
+    this._config = Object.assign(
+      {},
+      {
+        UseRequestLog: true,
+        PatchPluginConfig: {
+          controller: true,
+          service: true,
+          middleware: false,
+        },
+      },
+      this.LoadConfig(_Config, this._env)
+    );
     // 加载plugin
     this.LoadPlugin(this._config, this._app);
     // 加载内置middleware
@@ -220,7 +231,9 @@ export class Loader {
     /**
      * use request-log to console request info
      */
-    _App.use(RequestLog);
+    if (config && config.UseRequestLog) {
+      _App.use(RequestLog);
+    }
     /**
      * use koa-body to get request body
      */
@@ -269,6 +282,11 @@ export class Loader {
     }
   }
 
+  /**
+   * patch plugin to instance
+   * @param config
+   * @param _App
+   */
   private LoadPlugin(config: Config, _App: Koa): void {
     (async () => {
       const pluginLoader: PluginLoader = new PluginLoader(

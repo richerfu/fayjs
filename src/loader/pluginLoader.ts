@@ -12,7 +12,7 @@ import {
 } from "../utils/helper";
 import { LoadError } from "../utils/error";
 
-interface PluginConfig {
+interface PatchPluginConfig {
   controller?: boolean;
   service?: boolean;
   middleware?: boolean;
@@ -21,7 +21,7 @@ interface PluginConfig {
 export class PluginLoader {
   private appConfig: any;
   private baseDir: string;
-  private pluginConfig: PluginConfig = {
+  private pluginConfig: PatchPluginConfig = {
     controller: true,
     service: true,
     middleware: false,
@@ -37,6 +37,13 @@ export class PluginLoader {
   public constructor(baseDir: string, config: Object, app: Koa) {
     this.baseDir = baseDir;
     this.appConfig = config;
+    if (this.appConfig && this.appConfig.PatchPluginConfig) {
+      this.pluginConfig = Object.assign(
+        {},
+        { controller: true, service: true, middleware: false },
+        this.appConfig.PatchPluginConfig
+      );
+    }
     this._app = app;
     for (const pluginItem of _Plugin) {
       const nameKey = Reflect.getMetadata(PLUGIN, pluginItem);

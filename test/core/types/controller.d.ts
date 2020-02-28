@@ -1,8 +1,10 @@
 import { BaseController } from 'fayjs';
-import { TestPlugin } from '../src/plugins/index.plugin'; 
+undefinedundefinedimport { TestPlugin } from '../src/plugins/index.plugin'; 
 
 declare module 'fayjs' {
   interface BaseController {
+    curl: Curl;
+    db: MySQL;
     pluginsA: TestPlugin;
     
   }

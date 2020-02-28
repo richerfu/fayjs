@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import { autowired_reg, ContextSymbol, NextSymbol } from "./constants";
+import { autowired_reg } from "./constants";
 
 // ioc core container
 export const iocContainer: WeakMap<Function, any> = new WeakMap<

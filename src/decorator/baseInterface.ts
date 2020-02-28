@@ -2,6 +2,7 @@ import * as Koa from "koa";
 import { Request } from "koa";
 import { Files } from "formidable";
 import { Curl } from "../plugins/curl";
+import Fay from "../core";
 
 class BaseFayContext {
   curl: Curl;
@@ -21,7 +22,7 @@ interface FayContext extends Koa.Context {
  * use middleware must implements interface
  */
 export interface BaseMiddleware {
-  ctx: Koa.Context;
+  ctx: FayContext;
   next: Koa.Next;
   config: any;
   resolve(): Promise<void> | void;
@@ -32,7 +33,7 @@ export interface BaseMiddleware {
  * use plugin must implements interface
  */
 export interface BasePlugin {
-  app: any;
+  app: Fay;
   config: any;
   start: () => void;
 }

@@ -38,7 +38,6 @@
     "@types/request": "^2.48.4",
     "@types/koa": "^2.11.0",
     "@types/koa-router": "^7.0.42",
-    "iqy-mysql": "^0.0.5",
     "koa": "^2.11.0",
     "koa-body": "^4.1.1",
     "koa-router": "^7.4.0",
@@ -59,6 +58,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/southorange1228/iqy-server.git"
+    "url": "git+https://github.com/southorange1228/fayjs.git"
   }
 }

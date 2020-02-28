@@ -8,6 +8,7 @@ import {
   CONFIG,
   PLUGIN,
   ORDER,
+  Plugins,
 } from "./constants";
 import {
   Inject,
@@ -22,6 +23,7 @@ import {
   getRestfulParameterMap,
   getFunctionParameterName,
 } from "../utils";
+import { LoadError } from "../utils/error";
 
 /**
  * register Service
@@ -77,7 +79,13 @@ export function Config(env: string) {
  */
 export function Plugin(pluginKey?: string) {
   return (target: Function | any) => {
-    Reflect.defineMetadata(PLUGIN, pluginKey ? pluginKey : target.name, target);
+    const pluginName = pluginKey ? pluginKey : target.name;
+    if (Plugins.indexOf(pluginName) !== -1) {
+      throw new LoadError(
+        `Load Plugin Error: ${pluginName} is existed.please change key name`
+      );
+    }
+    Reflect.defineMetadata(PLUGIN, pluginName, target);
     Inject(target);
     _Plugin.add(target);
   };
