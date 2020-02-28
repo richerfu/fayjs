@@ -20,9 +20,9 @@ export const FinalTemplate = (
   importContent: string,
   prop: string
 ): string => {
-  return `import { ${moduleName} } from 'iqy-server';
+  return `import { ${moduleName} } from 'fayjs';
 ${importContent}
-declare module 'iqy-server' {
+declare module 'fayjs' {
   interface ${moduleName} {
     ${prop}
   }
@@ -86,7 +86,7 @@ export const FindModulePath = (
   for (const modules of filePath) {
     if (modules[1].includes(moduleName)) {
       const path = relative(
-        `${baseDir}/src/types`,
+        `${baseDir}/types`,
         modules[0].replace(/\.ts$/, "")
       );
       return `import { ${moduleName} } from '${path}'; \n`;
