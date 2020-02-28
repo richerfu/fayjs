@@ -1,8 +1,8 @@
-import { SoController } from 'iqy-server';
+import { BaseController } from 'iqy-server';
 import { TestPlugin } from '../plugins/index.plugin'; 
 
 declare module 'iqy-server' {
-  interface SoController {
+  interface BaseController {
     pluginsA: TestPlugin;
     
   }

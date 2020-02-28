@@ -11,7 +11,12 @@ import {
   Autowired,
   Plugin,
 } from "./decorator/decorator";
-import { BaseMiddleware, BasePlugin } from "./decorator/baseInterface";
+import {
+  BaseMiddleware,
+  BasePlugin,
+  BaseController,
+  BaseService,
+} from "./decorator/baseInterface";
 import {
   RequestQuery,
   RequestContext,
@@ -21,9 +26,9 @@ import {
   RequestHeader,
   RouteMiddleware,
 } from "./decorator/paramterDecorator";
-import SoServer from "./core";
+import Fay from "./core";
 
-export default SoServer;
+export default Fay;
 
 export {
   Get,
@@ -46,4 +51,6 @@ export {
   Plugin,
   BaseMiddleware,
   BasePlugin,
+  BaseController,
+  BaseService,
 };

@@ -36,7 +36,7 @@ export class Loader {
   private _router: any;
   private _config: any;
   private _env: string;
-  private fileloader: FileLoader
+  private fileloader: FileLoader;
 
   public constructor(BaseDir: string, env: string, app: any, router: any) {
     this._baseDir = BaseDir;
@@ -187,7 +187,7 @@ export class Loader {
     _App: Koa,
     config: Config
   ): void {
-    const mid = Array.from(_UserDefineMiddleware)
+    Array.from(_UserDefineMiddleware)
       .sort((a, b) => {
         return b[0] - a[0];
       })
@@ -204,7 +204,7 @@ export class Loader {
           try {
             await resolve.apply(item[1]);
           } catch (e) {
-            Logger.error(e)
+            Logger.error(e);
           }
         });
       });

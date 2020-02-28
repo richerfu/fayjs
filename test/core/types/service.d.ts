@@ -1,8 +1,8 @@
-import { SoService } from 'iqy-server';
+import { BaseService } from 'iqy-server';
 import { TestPlugin } from '../plugins/index.plugin'; 
 
 declare module 'iqy-server' {
-  interface SoService {
+  interface BaseService {
     pluginsA: TestPlugin;
     
   }

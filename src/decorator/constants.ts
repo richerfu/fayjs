@@ -1,25 +1,53 @@
+/**
+ * controller
+ */
 export const CONTROL = "@@CONTROL";
 export const control_reg = new RegExp(`^${CONTROL}`);
+
+/**
+ * service
+ */
 export const SERVICE = "@@SERVICE";
+
+/**
+ * autowired
+ */
 export const AUTOWIRED = "@@AUTOWIRED";
 export const autowired_reg = new RegExp(`^${AUTOWIRED}@@`);
-export const Provide = "@@PROVIDED";
-export const provide_reg = new RegExp(`^${Provide}@@`);
-export const Injects = "@@INJECTED";
-export const injects_reg = new RegExp(`^${Injects}@@`);
+
+/**
+ * restful
+ */
 export const RESTFUL = "@@RESTFUL";
 export const restful_reg = new RegExp(`^${RESTFUL}`);
+
+/**
+ * middleware
+ */
 export const MIDDLEWARE = "@@MIDDLEWARE";
 export const middleWare_reg = new RegExp(`^${MIDDLEWARE}`);
-export const ERROR = "@@ERROR";
-export const error_reg = new RegExp(`^${ERROR}`);
+
+/**
+ * config
+ */
 export const CONFIG = "@@CONFIG";
 export const config_reg = new RegExp(`^${CONFIG}`);
+
+/**
+ * plugin
+ */
 export const PLUGIN = "@@PLUGIN";
 export const plugin_reg = new RegExp(`^${PLUGIN}`);
+
+/**
+ * order
+ */
 export const ORDER = "@@ORDER";
 export const order_reg = new RegExp(`^${ORDER}`);
 
+/**
+ * REST METHOD TYPE
+ */
 export type RestfulMethodType =
   | "options"
   | "get"
@@ -29,10 +57,30 @@ export type RestfulMethodType =
   | "delete"
   | "all";
 
+/**
+ * RequestBody Symbol
+ */
+export const RequestBodySymbol = Symbol("RequestBody");
+
+/**
+ * RequestContext Symbol
+ */
+export const RequestContextSymbol = Symbol("RequestContext");
+
+/**
+ * Context Symbol
+ */
+export const ContextSymbol = Symbol("context");
+
+/**
+ * Next Symbol
+ */
+export const NextSymbol = Symbol("next");
+
 export const Name = {
-  controller: "SoController",
-  service: "SoService",
-  middleware: "SoMiddleware",
+  controller: "BaseController",
+  service: "BaseService",
+  middleware: "BaseMiddleware",
 };
 
 export const Plugins = ["curl", "db"];

@@ -1,6 +1,6 @@
 import { describe, it, before, after } from "mocha";
 import { expect } from "chai";
-import SoServer from "../../dist";
+import Fay from "../../dist";
 import {
   _Config,
   _Controller,
@@ -14,9 +14,9 @@ import { Curl } from "../../dist/plugins/curl";
 const curl = new Curl();
 
 describe("Test core", function() {
-  let server: SoServer;
+  let server: Fay;
   before(function() {
-    server = new SoServer({
+    server = new Fay({
       baseDir: __dirname,
     });
     server.Listen(8199);

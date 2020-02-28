@@ -30,6 +30,12 @@ export class PluginLoader {
   };
   private _app: Koa;
 
+  /**
+   * load plugin，plugin init
+   * @param baseDir 
+   * @param config 
+   * @param app 
+   */
   public constructor(baseDir: string, config: Object, app: Koa) {
     this.baseDir = baseDir;
     this.appConfig = config;
@@ -47,6 +53,12 @@ export class PluginLoader {
     }
   }
 
+  /**
+   * load plugin to controller service middleware
+   * generator .d.ts file
+   * @param type 
+   * @param instances 
+   */
   public async autoLoadPlugin(
     type: "controller" | "middleware" | "service",
     instances: Set<Function | any>

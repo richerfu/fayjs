@@ -15,13 +15,13 @@ import {
 
 const router: KoaRouter = new KoaRouter();
 
-export default class SoServer extends Koa {
+export default class Fay extends Koa {
   private options = {
     baseDir: process.cwd(),
   };
   private baseDir: string;
   private _router: KoaRouter;
-  private _app: SoServer;
+  private _app: Fay;
 
   public constructor(options?: Options) {
     super();

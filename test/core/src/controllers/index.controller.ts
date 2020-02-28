@@ -7,16 +7,18 @@ import {
   RequestContext,
   RequestBody,
   Body,
+  BaseController,
 } from "../../../../dist";
 import { TestService } from "../services/index.service";
 import { DevConfig } from "../configs/testDev.config";
 
 @Controller()
-export class TestController {
+export class TestController extends BaseController {
   @Autowired
   private testService: TestService;
 
-  private ctx: any;
+
+  // private ctx: any;
 
   private config: DevConfig;
 
