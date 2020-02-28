@@ -1,5 +1,5 @@
-## **iqy-server**
-[![GitHub stars](https://img.shields.io/github/stars/southorange1228/iqy-server)](https://github.com/southorange1228/iqy-server/stargazers)![npm](https://img.shields.io/npm/dt/iqy-server)[![GitHub forks](https://img.shields.io/github/forks/southorange1228/iqy-server)](https://github.com/southorange1228/iqy-server/network)[![GitHub issues](https://img.shields.io/github/issues/southorange1228/iqy-server)](https://github.com/southorange1228/iqy-server/issues)![npm](https://img.shields.io/npm/v/iqy-server)[![GitHub license](https://img.shields.io/github/license/southorange1228/iqy-server)](https://github.com/southorange1228/iqy-server/blob/master/LICENSE)
+## **Fay.js**
+[![GitHub stars](https://img.shields.io/github/stars/southorange1228/fayjs)](https://github.com/southorange1228/fayjs/stargazers)![npm](https://img.shields.io/npm/dt/fayjs)[![GitHub forks](https://img.shields.io/github/forks/southorange1228/fayjs)](https://github.com/southorange1228/fayjs/network)[![GitHub issues](https://img.shields.io/github/issues/southorange1228/fayjs)](https://github.com/southorange1228/fayjs/issues)![npm](https://img.shields.io/npm/v/fayjs)[![GitHub license](https://img.shields.io/github/license/southorange1228/fayjs)](https://github.com/southorange1228/fayjs/blob/master/LICENSE)
 
 ###  [Read Doc](https://southorange1228.github.io/)
 
@@ -16,38 +16,38 @@ so init
 
 - Quick Start
 ```shell
-npm install iqy-server --save
+npm install fayjs --save
 ```
 ```typescript
 // index.ts
-import SoServer from 'iqy-server'
+import Fayjs from 'fayjs'
 
-const server: SoServer = new SoServer()
+const server: Fayjs = new Fayjs()
 
 server.Listen(12280)
 ```
 ```ts
 //  test.controller.ts
-import {SoController,Controller, Get,Autowired} from 'iqy-server'
+import { BaseController, Controller, Get, Autowired } from 'fayjs'
 import { TestService } from './test.service'
 @Controller('/')
-export class TestController extends SoController {
+export class TestController extends BaseController {
 
   @Autowired
   private testService: TestService
 
   @Get('/')
   async name(){
-    this.ctx.body = 'hello iqyserver'
+    this.ctx.body = 'hello Fayjs'
   }
 }
 ```
 ```ts
 //  test.service.ts
-import {SoService,Service } from 'iqy-server'
+import { BaseService,Service } from 'fayjs'
 
 @Service
-export class TestService extends SoService {
+export class TestService extends BaseService {
   async query(): Promise<string>{
     return "aaa"
   }

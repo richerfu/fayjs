@@ -16,7 +16,6 @@ interface PluginConfig {
   controller?: boolean;
   service?: boolean;
   middleware?: boolean;
-  config: Object;
 }
 
 export class PluginLoader {
@@ -26,15 +25,14 @@ export class PluginLoader {
     controller: true,
     service: true,
     middleware: false,
-    config: {},
   };
   private _app: Koa;
 
   /**
    * load plugin，plugin init
-   * @param baseDir 
-   * @param config 
-   * @param app 
+   * @param baseDir
+   * @param config
+   * @param app
    */
   public constructor(baseDir: string, config: Object, app: Koa) {
     this.baseDir = baseDir;
@@ -56,8 +54,8 @@ export class PluginLoader {
   /**
    * load plugin to controller service middleware
    * generator .d.ts file
-   * @param type 
-   * @param instances 
+   * @param type
+   * @param instances
    */
   public async autoLoadPlugin(
     type: "controller" | "middleware" | "service",
@@ -76,7 +74,7 @@ export class PluginLoader {
             //  生成.d.ts文件
             if (!Plugins.includes(nameKey)) {
               prop += GeneratorProp(nameKey, pluginItem.name);
-              importContent += FindModulePath(pluginItem.name,this.baseDir);
+              importContent += FindModulePath(pluginItem.name, this.baseDir);
             }
           }
           const template = FinalTemplate(Name[type], importContent, prop);
