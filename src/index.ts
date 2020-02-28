@@ -26,6 +26,7 @@ import {
   RequestHeader,
   RouteMiddleware,
 } from "./decorator/paramterDecorator";
+import { FastScanner, Logger } from "./tools/index";
 import Fay from "./core";
 
 export default Fay;
@@ -53,4 +54,6 @@ export {
   BasePlugin,
   BaseController,
   BaseService,
+  FastScanner,
+  Logger,
 };
