@@ -1,7 +1,7 @@
-import { BaseService } from 'iqy-server';
-import { TestPlugin } from '../plugins/index.plugin'; 
+import { BaseService } from 'fayjs';
+import { TestPlugin } from '../src/plugins/index.plugin'; 
 
-declare module 'iqy-server' {
+declare module 'fayjs' {
   interface BaseService {
     pluginsA: TestPlugin;
     

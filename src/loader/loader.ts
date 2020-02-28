@@ -11,10 +11,13 @@ import {
   CONTROL,
   ORDER,
 } from "../decorator/constants";
-import { Config } from "../utils/interface";
 import { RequestLog } from "../middlewares/requestLog";
 import { Logger } from "../tools/logger";
-import { RequestBodySymbol, RequestContextSymbol } from "../utils/interface";
+import {
+  RequestBodySymbol,
+  RequestContextSymbol,
+  Config,
+} from "../decorator/constants";
 import { PluginLoader } from "./pluginLoader";
 import { FileLoader } from "./fileLoader";
 import {

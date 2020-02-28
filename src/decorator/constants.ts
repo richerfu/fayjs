@@ -84,3 +84,12 @@ export const Name = {
 };
 
 export const Plugins = ["curl", "db"];
+
+export interface Config {
+  baseDir: string;
+  [propName: string]: any;
+}
+
+export interface Options {
+  baseDir: string
+}

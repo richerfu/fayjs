@@ -4,7 +4,7 @@ import * as Koa from "koa";
 import * as KoaRouter from "koa-router";
 import { Logger } from "../tools/logger";
 import { Loader } from "../loader/loader";
-import { Options } from "../utils/interface";
+import { Options } from "../decorator/constants";
 import { getLocalIPAddress } from "../utils";
 import {
   _Config,
