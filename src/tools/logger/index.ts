@@ -26,6 +26,12 @@ class Log {
       `[${new Date().toISOString()}] [ERROR] - ${msg}`
     );
   }
+  public success(msg: string): void {
+    console.log(
+      "\x1B[1m\x1B[36m%s\x1B[39m\x1B[22m",
+      `[${new Date().toISOString()}] [SUCCESS] - ${msg}`
+    );
+  }
 }
 
 export const Logger = new Log();

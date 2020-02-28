@@ -1,7 +1,5 @@
 /* eslint-disable @typescript-eslint/prefer-optional-chain */
 import "reflect-metadata";
-import { statSync, readdirSync } from "fs";
-import { join } from "path";
 import * as Koa from "koa";
 import * as KoaRouter from "koa-router";
 import * as KoaBodyParser from "koa-body";
