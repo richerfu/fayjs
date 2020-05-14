@@ -35,9 +35,10 @@
   "author": "SouthOrange",
   "license": "MIT",
   "dependencies": {
-    "@types/request": "^2.48.4",
     "@types/koa": "^2.11.0",
     "@types/koa-router": "^7.0.42",
+    "@types/request": "^2.48.4",
+    "globby": "^11.0.0",
     "koa": "^2.11.0",
     "koa-body": "^4.1.1",
     "koa-router": "^7.4.0",
