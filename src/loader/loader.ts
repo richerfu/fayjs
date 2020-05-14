@@ -27,7 +27,7 @@ import {
   _Service,
   _UserDefineMiddleware,
 } from "../decorator/inject";
-import { LoadError } from "../utils/error";
+import { FileLoaderError } from "../error/fay_error";
 
 export const filePath: Map<string, any> = new Map<string, any>();
 
@@ -94,7 +94,7 @@ export class Loader {
       }
     }
     if (flag) {
-      throw new LoadError(
+      throw new FileLoaderError(
         `${env} config is not exist or NODE_ENV and ${env} are not equal.please check it`
       );
     }
