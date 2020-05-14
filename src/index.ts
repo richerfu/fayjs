@@ -1,9 +1,4 @@
 import {
-  Get,
-  Post,
-  Put,
-  Delete,
-  Patch,
   Config,
   Middleware,
   Service,
@@ -11,6 +6,7 @@ import {
   Autowired,
   Plugin,
 } from "./decorator/decorator";
+import { Get, Post, Put, Delete, Patch } from "./decorator/http_decorator";
 import {
   BaseMiddleware,
   BasePlugin,
