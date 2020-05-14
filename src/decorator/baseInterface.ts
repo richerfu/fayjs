@@ -5,7 +5,7 @@ import { Curl } from "../plugins/curl";
 import Fay from "../core";
 
 class BaseFayContext {
-  curl: Curl;
+  protected curl: Curl;
 }
 
 interface FayRequest extends Request {
@@ -49,8 +49,8 @@ export interface Options {
  * base controller can be extends
  */
 export class BaseController extends BaseFayContext {
-  ctx: FayContext;
-  next: Koa.Next;
+  protected ctx: FayContext;
+  protected next: Koa.Next;
 }
 
 /**
