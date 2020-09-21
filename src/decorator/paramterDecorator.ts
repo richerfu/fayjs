@@ -5,7 +5,10 @@ import {
   getRestfulParameterMap,
   getRestfulParameterSet,
 } from "../utils";
-import { RequestBodySymbol, RequestContextSymbol } from "../decorator/constants";
+import {
+  RequestBodySymbol,
+  RequestContextSymbol,
+} from "../decorator/constants";
 
 function CheckAndSetParameters(
   paramterName: string | Symbol,

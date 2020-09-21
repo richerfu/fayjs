@@ -58,7 +58,7 @@ export default class Fay extends Koa {
     backlog?: number,
     callback: () => void = () => {
       Logger.success(
-        `SoServer Started Successful...\n  NetWork: \thttp://${getLocalIPAddress()}:${port}\n  Local: \thttp://127.0.0.1:${port}\n`
+        `FayServer Started Successful...\n  NetWork: \thttp://${getLocalIPAddress()}:${port}\n  Local: \thttp://127.0.0.1:${port}\n`
       );
     }
   ) {
@@ -66,7 +66,7 @@ export default class Fay extends Koa {
   }
 
   public close() {
-    Logger.success("SoServer Closed Successful...");
+    Logger.success("FayServer Closed Successful...");
     process.exit(0);
   }
 }
