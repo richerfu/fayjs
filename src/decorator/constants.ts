@@ -67,20 +67,26 @@ export const RequestBodySymbol = Symbol("RequestBody");
  */
 export const RequestContextSymbol = Symbol("RequestContext");
 
-
 export const Name = {
   controller: "BaseController",
   service: "BaseService",
   middleware: "BaseMiddleware",
 };
 
-export const Plugins:string[] = [];
+export const Plugins: string[] = [];
 
 export interface Config {
   baseDir: string;
   [propName: string]: any;
 }
 
+export interface LifeHooks {
+  beforeInit?: Function;
+  serverReady?: Function;
+  beforeExit?: Function;
+}
+
 export interface Options {
   baseDir: string;
+  lifeHooks?: LifeHooks;
 }

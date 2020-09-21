@@ -10,7 +10,7 @@ interface RouteMatchHandleResult {
 
 const NOT_FOUND: RouteMatchHandleResult = { handle: null, params: [] };
 
-class TireRouter {
+export class TireRouter {
   /**
    * trie router tree root
    */

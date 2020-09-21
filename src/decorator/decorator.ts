@@ -1,32 +1,19 @@
-import "reflect-metadata";
-import {
-  CONTROL,
-  AUTOWIRED,
-  MIDDLEWARE,
-  CONFIG,
-  PLUGIN,
-  ORDER,
-  Plugins,
-} from "./constants";
-import {
-  Inject,
-  _Config,
-  _Controller,
-  _Middleware,
-  _Service,
-  _Plugin,
-} from "./inject";
-import { LoadError } from "../utils/error";
+import { Constructor } from "../typings";
+import { fayContainer } from "../container";
+import { TYPES } from "../container/type";
+import { injectable } from "inversify";
+import { AUTOWIRED } from "./constants";
 
 /**
  * register Service
- * @param target Function | any
+ * @param target Service Class
  */
-export const Service = (target: Function | any) => {
-  if (!_Service.has(target)) {
-    Inject(target);
-    _Service.add(target);
-  }
+export const Service = (target: Constructor) => {
+  injectable()(target);
+  fayContainer
+    .bind<Constructor>(TYPES.ServiceType)
+    .toConstructor(target)
+    .whenTargetNamed(TYPES.ServiceType);
 };
 
 /**
@@ -34,13 +21,14 @@ export const Service = (target: Function | any) => {
  * default path is "/"
  * @param path string
  */
-export function Controller(path?: string) {
-  return (target: Function | any) => {
-    Reflect.defineMetadata(CONTROL, path ? path : "/", target);
-    if (!_Controller.has(target)) {
-      Inject(target);
-      _Controller.add(target);
-    }
+export function Controller(path = "/") {
+  return (target: Constructor) => {
+    Reflect.defineMetadata(TYPES.ControllerType, path, target);
+    injectable()(target);
+    fayContainer
+      .bind<Constructor>(TYPES.ControllerType)
+      .toConstructor(target)
+      .whenTargetNamed(TYPES.ControllerType);
   };
 }
 
@@ -49,19 +37,14 @@ export function Controller(path?: string) {
  * app default env is "dev"
  * @param env string
  */
-export function Config(env: string) {
-  return (target: Function | any) => {
-    if (env) {
-      Reflect.defineMetadata(CONFIG, env, target);
-      if (!_Config.has(target)) {
-        Inject(target);
-        _Config.add(target);
-      }
-    } else {
-      throw new Error(
-        `Config must has 'env' field to distinguish the environment`
-      );
-    }
+export function Config(env: "dev" | "test" | "prod" | string) {
+  return (target: Constructor) => {
+    Reflect.defineMetadata(TYPES.ConfigType, env, target);
+    injectable()(target);
+    fayContainer
+      .bind<Constructor>(TYPES.ConfigType)
+      .toConstructor(target)
+      .whenTargetNamed(TYPES.ConfigType);
   };
 }
 
@@ -71,16 +54,14 @@ export function Config(env: string) {
  * @param pluginKey string
  */
 export function Plugin(pluginKey?: string) {
-  return (target: Function | any) => {
+  return (target: Constructor) => {
     const pluginName = pluginKey ? pluginKey : target.name;
-    if (Plugins.indexOf(pluginName) !== -1) {
-      throw new LoadError(
-        `Load Plugin Error: ${pluginName} is existed.please change key name`
-      );
-    }
-    Reflect.defineMetadata(PLUGIN, pluginName, target);
-    Inject(target);
-    _Plugin.add(target);
+    Reflect.defineMetadata(TYPES.PluginType, pluginName, target);
+    injectable()(target);
+    fayContainer
+      .bind<Constructor>(TYPES.PluginType)
+      .toConstructor(target)
+      .whenTargetNamed(TYPES.PluginType);
   };
 }
 
@@ -104,16 +85,17 @@ export function Autowired(target: any, propKey: string) {
  * @param order number
  */
 export function Middleware(order?: number) {
-  return (target: Function | any) => {
+  return (target: Constructor) => {
     const middlewareInstance = new target();
     if (middlewareInstance.resolve) {
       const initMethod = middlewareInstance.resolve;
-      Reflect.defineMetadata(MIDDLEWARE, initMethod, target);
-      Reflect.defineMetadata(ORDER, order ? order : 1, target);
-      if (!_Middleware.has(target)) {
-        Inject(target);
-        _Middleware.add(target);
-      }
+      Reflect.defineMetadata(TYPES.MiddlewareType, initMethod, target);
+      Reflect.defineMetadata(TYPES.OrderType, order ? order : 1, target);
+      injectable()(target);
+      fayContainer
+        .bind<Constructor>(TYPES.MiddlewareType)
+        .toConstructor(target)
+        .whenTargetNamed(TYPES.MiddlewareType);
     } else {
       throw new Error(
         `${target.name} middleware must has a 'resolve' method! please check it`

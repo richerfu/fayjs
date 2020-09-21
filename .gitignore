@@ -3,3 +3,5 @@ dist/
 node_modules/
 /.vscode/
 /**/**/node_modules
+
+**/.DS_Store

@@ -4,7 +4,7 @@ import * as Koa from "koa";
 import * as KoaRouter from "koa-router";
 import { Logger } from "../tools/logger";
 import { Loader } from "../loader/loader";
-import { Options } from "../decorator/constants";
+import { LifeHooks, Options } from "../decorator/constants";
 import { getLocalIPAddress } from "../utils";
 import {
   _Config,
@@ -12,6 +12,7 @@ import {
   _Middleware,
   _Service,
 } from "../decorator/inject";
+import { tireRouter, TireRouter } from "../router";
 
 const router: KoaRouter = new KoaRouter();
 
@@ -20,20 +21,23 @@ export default class Fay extends Koa {
     baseDir: process.cwd(),
   };
   private baseDir: string;
-  private _router: KoaRouter;
+  private _router: TireRouter;
   private _app: Fay;
+
+  private lifeHooks: LifeHooks;
 
   public constructor(options?: Options) {
     super();
     this.options = options;
     this.env = process.env.NODE_ENV || "dev";
-    this._router = router;
+    this._router = tireRouter;
     this._app = this;
     this.baseDir = options
       ? options.baseDir
         ? options.baseDir
         : process.cwd()
       : process.cwd();
+    this.lifeHooks = options.lifeHooks || {};
     try {
       const loader: Loader = new Loader(
         this.baseDir,

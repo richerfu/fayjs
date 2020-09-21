@@ -10,7 +10,6 @@ import {
   MkdirFolder,
   FindModulePath,
 } from "../utils/helper";
-import { LoadError } from "../utils/error";
 
 interface PatchPluginConfig {
   controller?: boolean;
@@ -50,10 +49,10 @@ export class PluginLoader {
       const pluginInstance = iocContainer.get(pluginItem);
       pluginInstance.app = this._app;
       pluginInstance.config = this.appConfig;
-      if (pluginInstance && pluginInstance.start) {
+      if (pluginInstance?.start) {
         pluginInstance.start();
       } else {
-        throw new LoadError(`${nameKey} Plugin Init Error.`);
+        throw new Error(`${nameKey} Plugin Init Error.`);
       }
     }
   }
@@ -94,7 +93,7 @@ export class PluginLoader {
         }
       }
     } catch (e) {
-      throw new LoadError(`AutoLoadPlugin Error: ${e.message}`);
+      throw new Error(`AutoLoadPlugin Error: ${e.message}`);
     }
   }
 }

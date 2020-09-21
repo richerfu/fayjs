@@ -1,14 +1,5 @@
-/* eslint-disable @typescript-eslint/prefer-optional-chain */
-import "reflect-metadata";
 import * as globby from "globby";
-import { statSync, readdirSync } from "fs";
 import { join, posix } from "path";
-import {
-  _Config,
-  _Controller,
-  _Middleware,
-  _Service,
-} from "../decorator/inject";
 
 export const filePath: Map<string, any> = new Map<string, any>();
 
@@ -24,24 +15,11 @@ export class FileLoader {
       posix.join(this._baseDir, "**/*.(t|j)s"),
       "!node_modules",
       "!**/node_modules",
+      join(__dirname, "../plugins"),
     ];
     const filePaths = await globby(pathPatterns);
     for (const itemPath of filePaths) {
       await import(itemPath);
-    }
-  }
-
-  /**
-   * 加载内置插件
-   */
-  private LoadInnerPlugin() {
-    const Reg = /.*[^\.]+\b\.js\b$/;
-    const files = readdirSync(join(__dirname, "../plugins"));
-    for (const file of files) {
-      if (file.match(Reg)) {
-        // eslint-disable-next-line @typescript-eslint/no-require-imports
-        require(join(__dirname, "../plugins", file));
-      }
     }
   }
 }
