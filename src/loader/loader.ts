@@ -28,18 +28,27 @@ import {
   _UserDefineMiddleware,
 } from "../decorator/inject";
 import { FileLoaderError } from "../error/fay_error";
+import { fayContainer } from "../container";
+import { TYPES } from "../container/type";
+import { TireRouter } from "../router";
+import Fay from "../";
 
 export const filePath: Map<string, any> = new Map<string, any>();
 
 export class Loader {
-  private _baseDir: string;
-  private _app: any;
-  private _router: any;
-  private _config: any;
-  private _env: string;
-  private fileloader: FileLoader;
+  private _baseDir!: string;
+  private _app!: Fay;
+  private _router!: TireRouter;
+  private _config!: any;
+  private _env!: string;
+  private fileloader!: FileLoader;
 
-  public constructor(BaseDir: string, env: string, app: any, router: any) {
+  public constructor(
+    BaseDir: string,
+    env: string,
+    app: Fay,
+    router: TireRouter
+  ) {
     this._baseDir = BaseDir;
     this._app = app;
     this._router = router;
@@ -52,6 +61,7 @@ export class Loader {
    */
   public async init() {
     // app实例化加载config到loader中
+    await this.fileloader.init();
     this._config = Object.assign(
       {},
       {
@@ -62,42 +72,33 @@ export class Loader {
           middleware: false,
         },
       },
-      this.LoadConfig(_Config, this._env)
+      this.LoadConfig(this._env)
     );
     // 加载plugin
-    this.LoadPlugin(this._config, this._app);
+    // this.LoadPlugin(this._config, this._app);
     // 加载内置middleware
-    this.UseInnerMiddleware(this._app, this._config);
+    // this.UseInnerMiddleware(this._app, this._config);
     // 加载中间件
-    this.TypeMiddlewareOrder(_Middleware);
-    this.LoadMiddleware(_UserDefineMiddleware, this._app, this._config);
+    // this.TypeMiddlewareOrder(_Middleware);
+    // this.LoadMiddleware(_UserDefineMiddleware, this._app, this._config);
     // 加载router
-    this.LoadController(_Controller, this._app, this._router, this._config);
+    this.LoadController(this._app, this._router, this._config);
   }
 
-  /**
-   * 获取config配置文件
-   * @param {Set<Function| any>} _Config all config instance
-   * @param {string} env runtime env
-   * @since 0.0.7
-   */
-  private LoadConfig(_Config: Set<Function | any>, env: string): Config {
-    let flag = false;
-    for (const config of _Config) {
-      const configInstance: Config = iocContainer.get(config);
-      const envInstance = Reflect.getMetadata(CONFIG, config);
-      if (envInstance === env) {
-        flag = false;
-        return configInstance;
-      } else {
-        flag = true;
+  private LoadConfig(env: string) {
+    const configInstances: any[] = fayContainer.getAll(TYPES.ConfigType);
+    const injectConfigInstance: any = configInstances.find(item => {
+      const __env = Reflect.getMetadata(TYPES.ConfigType, item);
+      if (env === __env) {
+        return item;
       }
-    }
-    if (flag) {
+    });
+    if (!injectConfigInstance) {
       throw new FileLoaderError(
-        `${env} config is not exist or NODE_ENV and ${env} are not equal.please check it`
+        `${env} config is not exist or NODE_ENV and ${env} are not equal. Please check it`
       );
     }
+    return fayContainer.resolve(injectConfigInstance);
   }
 
   /**
@@ -105,88 +106,93 @@ export class Loader {
    * @param _Controller
    * @since 0.0.7
    */
-  private LoadController(
-    _Controller: Set<Function | any>,
-    _App: Koa,
-    _KoaRouter: KoaRouter,
-    config: any
-  ): void {
-    for (const controller of _Controller) {
-      // get control instance
-      const controlInstance = iocContainer.get(controller);
-      // get instance's metas
-      const metas = Reflect.getMetadataKeys(controlInstance);
+  private LoadController(_App: Fay, _KoaRouter: TireRouter, config: any): void {
+    const injectControllerInstance = fayContainer
+      .getAllNamed(TYPES.ControllerType, TYPES.ControllerType)
+      .forEach((item: any) => {
+        const consParams = Reflect.getMetadata(
+          TYPES.ConstuctorParamsType,
+          item
+        );
+        const instance = fayContainer.resolve(item);
+        console.log(instance);
+      });
+    // for (const controller of _Controller) {
+    //   // get control instance
+    //   const controlInstance = iocContainer.get(controller);
+    //   // get instance's metas
+    //   const metas = Reflect.getMetadataKeys(controlInstance);
 
-      const restfulMap = Reflect.getMetadata(RESTFUL, controlInstance);
-      const controlPath = Reflect.getMetadata(CONTROL, controller);
+    //   const restfulMap = Reflect.getMetadata(RESTFUL, controlInstance);
+    //   const controlPath = Reflect.getMetadata(CONTROL, controller);
 
-      Object.getOwnPropertyNames(controlInstance.__proto__)
-        .filter(name => name !== "constructor")
-        .forEach(methodName => {
-          const method = controlInstance[methodName];
-          const parameterMap = restfulMap.get(method);
-          const methodPath = parameterMap.get("path");
-          const querySet = parameterMap.get("query");
-          const paramsSet = parameterMap.get("params") as Set<string | any>;
-          const bodySet = parameterMap.get("body") as Set<string | any>;
-          const requestBodySet = parameterMap.get("RequestBody") as Set<
-            string | any
-          >;
-          const contextSet = parameterMap.get("RequestContext") as Set<
-            string | any
-          >;
-          const headersSet = parameterMap.get("headers") as Set<string | any>;
-          const methodType = parameterMap.get("methodType");
-          const args = parameterMap.get("args");
-          const middleWareSet = parameterMap.get(MIDDLEWARE);
+    //   Object.getOwnPropertyNames(controlInstance.__proto__)
+    //     .filter(name => name !== "constructor")
+    //     .forEach(methodName => {
+    //       const method = controlInstance[methodName];
+    //       const parameterMap = restfulMap.get(method);
+    //       const methodPath = parameterMap.get("path");
+    //       const querySet = parameterMap.get("query");
+    //       const paramsSet = parameterMap.get("params") as Set<string | any>;
+    //       const bodySet = parameterMap.get("body") as Set<string | any>;
+    //       const requestBodySet = parameterMap.get("RequestBody") as Set<
+    //         string | any
+    //       >;
+    //       const contextSet = parameterMap.get("RequestContext") as Set<
+    //         string | any
+    //       >;
+    //       const headersSet = parameterMap.get("headers") as Set<string | any>;
+    //       const methodType = parameterMap.get("methodType");
+    //       const args = parameterMap.get("args");
+    //       const middleWareSet = parameterMap.get(MIDDLEWARE);
 
-          const handleRequest = async (ctx: Koa.Context, next: Koa.Next) => {
-            const parametersVals = args.map((arg: string) => {
-              if (headersSet && headersSet.has(arg)) {
-                return ctx.header[arg];
-              }
-              if (paramsSet && paramsSet.has(arg)) {
-                return ctx.params[arg];
-              }
-              if (querySet && querySet.has(arg)) {
-                return ctx.query[arg];
-              }
-              if (requestBodySet && requestBodySet.has(arg)) {
-                return ctx.request.body[arg];
-              }
-              if (bodySet && bodySet.has(RequestBodySymbol)) {
-                return ctx.request.body;
-              }
-              if (contextSet && contextSet.has(RequestContextSymbol)) {
-                return ctx;
-              }
-            });
-            controlInstance.ctx = ctx;
-            controlInstance.next = next;
-            controlInstance.config = config;
-            try {
-              await method.apply(controlInstance, parametersVals);
-            } catch (error) {
-              Logger.error(error);
-            }
-          };
+    //       const handleRequest = async (ctx: Koa.Context, next: Koa.Next) => {
+    //         const parametersVals = args.map((arg: string) => {
+    //           if (headersSet && headersSet.has(arg)) {
+    //             return ctx.header[arg];
+    //           }
+    //           if (paramsSet && paramsSet.has(arg)) {
+    //             return ctx.params[arg];
+    //           }
+    //           if (querySet && querySet.has(arg)) {
+    //             return ctx.query[arg];
+    //           }
+    //           if (requestBodySet && requestBodySet.has(arg)) {
+    //             return ctx.request.body[arg];
+    //           }
+    //           if (bodySet && bodySet.has(RequestBodySymbol)) {
+    //             return ctx.request.body;
+    //           }
+    //           if (contextSet && contextSet.has(RequestContextSymbol)) {
+    //             return ctx;
+    //           }
+    //         });
+    //         controlInstance.ctx = ctx;
+    //         controlInstance.next = next;
+    //         controlInstance.config = config;
+    //         try {
+    //           await method.apply(controlInstance, parametersVals);
+    //         } catch (error) {
+    //           Logger.error(error);
+    //         }
+    //       };
 
-          const routePath = (controlPath + methodPath).replace("//", "/");
-          if (middleWareSet) {
-            _KoaRouter[methodType](
-              routePath,
-              Array.from(middleWareSet),
-              handleRequest
-            );
-          } else {
-            _KoaRouter[methodType](routePath, handleRequest);
-          }
-          Logger.info(
-            `[SoRouter Registered::] Path: ${routePath}\t Method: ${methodType}`
-          );
-        });
-    }
-    _App.use(_KoaRouter.routes()).use(_KoaRouter.allowedMethods());
+    //       const routePath = (controlPath + methodPath).replace("//", "/");
+    //       if (middleWareSet) {
+    //         _KoaRouter[methodType](
+    //           routePath,
+    //           Array.from(middleWareSet),
+    //           handleRequest
+    //         );
+    //       } else {
+    //         _KoaRouter[methodType](routePath, handleRequest);
+    //       }
+    //       Logger.info(
+    //         `[SoRouter Registered::] Path: ${routePath}\t Method: ${methodType}`
+    //       );
+    //     });
+    // }
+    // _App.use(_KoaRouter.routes()).use(_KoaRouter.allowedMethods());
   }
 
   /**

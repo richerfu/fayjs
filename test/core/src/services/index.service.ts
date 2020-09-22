@@ -1,8 +1,8 @@
-import { Service, BaseService } from "../../../../dist";
+import { Service } from "../../../../dist";
 
 @Service
-export class TestService extends BaseService {
-  async index():Promise<any>{
-    return "Test Service Success"
+export class TestService {
+  public async test() {
+    return "Test Service Success";
   }
 }

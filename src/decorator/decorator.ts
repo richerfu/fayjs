@@ -42,7 +42,7 @@ export function Config(env: "dev" | "test" | "prod" | string) {
     Reflect.defineMetadata(TYPES.ConfigType, env, target);
     injectable()(target);
     fayContainer
-      .bind<Constructor>(TYPES.ConfigType)
+      .bind(TYPES.ConfigType)
       .toConstructor(target)
       .whenTargetNamed(TYPES.ConfigType);
   };
